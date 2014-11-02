@@ -1,4 +1,4 @@
-
+//Teste - Nicolas
 BasicGame.Preloader = function (game) {
 
 	this.background = null;
