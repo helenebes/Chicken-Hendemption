@@ -52,13 +52,16 @@ BasicGame.Preloader.prototype = {
         
         
 		this.load.image('playBtn','assets/'+BasicGame.screen+"/playBtn.png");
-        
-        this.load.spritesheet('dog','assets/'+BasicGame.screen+"/dog.png", 40, 40, 12);
-        this.load.spritesheet('mummy', 'assets/'+BasicGame.screen+"/mummy.png", 37, 45, 18); // width de cada sprite, height de cada sprite, numero de sprites no arquivo
-        this.load.spritesheet('lagarto','assets/'+BasicGame.screen+"/lagarto2.png", 61.3, 61.25, 12);
         this.load.image('longie','assets/'+BasicGame.screen+"/longie.png");
         this.load.image('normal','assets/'+BasicGame.screen+"/normal.png");
-        this.load.image('poopie_highlighted','assets/'+BasicGame.screen+"/poopieH.png");
+        this.load.image('poopie','assets/'+BasicGame.screen+"/poopieH.png");
+		this.load.image('robot','assets/'+BasicGame.screen+"/robot.png");
+		this.load.image('longieP','assets/'+BasicGame.screen+"/longie64.png");
+		
+        //this.load.spritesheet('dog','assets/'+BasicGame.screen+"/dog.png", 40, 40, 12);
+        //this.load.spritesheet('mummy', 'assets/'+BasicGame.screen+"/mummy.png", 37, 45, 18); // width de cada sprite, height de cada sprite, numero de sprites no arquivo
+        //this.load.spritesheet('lagarto','assets/'+BasicGame.screen+"/lagarto2.png", 61.3, 61.25, 12);
+        
 	},
 
 	create: function () 

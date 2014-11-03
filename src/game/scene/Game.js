@@ -45,13 +45,6 @@ BasicGame.Game.prototype = {
         
         //var bg = this.add.sprite(0,0,'lvl1_map');
         
-        var money = this.add.sprite(BasicGame.convertWidth(0),BasicGame.convertHeight(0),'counter');
-        opt = this.add.sprite(BasicGame.convertWidth(453),BasicGame.convertHeight(5),'opt');
-		opt.inputEnabled = true;
-		//opt.events.onInputDown.add(this.onClickOptions,this);
-        //opt.events.onInputUp.add(this.onClickOptionsReleased,this);
-        
-        
         this.bitmap = this.add.graphics(0,0);
 		this.bitmap.lineStyle(1,0xffffff,1);
 		this.bitmap.beginFill();
@@ -73,6 +66,29 @@ BasicGame.Game.prototype = {
 		this.rect.beginFill(0xffffff,0.3);
 		this.rect.drawRect(0,0,this.TileSize,this.TileSize);
 		this.rect.position.x = (-100);
+		
+		var money = this.add.sprite(BasicGame.convertWidth(0),BasicGame.convertHeight(0),'counter');
+		money.bringToTop();
+        opt = this.add.sprite(BasicGame.convertWidth(453),BasicGame.convertHeight(5),'opt');
+		opt.inputEnabled = true;
+		opt.bringToTop();
+		//opt.events.onInputDown.add(this.onClickOptions,this);
+        //opt.events.onInputUp.add(this.onClickOptionsReleased,this);
+		
+		var poopie = this.add.sprite(BasicGame.convertWidth(0),BasicGame.convertHeight(65),'poopie');
+		poopie.scale.x = 0.75;
+		poopie.scale.y = 0.75;
+		var longie = this.add.sprite(BasicGame.convertWidth(0),BasicGame.convertHeight(110),'longie');
+		longie.scale.x = 0.7;
+		longie.scale.y = 0.7;
+		var normal = this.add.sprite(BasicGame.convertWidth(0),BasicGame.convertHeight(170),'normal');
+		normal.scale.x = 0.7;
+		normal.scale.y = 0.7;
+		var robot = this.add.sprite(BasicGame.convertWidth(0),BasicGame.convertHeight(270),'robot');
+		robot.scale.x = 0.1;
+		robot.scale.y = 0.1;
+		
+		var longieP = this.add.sprite(BasicGame.convertWidth(100),BasicGame.convertHeight(100),'longieP');
         
 
 	},
