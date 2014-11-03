@@ -26,6 +26,8 @@ BasicGame.Game = function (game)
 	this.MapTileHeight = 15;
 	this.MapOffset = 128;
 	this.TileSize = 64;
+
+    this.positionMode = false;
     
     //	You can use any of these from any function within this State.
     //	But do consider them as being 'reserved words', i.e. don't create a property for your own game called "world" or you'll over-write the world reference.
@@ -72,9 +74,7 @@ BasicGame.Game.prototype = {
         opt = this.add.sprite(BasicGame.convertWidth(453),BasicGame.convertHeight(5),'opt');
 		opt.inputEnabled = true;
 		opt.bringToTop();
-		//opt.events.onInputDown.add(this.onClickOptions,this);
-        //opt.events.onInputUp.add(this.onClickOptionsReleased,this);
-		
+
 		var poopie = this.add.sprite(BasicGame.convertWidth(0),BasicGame.convertHeight(65),'poopie');
 		poopie.scale.x = 0.75;
 		poopie.scale.y = 0.75;
@@ -88,9 +88,25 @@ BasicGame.Game.prototype = {
 		robot.scale.x = 0.1;
 		robot.scale.y = 0.1;
 		
-		var longieP = this.add.sprite(BasicGame.convertWidth(100),BasicGame.convertHeight(100),'longieP');
+        poopie.inputEnabled = true;
+		poopie.events.onInputDown.add(this.drag,{type:"Poopie",prescope: this});
+        poopie.events.onInputUp.add(this.drop,{type:"Poopie",prescope: this});
+
+        longie.inputEnabled = true;
+		longie.events.onInputDown.add(this.drag,{type:"Longie",prescope: this});
+        longie.events.onInputUp.add(this.drop,{type:"Longie",prescope: this});
+
+        normal.inputEnabled = true;
+		normal.events.onInputDown.add(this.drag,{type:"Normal",prescope: this});
+        normal.events.onInputUp.add(this.drop,{type:"Normal",prescope: this});
+
+        robot.inputEnabled = true;
+		robot.events.onInputDown.add(this.drag,{type:"Robot",prescope: this});
+        robot.events.onInputUp.add(this.drop,{type:"Robot",prescope: this});
+
+		//var longieP = this.add.sprite(BasicGame.convertWidth(100),BasicGame.convertHeight(100),'longieP');
         
-        this.input.onDown.add(this.positionChicken, this);
+        //this.input.onDown.add(this.positionChicken, this);
         
         var chick = new Chicken(1,2,"Normal");
         chick.attack("burt");
@@ -99,50 +115,68 @@ BasicGame.Game.prototype = {
 
 	update: function () 
     {
-
-    
-        this.highlightTile(this.input.mousePointer.x,this.input.mousePointer.y);
-		this.showGrid(this.input.mousePointer.x);
-
+        this.guidePositioning(this.input.mousePointer.x,this.input.mousePointer.y);
 	},
+    guidePositioning: function(x,y)
+    {
+        if((this.positionMode == true)&&((x>=128)&&(x<1408)))
+        {
+            this.highlightTile(x,y);
+            this.showGrid(x);
+        }else{
+			this.rect.position.x = (-this.TileSize);
+			this.bitmap.position.x = (-1408);
+        }
+    },
     
     highlightTile: function (x,y) 
     {
-		var clear;
-		if((x>128)&&(x<1408))
-        {
-			clear = 0
-			this.rect.position.x = ((~~(x/this.TileSize))*this.TileSize);
-			this.rect.position.y = ((~~(y/this.TileSize))*this.TileSize);
-		}else
-        {
-			//this.rect.clear();
-			//clear = 1;
-			this.rect.position.x = (-this.TileSize);
-		}
-		
+        this.rect.position.x = ((~~(x/this.TileSize))*this.TileSize);
+        this.rect.position.y = ((~~(y/this.TileSize))*this.TileSize);
 	},
 	showGrid: function (x) 
     {
-		var clear;
-		if((x>128)&&(x<1408))
-        {
-			clear = 0
-			this.bitmap.position.x = (128);
-			this.bitmap.position.y = (0);
-		}else
-        {
-			//this.rect.clear();
-			//clear = 1;
-			this.bitmap.position.x = (-1408);
-		}
+        this.bitmap.position.x = (128);
+        this.bitmap.position.y = (0);
 	},
 
-    positionChicken: function()
+    drag: function()
+    {
+       this.prescope.positionMode = true;
+    },
+    drop: function()
+    {
+       this.prescope.positionMode = false;
+       this.prescope.positionChicken(this.type);
+    },
+
+    positionChicken: function(type)
     {
         var x = ((~~(this.input.mousePointer.x/this.TileSize))*this.TileSize);
         var y = ((~~(this.input.mousePointer.y/this.TileSize))*this.TileSize);
-        console.log("Positioning Chicken "+x+" "+y);
+        if((x>=128)&&(x<1408))
+        {
+            console.log("Positioning Chicken "+x+" "+y);
+            switch(type)
+            {
+                case "Normal":
+                    console.log("Positioning Normal");
+                    break;
+                case "Longie":
+                    console.log("Positioning Longie");
+                    this.add.sprite((x),((y)-31),'longieP');
+                    break;
+                case "Poopie":
+                    console.log("Positioning Poopie");
+                    break; 
+                case "Fartie":
+                    console.log("Positioning Fartie");
+                    break; 
+                case "Robot":
+                    console.log("Positioning Robot");
+                    break; 
+            }
+        }
     },
 
 	quitGame: function (pointer) 
