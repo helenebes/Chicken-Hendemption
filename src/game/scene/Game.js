@@ -29,6 +29,7 @@ BasicGame.Game = function (game)
 
     this.positionMode = false;
     
+    this.map = new Map();
     //	You can use any of these from any function within this State.
     //	But do consider them as being 'reserved words', i.e. don't create a property for your own game called "world" or you'll over-write the world reference.
 
@@ -152,11 +153,18 @@ BasicGame.Game.prototype =
     //Position Chicken
     positionChicken: function(type)
     {
-        var x = ((~~(this.input.mousePointer.x/this.TileSize))*this.TileSize);
-        var y = ((~~(this.input.mousePointer.y/this.TileSize))*this.TileSize);
-        if((x>=128)&&(x<1408))
+        var Xtile = (~~(this.input.mousePointer.x/this.TileSize));
+        var Ytile = (~~(this.input.mousePointer.y/this.TileSize));
+        var x = (Xtile)*this.TileSize;
+        var y = (Ytile)*this.TileSize;
+        console.log("Putting: "+Xtile+","+Ytile);
+        if(this.map.testTile(Xtile,Ytile))
         {
-            this.chickens[this.chickenAmount] = new Chicken((x/64)-2,(y/64),type,this.chickenAmount);
+            console.log("Tile is occupied/forbidden");
+        } else if((x>=128)&&(x<1408))
+        {
+            this.map.setTile(Xtile,Ytile);
+            this.chickens[this.chickenAmount] = new Chicken((x/64)-2,(y/64),type,this.chickenAmount,this.game);
             switch(type)
             {
                 case "Normal":
