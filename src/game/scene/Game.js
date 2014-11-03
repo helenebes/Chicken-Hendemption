@@ -34,8 +34,9 @@ BasicGame.Game = function (game)
 
 };
 
-BasicGame.Game.prototype = {
-
+BasicGame.Game.prototype = 
+{
+    //Create and Update functions
 	create: function () 
     {     
         var bg = this.add.sprite(0,0,'grass');
@@ -108,15 +109,15 @@ BasicGame.Game.prototype = {
         
         //this.input.onDown.add(this.positionChicken, this);
         
-        var chick = new Chicken(1,2,"Normal");
-        chick.attack("burt");
-        chick.print();
+        this.chickens = [];
+        this.chickenAmount = 0;
+           
 	},
-
 	update: function () 
     {
         this.guidePositioning(this.input.mousePointer.x,this.input.mousePointer.y);
 	},
+    //Guided Positioning functions
     guidePositioning: function(x,y)
     {
         if((this.positionMode == true)&&((x>=128)&&(x<1408)))
@@ -128,7 +129,6 @@ BasicGame.Game.prototype = {
 			this.bitmap.position.x = (-1408);
         }
     },
-    
     highlightTile: function (x,y) 
     {
         this.rect.position.x = ((~~(x/this.TileSize))*this.TileSize);
@@ -139,7 +139,7 @@ BasicGame.Game.prototype = {
         this.bitmap.position.x = (128);
         this.bitmap.position.y = (0);
 	},
-
+    //Drag and Drop functions
     drag: function()
     {
        this.prescope.positionMode = true;
@@ -149,14 +149,14 @@ BasicGame.Game.prototype = {
        this.prescope.positionMode = false;
        this.prescope.positionChicken(this.type);
     },
-
+    //Position Chicken
     positionChicken: function(type)
     {
         var x = ((~~(this.input.mousePointer.x/this.TileSize))*this.TileSize);
         var y = ((~~(this.input.mousePointer.y/this.TileSize))*this.TileSize);
         if((x>=128)&&(x<1408))
         {
-            console.log("Positioning Chicken "+x+" "+y);
+            this.chickens[this.chickenAmount] = new Chicken((x/64)-2,(y/64),type,this.chickenAmount);
             switch(type)
             {
                 case "Normal":
@@ -164,7 +164,7 @@ BasicGame.Game.prototype = {
                     break;
                 case "Longie":
                     console.log("Positioning Longie");
-                    this.add.sprite((x),((y)-31),'longieP');
+                    this.chickens[this.chickenAmount].setSprite(this.add.sprite((x),((y)-31),'longieP'));
                     break;
                 case "Poopie":
                     console.log("Positioning Poopie");
@@ -176,9 +176,10 @@ BasicGame.Game.prototype = {
                     console.log("Positioning Robot");
                     break; 
             }
+            console.log("Positioning Chicken "+x+" "+y);
         }
+        this.chickenAmount++;
     },
-
 	quitGame: function (pointer) 
     {
 

@@ -1,33 +1,31 @@
-var Chicken = function (Xtile,Ytile,kind)
+var Chicken = function (Xtile,Ytile,kind,Index)
 {
-    var x;
-    var y;
-    var type;
-    this.initialize(Xtile,Ytile,kind);
-    //What is best? 
-    //this.(most things), making them all public 
-    //or
-    //as we have now, with vars that are private but initialized outside the constructor
+    //A abordagem foi mudada para this.variavel, pois precisamos de uma instância de cada um destes por objeto, a var é a mesma para toda a "classe"
+    this.index = Index;
+    this.x = Xtile;
+    this.y = Ytile;
+    this.type = kind;
+    this.sprite;
 }
 
 Chicken.prototype =
 {
-    initialize: function(X,Y,TYPE)
-    { 
-        x = X;
-        y = Y;
-        type = TYPE;
-    },
     attack: function(enemy)
     {
         console.log("Chicken attacked "+enemy);
     },
+    setSprite: function(SPRITE)
+    {
+        this.sprite = SPRITE;
+        this.sprite.inputEnabled = true;
+        this.sprite.events.onInputDown.add(this.print,this);
+    },
     print: function()
     {
-        console.log("ChickenPrint");
-        console.log("X: "+x);
-        console.log("Y: "+y);
-        console.log("Type: "+type);
+        console.log("Chicken "+this.index);
+        console.log("X: "+this.x);
+        console.log("Y: "+this.y);
+        console.log("Type: "+this.type);
     }
 
 };
