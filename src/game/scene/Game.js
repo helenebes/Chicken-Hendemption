@@ -73,8 +73,12 @@ BasicGame.Game.prototype = {
 		this.rect.beginFill(0xffffff,0.3);
 		this.rect.drawRect(0,0,this.TileSize,this.TileSize);
 		this.rect.position.x = (-100);
-        
 
+        this.input.onDown.add(this.positionChicken, this);
+        
+        var chick = new Chicken(1,2,"Normal");
+        chick.attack("burt");
+        chick.print();
 	},
 
 	update: function () 
@@ -83,7 +87,6 @@ BasicGame.Game.prototype = {
     
         this.highlightTile(this.input.mousePointer.x,this.input.mousePointer.y);
 		this.showGrid(this.input.mousePointer.x);
-		//	Honestly, just about anything could go here. It's YOUR game after all. Eat your heart out!
 
 	},
     
@@ -118,6 +121,13 @@ BasicGame.Game.prototype = {
 			this.bitmap.position.x = (-1408);
 		}
 	},
+
+    positionChicken: function()
+    {
+        var x = ((~~(this.input.mousePointer.x/this.TileSize))*this.TileSize);
+        var y = ((~~(this.input.mousePointer.y/this.TileSize))*this.TileSize);
+        console.log("Positioning Chicken "+x+" "+y);
+    },
 
 	quitGame: function (pointer) 
     {
