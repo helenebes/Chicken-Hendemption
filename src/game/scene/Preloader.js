@@ -65,9 +65,9 @@ BasicGame.Preloader.prototype = {
 		
 		
 		
-        //this.load.spritesheet('dog','assets/'+BasicGame.screen+"/dog.png", 40, 40, 12);
-        //this.load.spritesheet('mummy', 'assets/'+BasicGame.screen+"/mummy.png", 37, 45, 18); // width de cada sprite, height de cada sprite, numero de sprites no arquivo
-        //this.load.spritesheet('lagarto','assets/'+BasicGame.screen+"/lagarto2.png", 61.3, 61.25, 12);
+        this.load.spritesheet('dog','assets/'+BasicGame.screen+"/dog.png", 40, 40, 12);
+        this.load.spritesheet('mummy', 'assets/'+BasicGame.screen+"/mummy.png", 37, 45, 18); // width de cada sprite, height de cada sprite, numero de sprites no arquivo
+        this.load.spritesheet('lagarto','assets/'+BasicGame.screen+"/lagarto2.png", 61.3, 61.25, 12);
         
 	},
 
