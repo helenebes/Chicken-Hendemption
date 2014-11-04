@@ -109,6 +109,14 @@ BasicGame.Game.prototype =
         
         this.chickens = [];
         this.chickenAmount = 0;
+
+        this.map.forbidTile(2,0);
+        this.map.forbidTile(2,1);
+        this.map.forbidTile(2,2);
+        this.map.forbidTile(3,0);
+        this.map.forbidTile(3,1);
+        this.map.forbidTile(21,0);
+        this.map.forbidTile(21,1);
            
 	},
 	update: function () 
