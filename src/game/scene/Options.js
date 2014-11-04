@@ -25,11 +25,12 @@ var OptionsPanel = function(game, parent)
     }, this);
 	this.add(this.btnClose);
     
-    this.btnQuit = this.game.add.button(-200,90, 'quit_button',function()
+    this.btnQuit = this.game.add.button(-200,90, 'quit_button_sheet',function()
     {
-		this.btnQuit.loadTexture('quit_button_pressed',0);
+		//this.btnQuit.loadTexture('quit_button_pressed',0);
+		console.log("LOL");
         
-    }, this);
+    },this,0, 0, 1, 0);
 	this.add(this.btnQuit);
     
 
