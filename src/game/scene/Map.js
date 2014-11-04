@@ -23,6 +23,10 @@ var Map = function ()
 
 Map.prototype = 
 {
+    forbidTile: function(x,y)
+    {
+        this.tiles[y*20+x].forbidden = true;
+    },
     setTile: function(x,y)
     {
         this.tiles[y*20+x].occupied = true;
