@@ -218,28 +218,27 @@ BasicGame.Game.prototype =
         } else if((x>=128)&&(x<1408))
         {
             this.map.setTile(Xtile,Ytile);
-            this.chickens[this.chickenAmount] = new Chicken((x/64)-2,(y/64),type,this.chickenAmount,this.game);
             switch(type)
             {
                 case "Normal":
-                    console.log("Positioning Normal");
-                    this.chickens[this.chickenAmount].setSprite(this.add.sprite((x),((y+5)),'normalP'));
+                    this.chickens[this.chickenAmount] = new Chicken(Xtile,Ytile,this.chickenAmount,this);
+                    //console.log("Positioning Normal");
                     break;
                 case "Longie":
-                    console.log("Positioning Longie");
-                    this.chickens[this.chickenAmount].setSprite(this.add.sprite((x),((y)-31),'longieP'));
+                    this.chickens[this.chickenAmount] = new Longie(Xtile,Ytile,this.chickenAmount,this);
+                    //console.log("Positioning Longie");
                     break;
                 case "Poopie":
-                    console.log("Positioning Poopie");
-                    this.chickens[this.chickenAmount].setSprite(this.add.sprite((x-8),((y+15)),'poopieP'));
+                    this.chickens[this.chickenAmount] = new Poopie(Xtile,Ytile,this.chickenAmount,this);
+                    //console.log("Positioning Poopie");
                     break; 
                 case "Fartie":
-                    console.log("Positioning Fartie");
-                    this.chickens[this.chickenAmount].setSprite(this.add.sprite((x),((y-8)),'fartieP'));
+                    this.chickens[this.chickenAmount] = new Fartie(Xtile,Ytile,this.chickenAmount,this);
+                    //console.log("Positioning Fartie");
                     break; 
                 case "Robot":
-                    console.log("Positioning Robot");
-                    this.chickens[this.chickenAmount].setSprite(this.add.sprite((x-8),((y-14)),'robotP'));
+                    this.chickens[this.chickenAmount] = new Robot(Xtile,Ytile,this.chickenAmount,this);
+                    //console.log("Positioning Robot");
                     break; 
             }
             console.log("Positioning Chicken "+x+" "+y);
