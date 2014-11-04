@@ -42,6 +42,7 @@ BasicGame.Preloader.prototype = {
         this.load.image('options_x','assets/'+BasicGame.screen+"/options_x.png");
         this.load.image('quit_button','assets/'+BasicGame.screen+"/quit_button.png");
         this.load.image('quit_button_pressed','assets/'+BasicGame.screen+"/quit_button_pressed.png");
+		 this.load.spritesheet('quit_button_sheet','assets/'+BasicGame.screen+"/quit_button_sheet.png",398.5, 105);
         
         // game
         this.load.image('counter','assets/'+BasicGame.screen+"/money_counter.png");
