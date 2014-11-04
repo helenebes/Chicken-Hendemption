@@ -56,9 +56,11 @@ BasicGame.Preloader.prototype = {
         this.load.image('normal','assets/'+BasicGame.screen+"/normalB.png");
         this.load.image('poopie','assets/'+BasicGame.screen+"/poopieB.png");
 		this.load.image('robot','assets/'+BasicGame.screen+"/robotB.png");
+        this.load.image('fartie','assets/'+BasicGame.screen+"/fartieB.png");
 		this.load.image('longieP','assets/'+BasicGame.screen+"/longie.png");
 		this.load.image('normalP','assets/'+BasicGame.screen+"/normal.png");
         this.load.image('poopieP','assets/'+BasicGame.screen+"/poopie.png");
+        this.load.image('fartieP','assets/'+BasicGame.screen+"/fartie.png");
         this.load.image('robotP','assets/'+BasicGame.screen+"/robot.png");
 		
 		
