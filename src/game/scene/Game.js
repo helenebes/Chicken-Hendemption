@@ -48,7 +48,40 @@ BasicGame.Game.prototype =
         //this.cameraOffset = new Phaser.Point(160,0);
         
         //var bg = this.add.sprite(0,0,'lvl1_map');
-        
+	var path_lv1 = [{x: BasicGame.convertWidth(400),y: BasicGame.convertHeight(-30)}, {x: BasicGame.convertWidth(400),y: BasicGame.convertHeight(0)}, {x: BasicGame.convertWidth(400),y: BasicGame.convertHeight(25)}, {x: BasicGame.convertWidth(400),y: BasicGame.convertHeight(50)}, 
+				{x: BasicGame.convertWidth(400),y: BasicGame.convertHeight(75)}, {x: BasicGame.convertWidth(400),y: BasicGame.convertHeight(100)}, {x: BasicGame.convertWidth(400),y: BasicGame.convertHeight(120)}, {x: BasicGame.convertWidth(400),y: BasicGame.convertHeight(140)}, 
+		{x: BasicGame.convertWidth(375),y: BasicGame.convertHeight(140)}, {x: BasicGame.convertWidth(350),y: BasicGame.convertHeight(140)}, {x: BasicGame.convertWidth(325),y: BasicGame.convertHeight(140)}, {x: BasicGame.convertWidth(300),y: BasicGame.convertHeight(140)}, 
+			{x: BasicGame.convertWidth(275),y: BasicGame.convertHeight(140)}, {x: BasicGame.convertWidth(250),y: BasicGame.convertHeight(140)}, {x: BasicGame.convertWidth(225),y: BasicGame.convertHeight(140)}, {x: BasicGame.convertWidth(200),y: BasicGame.convertHeight(140)}, 
+			{x: BasicGame.convertWidth(175),y: BasicGame.convertHeight(140)}, {x: BasicGame.convertWidth(150),y: BasicGame.convertHeight(140)}, {x: BasicGame.convertWidth(125),y: BasicGame.convertHeight(140)}, {x: BasicGame.convertWidth(95),y: BasicGame.convertHeight(140)},
+		{x: BasicGame.convertWidth(95),y: BasicGame.convertHeight(175)}, {x: BasicGame.convertWidth(95),y: BasicGame.convertHeight(200)}, {x: BasicGame.convertWidth(95),y: BasicGame.convertHeight(225)}, 
+		{x: BasicGame.convertWidth(125),y: BasicGame.convertHeight(225)}, {x: BasicGame.convertWidth(150),y: BasicGame.convertHeight(225)}, {x: BasicGame.convertWidth(175),y: BasicGame.convertHeight(225)}, {x: BasicGame.convertWidth(200),y: BasicGame.convertHeight(225)}, 
+			{x: BasicGame.convertWidth(225),y: BasicGame.convertHeight(225)}, {x: BasicGame.convertWidth(250),y: BasicGame.convertHeight(225)}, {x: BasicGame.convertWidth(270),y: BasicGame.convertHeight(225)}, 
+		{x: BasicGame.convertWidth(270),y: BasicGame.convertHeight(250)}, {x: BasicGame.convertWidth(270),y: BasicGame.convertHeight(275)}, {x: BasicGame.convertWidth(270),y: BasicGame.convertHeight(300)}, {x: BasicGame.convertWidth(270),y: BasicGame.convertHeight(325)}, 
+			{x: BasicGame.convertWidth(270),y: BasicGame.convertHeight(325)}, {x: BasicGame.convertWidth(270),y: BasicGame.convertHeight(350)}, {x: BasicGame.convertWidth(270),y: BasicGame.convertHeight(375)}, {x: BasicGame.convertWidth(270),y: BasicGame.convertHeight(400)}];
+
+
+	var dog_path_l1 = this.add.sprite(BasicGame.convertWidth(400),BasicGame.convertHeight(-30),'dog');
+	var dog_path_l1 = this.add.sprite(BasicGame.convertWidth(400),BasicGame.convertHeight(140),'dog');
+	var dog_path_l1 = this.add.sprite(BasicGame.convertWidth(95),BasicGame.convertHeight(140),'dog');
+	var dog_path_l1 = this.add.sprite(BasicGame.convertWidth(95),BasicGame.convertHeight(225),'dog');
+	var dog_path_l1 = this.add.sprite(BasicGame.convertWidth(270),BasicGame.convertHeight(225),'dog');
+	var dog_path_l1 = this.add.sprite(BasicGame.convertWidth(270),BasicGame.convertHeight(400),'dog');
+	
+
+	/*var tween = this.add.tween(dog_path_l1).to({ y: BasicGame.convertHeight(140) }, 2000, Phaser.Easing.Linear.None)
+	  .to({ x: BasicGame.convertWidth(95) }, 2000, Phaser.Easing.Linear.None)
+	  .to({ y: BasicGame.convertHeight(225) }, 1000, Phaser.Easing.Linear.None)
+	  .to({ x: BasicGame.convertWidth(270) }, 1000, Phaser.Easing.Linear.None)
+	  .to({ y: BasicGame.convertHeight(500) }, 2000, Phaser.Easing.Linear.None)
+	  .to({ x: BasicGame.convertWidth(1000) }, 2000, Phaser.Easing.Linear.None)
+	  .to({ y: BasicGame.convertHeight(-1000) }, 100, Phaser.Easing.Linear.None)
+	  .to({ x: BasicGame.convertWidth(400) }, 100, Phaser.Easing.Linear.None)
+	  .loop()
+	  .start();*/
+
+	var mummy_path_l1 = this.add.sprite(BasicGame.convertWidth(400),BasicGame.convertHeight(-1000),'mummy');
+
+
         this.bitmap = this.add.graphics(0,0);
 		this.bitmap.lineStyle(1,0xffffff,1);
 		this.bitmap.beginFill();
