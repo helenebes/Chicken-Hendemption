@@ -76,11 +76,12 @@ BasicGame.Game.prototype =
         opt = this.add.sprite(BasicGame.convertWidth(453),BasicGame.convertHeight(5),'opt');
 		opt.inputEnabled = true;
 		opt.bringToTop();
-
-		var poopie = this.add.sprite(BasicGame.convertWidth(0),BasicGame.convertHeight(65),'poopie');
-		var longie = this.add.sprite(BasicGame.convertWidth(0),BasicGame.convertHeight(110),'longie');
-		var normal = this.add.sprite(BasicGame.convertWidth(0),BasicGame.convertHeight(170),'normal');
-		var robot = this.add.sprite(BasicGame.convertWidth(0),BasicGame.convertHeight(270),'robot');
+	
+		var longie = this.add.sprite(BasicGame.convertWidth(3),BasicGame.convertHeight(58),'longie'); 
+		var normal = this.add.sprite(BasicGame.convertWidth(3),BasicGame.convertHeight(115),'normal'); 
+        var poopie = this.add.sprite(BasicGame.convertWidth(0),BasicGame.convertHeight(163),'poopie'); 
+        var fartie = this.add.sprite(BasicGame.convertWidth(3),BasicGame.convertHeight(213),'fartie');
+		var robot = this.add.sprite(BasicGame.convertWidth(3),BasicGame.convertHeight(263),'robot');
 		
         poopie.inputEnabled = true;
 		poopie.events.onInputDown.add(this.drag,{type:"Poopie",prescope: this});
@@ -94,6 +95,10 @@ BasicGame.Game.prototype =
 		normal.events.onInputDown.add(this.drag,{type:"Normal",prescope: this});
         normal.events.onInputUp.add(this.drop,{type:"Normal",prescope: this});
 
+        fartie.inputEnabled = true;
+		fartie.events.onInputDown.add(this.drag,{type:"Fartie",prescope: this});
+        fartie.events.onInputUp.add(this.drop,{type:"Fartie",prescope: this});
+        
         robot.inputEnabled = true;
 		robot.events.onInputDown.add(this.drag,{type:"Robot",prescope: this});
         robot.events.onInputUp.add(this.drop,{type:"Robot",prescope: this});
@@ -161,7 +166,7 @@ BasicGame.Game.prototype =
             {
                 case "Normal":
                     console.log("Positioning Normal");
-                    this.chickens[this.chickenAmount].setSprite(this.add.sprite((x),((y)),'normalP'));
+                    this.chickens[this.chickenAmount].setSprite(this.add.sprite((x),((y+5)),'normalP'));
                     break;
                 case "Longie":
                     console.log("Positioning Longie");
@@ -169,14 +174,15 @@ BasicGame.Game.prototype =
                     break;
                 case "Poopie":
                     console.log("Positioning Poopie");
-                    this.chickens[this.chickenAmount].setSprite(this.add.sprite((x),((y)),'poopieP'));
+                    this.chickens[this.chickenAmount].setSprite(this.add.sprite((x-8),((y+15)),'poopieP'));
                     break; 
                 case "Fartie":
                     console.log("Positioning Fartie");
+                    this.chickens[this.chickenAmount].setSprite(this.add.sprite((x),((y-8)),'fartieP'));
                     break; 
                 case "Robot":
                     console.log("Positioning Robot");
-                    this.chickens[this.chickenAmount].setSprite(this.add.sprite((x),((y)),'robotP'));
+                    this.chickens[this.chickenAmount].setSprite(this.add.sprite((x-8),((y-14)),'robotP'));
                     break; 
             }
             console.log("Positioning Chicken "+x+" "+y);
