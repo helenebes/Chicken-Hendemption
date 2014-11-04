@@ -27,8 +27,8 @@ Chicken.prototype =
     },
     setRange: function()
     {
-        this.rangeCircle.lineStyle(4,0xffffff,1);
-        this.rangeCircle.beginFill(0xffffff,0.3);
+        this.rangeCircle.lineStyle(2,0xffffff,1);
+        this.rangeCircle.beginFill(0xffffff,0.15);
         this.rangeCircle.drawCircle(0,0,this.range);
         this.rangeCircle.position.x = (-2*this.range);
         this.rangeCircle.position.y = (this.y*64+32);
