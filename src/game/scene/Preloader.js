@@ -36,6 +36,12 @@ BasicGame.Preloader.prototype = {
         this.load.image('opt','assets/'+BasicGame.screen+"/options_button.png");
         this.load.image('opt_pressed','assets/'+BasicGame.screen+"/options_button_pressed.png");
         this.load.image('back','assets/'+BasicGame.screen+"/back_arrow.png");
+        this.load.image('chickenB','assets/'+BasicGame.screen+"/chickenB.png");
+        this.load.image('chickenB_pressed','assets/'+BasicGame.screen+"/chickenB_pressed.png");
+        this.load.image('enemiesB','assets/'+BasicGame.screen+"/enemiesB.png");
+        this.load.image('enemiesB_pressed','assets/'+BasicGame.screen+"/enemiesB_pressed.png");
+        this.load.image('howToPlayB','assets/'+BasicGame.screen+"/howToPlayB.png");
+        this.load.image('howToPlayB_pressed','assets/'+BasicGame.screen+"/howToPlayB_pressed.png");
         
         // options
         this.load.image('options_window','assets/'+BasicGame.screen+"/options_window.png");

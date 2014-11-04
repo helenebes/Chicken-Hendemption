@@ -8,6 +8,9 @@ BasicGame.MainMenu = function (game)
     var lvl2;
     var lvl3;
     var opt;
+    var chickenInfo;
+    var enemieInfo;
+    var howToPlayInfo;
     var back;
     var paused;
     var optionsPanel;
@@ -49,6 +52,21 @@ BasicGame.MainMenu.prototype =
 		opt.inputEnabled = true;
 		opt.events.onInputDown.add(this.onClickOptions,this);
         opt.events.onInputUp.add(this.onClickOptionsReleased,this);
+        
+        chickenInfo = this.add.sprite(BasicGame.convertWidth(90),BasicGame.convertHeight(278),'chickenB');
+		chickenInfo.inputEnabled = true;
+		//chickenInfo.events.onInputDown.add(this.onClickOptions,this);
+        //chickenInfo.events.onInputUp.add(this.onClickOptionsReleased,this);
+        
+        enemieInfo = this.add.sprite(BasicGame.convertWidth(210),BasicGame.convertHeight(278),'enemiesB');
+		enemieInfo.inputEnabled = true;
+		//enemieInfo.events.onInputDown.add(this.onClickOptions,this);
+        //enemieInfo.events.onInputUp.add(this.onClickOptionsReleased,this);
+        
+        howToPlayInfo = this.add.sprite(BasicGame.convertWidth(330),BasicGame.convertHeight(270),'howToPlayB');
+		howToPlayInfo.inputEnabled = true;
+		//howToPlayInfo.events.onInputDown.add(this.onClickOptions,this);
+        //howToPlayInfo.events.onInputUp.add(this.onClickOptionsReleased,this);
         
         back = this.add.sprite(BasicGame.convertWidth(20),BasicGame.convertHeight(270),'back');
 		back.inputEnabled = true;
