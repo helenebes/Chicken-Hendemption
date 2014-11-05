@@ -18,6 +18,8 @@ var Enemies = function (typeEnemy, enemyMoves, enemyLength, enemyScale, enemyFra
 	this.enemy.next_positX;
 	this.enemy.next_positY;
 	this.enemy.curTile = 0;
+	// The enemies are moving too fast but modifing the speed does not change
+	this.enemy.speed = 1;
 	this.enemy.followingPath = wayToGo;
 	this.enemy.type_enemy = typeEnemy;
 	listOfEnemies.add(this.enemy);
@@ -53,12 +55,12 @@ Enemies.prototype =
 	},
 
 	moveOnStep: function(enemy) {
-		console.log("last position:("+enemy.x+","+enemy.y+")");
+		//console.log("last position:("+enemy.x+","+enemy.y+")");
 		//console.log("new position:("+enemy.next_positX+","+enemy.next_positY+")");
 		//console.log("angle : "+enemy.angle);
 		enemy.y = enemy.next_positY;
 		enemy.x = enemy.next_positX;
-        this.nextTile(enemy);
+        	this.nextTile(enemy);
 	},
 	
 };
@@ -70,10 +72,8 @@ var Wave = function(level, game, releaseTime, listEnemy, pathToGo, nb_enemies)
 		this.waveEnemy.enableBody = true;
 		this.waveEnemy.physicsBodyType = Phaser.Physics.ARCADE;
 		this.chemin = pathToGo;
-		console.log(this.chemin[1].x);
 		this.game = game;
 		this.nb_enemies = nb_enemies;
-		console.log(this.nb_enemies);
 		this.nb_enemies_created = 0;
 		this.releaseTime = releaseTime;
 		this.listEnemy = listEnemy;
@@ -90,7 +90,7 @@ Wave.prototype =
 		this.nb_enemies_created++;           
 	},
 	move: function() {
-		var delayBeforeNewEnemy = 500;
+		var delayBeforeNewEnemy = 200;
 		if (this.game.time.now >= this.releaseTime && this.nb_enemies_created < this.nb_enemies) {
 			console.log("creat new ennemy");
 			this.setWave();

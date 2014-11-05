@@ -76,7 +76,7 @@ BasicGame.Game.prototype =
 				{'nome': 'lagarto', 'moves': [{'type': 'walk down', 'frame': '[0,1,2,1]'}, {'type': 'walk left', 'frame': '[3,4,5,4]'}, {'type': 'walk right', 'frame': '[6,7,8,6]'}, {'type': 'walk up', 'frame': '[9,10,11,10]'}], 'length': '5', 'scale': '1', 'frame': '1'}];
 
 	var level = 1;
-	var releaseTime = this.time.now + 1000;
+	var releaseTime = this.time.now + 10;
 	var nbEnemyWave = 3;
 	this.path;
 	if(level === 2) { 
@@ -87,7 +87,7 @@ BasicGame.Game.prototype =
 		this.path = this.path_lv1;
 	}
 	this.wave = new Wave(level, this, releaseTime, this.listEnemies, this.path, nbEnemyWave); 
-	
+
 	/*var dog_path_l1 = this.add.sprite(BasicGame.convertWidth(270), BasicGame.convertHeight(300),'dog');
 	var dog_path_l1 = this.add.sprite(BasicGame.convertWidth(400),BasicGame.convertHeight(140),'dog');
 	var dog_path_l1 = this.add.sprite(BasicGame.convertWidth(95),BasicGame.convertHeight(140),'dog');
@@ -102,6 +102,7 @@ BasicGame.Game.prototype =
 	update: function () 
     {
 		this.wave.move();
+
 		//console.log("dans update");
         this.guidePositioning(this.input.mousePointer.x,this.input.mousePointer.y);
 	},
