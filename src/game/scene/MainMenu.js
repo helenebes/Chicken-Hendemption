@@ -76,7 +76,7 @@ BasicGame.MainMenu.prototype =
         
 		//this.optionsPanel = new OptionsPanel(this);
         BasicGame.optionsPanel = new OptionsPanel(this);
-		this.add.existing(BasicGame.optionsPanel);
+		this.game.add.existing(BasicGame.optionsPanel);
         paused = false;
         
         

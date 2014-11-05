@@ -191,11 +191,7 @@ BasicGame.Game.prototype =
 		money.bringToTop();
 		
 		this.inGameOpt = new InGameOptionsPanel(this);
-        //this.world.add.existing(this.inGameOpt);
-        console.log(this.inGameOpt.z);
-        console.log(this.inGameOpt);
-        this.world.bringToTop(this.inGameOpt);
-		this.add.existing(this.inGameOpt);
+		this.game.add.existing(this.inGameOpt);
         //paused = false;
         opt = this.add.sprite(BasicGame.convertWidth(453),BasicGame.convertHeight(5),'opt');
 		opt.inputEnabled = true;
@@ -205,8 +201,9 @@ BasicGame.Game.prototype =
 			opt.loadTexture('opt_pressed',0);
 		},this);
 		opt.events.onInputUp.add(this.pauseGame,this);
+        BasicGame.optionsPanel.game = this.game;
 		BasicGame.optionsPanel = new OptionsPanel(this);
-		this.add.existing(BasicGame.optionsPanel);
+		this.game.add.existing(BasicGame.optionsPanel);
     },
     buildChickenMenu: function()
     {
@@ -302,6 +299,7 @@ BasicGame.Game.prototype =
     {
 		opt.loadTexture('opt',0);
 		this.inGameOpt.show();
+        this.world.bringToTop(this.inGameOpt);
     },
     playGame: function()
     {
@@ -313,8 +311,9 @@ BasicGame.Game.prototype =
     },
 	changeMenu: function()
 	{
-		//this.inGameOpt.hide();
+		this.inGameOpt.hide();
 		BasicGame.optionsPanel.show();
+        this.world.bringToTop(BasicGame.optionsPanel);
 	},
 	stopMusic: function()
 	{
