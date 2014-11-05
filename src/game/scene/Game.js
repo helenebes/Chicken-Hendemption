@@ -34,16 +34,15 @@ BasicGame.Game = function (game)
     //	But do consider them as being 'reserved words', i.e. don't create a property for your own game called "world" or you'll over-write the world reference.
 
 
-    this.path_lv1 = [{x: BasicGame.convertWidth(400),y: BasicGame.convertHeight(0)}, {x: BasicGame.convertWidth(400),y: BasicGame.convertHeight(0)}, {x: BasicGame.convertWidth(400),y: BasicGame.convertHeight(25)}, {x: BasicGame.convertWidth(400),y: BasicGame.convertHeight(50)}, 
-				{x: BasicGame.convertWidth(400),y: BasicGame.convertHeight(75)}, {x: BasicGame.convertWidth(400),y: BasicGame.convertHeight(100)}, {x: BasicGame.convertWidth(400),y: BasicGame.convertHeight(120)}, {x: BasicGame.convertWidth(400),y: BasicGame.convertHeight(140)}, 
-		{x: BasicGame.convertWidth(375),y: BasicGame.convertHeight(140)}, {x: BasicGame.convertWidth(350),y: BasicGame.convertHeight(140)}, {x: BasicGame.convertWidth(325),y: BasicGame.convertHeight(140)}, {x: BasicGame.convertWidth(300),y: BasicGame.convertHeight(140)}, 
-			{x: BasicGame.convertWidth(275),y: BasicGame.convertHeight(140)}, {x: BasicGame.convertWidth(250),y: BasicGame.convertHeight(140)}, {x: BasicGame.convertWidth(225),y: BasicGame.convertHeight(140)}, {x: BasicGame.convertWidth(200),y: BasicGame.convertHeight(140)}, 
-			{x: BasicGame.convertWidth(175),y: BasicGame.convertHeight(140)}, {x: BasicGame.convertWidth(150),y: BasicGame.convertHeight(140)}, {x: BasicGame.convertWidth(125),y: BasicGame.convertHeight(140)}, {x: BasicGame.convertWidth(95),y: BasicGame.convertHeight(140)},
-		{x: BasicGame.convertWidth(95),y: BasicGame.convertHeight(175)}, {x: BasicGame.convertWidth(95),y: BasicGame.convertHeight(200)}, {x: BasicGame.convertWidth(95),y: BasicGame.convertHeight(225)}, 
-		{x: BasicGame.convertWidth(125),y: BasicGame.convertHeight(225)}, {x: BasicGame.convertWidth(150),y: BasicGame.convertHeight(225)}, {x: BasicGame.convertWidth(175),y: BasicGame.convertHeight(225)}, {x: BasicGame.convertWidth(200),y: BasicGame.convertHeight(225)}, 
-			{x: BasicGame.convertWidth(225),y: BasicGame.convertHeight(225)}, {x: BasicGame.convertWidth(250),y: BasicGame.convertHeight(225)}, {x: BasicGame.convertWidth(270),y: BasicGame.convertHeight(225)}, 
-		{x: BasicGame.convertWidth(270),y: BasicGame.convertHeight(250)}, {x: BasicGame.convertWidth(270),y: BasicGame.convertHeight(275)}, {x: BasicGame.convertWidth(270),y: BasicGame.convertHeight(300)}, {x: BasicGame.convertWidth(270),y: BasicGame.convertHeight(325)}, 
-			{x: BasicGame.convertWidth(270),y: BasicGame.convertHeight(325)}, {x: BasicGame.convertWidth(270),y: BasicGame.convertHeight(350)}, {x: BasicGame.convertWidth(270),y: BasicGame.convertHeight(375)}, {x: BasicGame.convertWidth(270),y: BasicGame.convertHeight(400)}];
+    this.path_lv1 = [{x: BasicGame.convertWidth(400),y: BasicGame.convertHeight(-30)}, {x: BasicGame.convertWidth(400),y: BasicGame.convertHeight(0)}, {x: BasicGame.convertWidth(400),y: BasicGame.convertHeight(25)}, {x: BasicGame.convertWidth(400),y: BasicGame.convertHeight(50)}, 
+				{x: BasicGame.convertWidth(400),y: BasicGame.convertHeight(75)}, {x: BasicGame.convertWidth(400),y: BasicGame.convertHeight(100)}, {x: BasicGame.convertWidth(400),y: BasicGame.convertHeight(120)}, {x: BasicGame.convertWidth(400),y: BasicGame.convertHeight(145)}, 
+		{x: BasicGame.convertWidth(375),y: BasicGame.convertHeight(145)}, {x: BasicGame.convertWidth(350),y: BasicGame.convertHeight(145)}, {x: BasicGame.convertWidth(325),y: BasicGame.convertHeight(145)}, {x: BasicGame.convertWidth(300),y: BasicGame.convertHeight(145)}, 
+			{x: BasicGame.convertWidth(275),y: BasicGame.convertHeight(145)}, {x: BasicGame.convertWidth(250),y: BasicGame.convertHeight(145)}, {x: BasicGame.convertWidth(225),y: BasicGame.convertHeight(145)}, {x: BasicGame.convertWidth(200),y: BasicGame.convertHeight(145)}, 
+			{x: BasicGame.convertWidth(175),y: BasicGame.convertHeight(145)}, {x: BasicGame.convertWidth(145),y: BasicGame.convertHeight(145)}, {x: BasicGame.convertWidth(125),y: BasicGame.convertHeight(145)}, {x: BasicGame.convertWidth(95),y: BasicGame.convertHeight(145)},
+		{x: BasicGame.convertWidth(95),y: BasicGame.convertHeight(175)}, {x: BasicGame.convertWidth(95),y: BasicGame.convertHeight(200)}, {x: BasicGame.convertWidth(95),y: BasicGame.convertHeight(240)}, 
+		{x: BasicGame.convertWidth(125),y: BasicGame.convertHeight(240)}, {x: BasicGame.convertWidth(150),y: BasicGame.convertHeight(240)}, {x: BasicGame.convertWidth(175),y: BasicGame.convertHeight(240)}, {x: BasicGame.convertWidth(200),y: BasicGame.convertHeight(240)}, 
+			{x: BasicGame.convertWidth(225),y: BasicGame.convertHeight(240)}, {x: BasicGame.convertWidth(250),y: BasicGame.convertHeight(240)}, {x: BasicGame.convertWidth(270),y: BasicGame.convertHeight(240)}, 
+		{x: BasicGame.convertWidth(270),y: BasicGame.convertHeight(250)}, {x: BasicGame.convertWidth(270),y: BasicGame.convertHeight(275)}, {x: BasicGame.convertWidth(270),y: BasicGame.convertHeight(300)}];
 
 };
 
@@ -61,37 +60,28 @@ BasicGame.Game.prototype =
         
         //var bg = this.add.sprite(0,0,'lvl1_map');
 	
-	this.listEnemies = [{'name': 'dog', 'moves': [{'type': 'walk', 'frame': '[3,4,5]'}], 'length': '5', 'scale': '4', 'frame': '1'}, 
-				{'name': 'mummy', 'moves': [{'type': 'walk', 'frame': '[]'}], 'length': '10', 'scale': '4', 'frame': '5'},
-				{'name': 'lagarto', 'moves': [{'type': 'walk down', 'frame': '[0,1,2,1]'}, {'type': 'walk left', 'frame': '[3,4,5,4]'}, {'type': 'walk right', 'frame': '[6,7,8,6]'}, {'type': 'walk up', 'frame': '[9,10,11,10]'}], 'length': '5', 'scale': '0.4', 'frame': '1'}];
-	this.listEnemiesOnMap = [];
-        this.EnemyAmount = 0;
+	this.listEnemies = [{'nome': 'dog', 'moves': [{'type': 'walk', 'frame': '[3,4,5]'}], 'length': '5', 'scale': '1.5', 'frame': '5'}, 
+				{'nome': 'mummy', 'moves': [{'type': 'walk', 'frame': '[]'}], 'length': '10', 'scale': '1', 'frame': '5'},
+				{'nome': 'lagarto', 'moves': [{'type': 'walk down', 'frame': '[0,1,2,1]'}, {'type': 'walk left', 'frame': '[3,4,5,4]'}, {'type': 'walk right', 'frame': '[6,7,8,6]'}, {'type': 'walk up', 'frame': '[9,10,11,10]'}], 'length': '5', 'scale': '1', 'frame': '1'}];
 
-	this.enemies = this.add.group();
-        this.createNewEnemy(1, this.listEnemies[parseInt(Math.random() * this.listEnemies.length)]);
-	/*Enemy move
-	this.enemies.forEach(function(enemy) {
-                Enemies.prototype.moveOnStep(enemy);
-            });
+	this.enemies = this.game.add.group();
+	this.enemies.enableBody = true;
+	this.enemies.physicsBodyType = Phaser.Physics.ARCADE;
+	var level = 1;
+	//this.createNewEnemy(level);
 
-	var dog_path_l1 = this.add.sprite(BasicGame.convertWidth(400),BasicGame.convertHeight(-30),'dog');
+	var infoenemies = this.enemies;	
+	var infolistEnemies = this.listEnemies;
+    var infogame = this.game
+
+	//this.createEmemiesLoop(level, infoenemies, infolistEnemies, infogame);
+	
+	/*var dog_path_l1 = this.add.sprite(BasicGame.convertWidth(270), BasicGame.convertHeight(300),'dog');
 	var dog_path_l1 = this.add.sprite(BasicGame.convertWidth(400),BasicGame.convertHeight(140),'dog');
 	var dog_path_l1 = this.add.sprite(BasicGame.convertWidth(95),BasicGame.convertHeight(140),'dog');
 	var dog_path_l1 = this.add.sprite(BasicGame.convertWidth(95),BasicGame.convertHeight(225),'dog');
 	var dog_path_l1 = this.add.sprite(BasicGame.convertWidth(270),BasicGame.convertHeight(225),'dog');
-	var dog_path_l1 = this.add.sprite(BasicGame.convertWidth(270),BasicGame.convertHeight(400),'dog');
-	
-
-	var tween = this.add.tween(dog_path_l1).to({ y: BasicGame.convertHeight(140) }, 2000, Phaser.Easing.Linear.None)
-	  .to({ x: BasicGame.convertWidth(95) }, 2000, Phaser.Easing.Linear.None)
-	  .to({ y: BasicGame.convertHeight(225) }, 1000, Phaser.Easing.Linear.None)
-	  .to({ x: BasicGame.convertWidth(270) }, 1000, Phaser.Easing.Linear.None)
-	  .to({ y: BasicGame.convertHeight(500) }, 2000, Phaser.Easing.Linear.None)
-	  .to({ x: BasicGame.convertWidth(1000) }, 2000, Phaser.Easing.Linear.None)
-	  .to({ y: BasicGame.convertHeight(-1000) }, 100, Phaser.Easing.Linear.None)
-	  .to({ x: BasicGame.convertWidth(400) }, 100, Phaser.Easing.Linear.None)
-	  .loop()
-	  .start();
+	var dog_path_l1 = this.add.sprite(BasicGame.convertWidth(270),BasicGame.convertHeight(400),'dog');	
 	*/
 
 
@@ -167,7 +157,16 @@ BasicGame.Game.prototype =
 	},
 	update: function () 
     {
-	
+		//Enemy move
+		this.enemies.forEach(function(enemy) {
+				//console.log("enemy move "+enemy.x);
+				if (enemy.x === 810) {
+					//console.log("enemy should be supressed");
+				} else {
+                	Enemies.prototype.moveOnStep(enemy);
+				}
+            });	
+		//console.log("dans update");
         this.guidePositioning(this.input.mousePointer.x,this.input.mousePointer.y);
 	},
     //Guided Positioning functions
@@ -245,7 +244,7 @@ BasicGame.Game.prototype =
         }
         this.chickenAmount++;
     },
-	createNewEnemy : function(level, typeEnemy)
+	createNewEnemy : function(level)
 	{
 		var path;
 		if(level === 2) { 
@@ -255,10 +254,35 @@ BasicGame.Game.prototype =
 		} else {
 			path = this.path_lv1;
 		}
-        	this.listEnemiesOnMap[this.EnemyAmount] = new Enemies(path[0].x, path[0].y, typeEnemy.name, typeEnemy.moves, typeEnemy.length, typeEnemy.scale, typeEnemy.frame, this.game);
-		console.log("Create Enemy: "+typeEnemy.name);
+		var typeEnemy = this.listEnemies[parseInt(Math.random() * this.listEnemies.length)];
+        new Enemies(typeEnemy.nome, typeEnemy.moves, typeEnemy.length, typeEnemy.scale, typeEnemy.frame, this.game, path, this.enemies);
+		console.log("Create Enemy: "+typeEnemy.nome);
 	},
 
+	createEmemiesLoop: function(level, infoenemies, infolistEnemies, infogame)
+	{
+		var nb_max_enemies_on_map = 3;
+		var nb_enemies = 0;
+		var path;
+		if(level === 2) { 
+			path = this.path_lv2;
+		} else if (level === 3) { 
+			path = this.path_lv3;
+		} else {
+			path = this.path_lv1;
+		}
+		var enemysBcl = setInterval(function() {
+                if (nb_enemies < nb_max_enemies_on_map) {
+                    var typeEnemy = infolistEnemies[parseInt(Math.random() * infolistEnemies.length)];
+        			new Enemies(typeEnemy.nome, typeEnemy.moves, typeEnemy.length, typeEnemy.scale, typeEnemy.frame, infogame, path, infoenemies);
+					console.log("Create Enemy: "+typeEnemy.nome);
+                } else {
+                    clearTimeout(enemysBcl);
+                }
+                nb_enemies++;
+            }, 1000);
+		
+	},
 	quitGame: function (pointer) 
     {
 
