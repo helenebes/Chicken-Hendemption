@@ -34,43 +34,44 @@ BasicGame.MainMenu.prototype =
 		this.add.sprite(0,0,'menuBg');
         
         lvl1 = this.add.sprite(BasicGame.convertWidth(100),BasicGame.convertHeight(140),'lvl1');
-		lvl1.inputEnabled = true;
-		lvl1.events.onInputDown.add(this.onClick,this);
-        lvl1.events.onInputUp.add(this.onClickReleased,this);
-        
         lvl2 = this.add.sprite(BasicGame.convertWidth(190),BasicGame.convertHeight(140),'lvl2');
-		lvl2.inputEnabled = true;
-		lvl2.events.onInputDown.add(this.onClick,this);
-        lvl2.events.onInputUp.add(this.onClickReleased,this);
-        
         lvl3 = this.add.sprite(BasicGame.convertWidth(280),BasicGame.convertHeight(140),'lvl3');
-		lvl3.inputEnabled = true;
-		lvl3.events.onInputDown.add(this.onClick,this);
-        lvl3.events.onInputUp.add(this.onClickReleased,this);
-             
         opt = this.add.sprite(BasicGame.convertWidth(453),BasicGame.convertHeight(5),'opt');
-		opt.inputEnabled = true;
-		opt.events.onInputDown.add(this.onClickOptions,this);
-        opt.events.onInputUp.add(this.onClickOptionsReleased,this);
-        
         chickenInfo = this.add.sprite(BasicGame.convertWidth(90),BasicGame.convertHeight(278),'chickenB');
-		chickenInfo.inputEnabled = true;
-		//chickenInfo.events.onInputDown.add(this.onClickOptions,this);
-        //chickenInfo.events.onInputUp.add(this.onClickOptionsReleased,this);
-        
         enemieInfo = this.add.sprite(BasicGame.convertWidth(210),BasicGame.convertHeight(278),'enemiesB');
-		enemieInfo.inputEnabled = true;
-		//enemieInfo.events.onInputDown.add(this.onClickOptions,this);
-        //enemieInfo.events.onInputUp.add(this.onClickOptionsReleased,this);
-        
         howToPlayInfo = this.add.sprite(BasicGame.convertWidth(330),BasicGame.convertHeight(270),'howToPlayB');
-		howToPlayInfo.inputEnabled = true;
-		//howToPlayInfo.events.onInputDown.add(this.onClickOptions,this);
-        //howToPlayInfo.events.onInputUp.add(this.onClickOptionsReleased,this);
-        
         back = this.add.sprite(BasicGame.convertWidth(20),BasicGame.convertHeight(270),'back');
+        
+		lvl1.inputEnabled = true;
+		lvl1.events.onInputDown.add(this.onClick,{buttonName:"level 1",prescope: this});
+        lvl1.events.onInputUp.add(this.onClickReleased,{buttonName:"level 1",prescope: this});
+               
+		lvl2.inputEnabled = true;
+		lvl2.events.onInputDown.add(this.onClick,{buttonName:"level 2",prescope: this});
+        lvl2.events.onInputUp.add(this.onClickReleased,{buttonName:"level 2",prescope: this});
+            
+		lvl3.inputEnabled = true;
+		lvl3.events.onInputDown.add(this.onClick,{buttonName:"level 3",prescope: this});
+        lvl3.events.onInputUp.add(this.onClickReleased,{buttonName:"level 3",prescope: this});
+             
+		opt.inputEnabled = true;
+		opt.events.onInputDown.add(this.onClick,{buttonName:"options",prescope: this});
+        opt.events.onInputUp.add(this.onClickReleased,{buttonName:"options",prescope: this});
+        
+		chickenInfo.inputEnabled = true;
+		chickenInfo.events.onInputDown.add(this.onClick,{buttonName:"chicken info",prescope: this});
+        chickenInfo.events.onInputUp.add(this.onClickReleased,{buttonName:"chicken info",prescope: this});
+        
+		enemieInfo.inputEnabled = true;
+		enemieInfo.events.onInputDown.add(this.onClick,{buttonName:"enemy info",prescope: this});
+        enemieInfo.events.onInputUp.add(this.onClickReleased,{buttonName:"enemy info",prescope: this});
+        
+		howToPlayInfo.inputEnabled = true;
+		howToPlayInfo.events.onInputDown.add(this.onClick,{buttonName:"how to play",prescope: this});
+        howToPlayInfo.events.onInputUp.add(this.onClickReleased,{buttonName:"how to play",prescope: this});
+        
 		back.inputEnabled = true;
-		back.events.onInputDown.add(this.onClickBack,this);
+		back.events.onInputDown.add(this.onClickReleased,{buttonName:"back",prescope: this});
         
         
 		//this.optionsPanel = new OptionsPanel(this);
@@ -157,40 +158,73 @@ BasicGame.MainMenu.prototype =
         poopie_H.scale.y = 0.8;
     },
     
-	onClick:function()
+	onClick:function(buttonName)
     {
-		lvl1.loadTexture('lvl1_pressed',0);
+        switch(this.buttonName)
+        {
+            case "level 1":
+                lvl1.loadTexture('lvl1_pressed',0);
+                break;
+            case "level 2":
+                lvl2.loadTexture('lvl2_pressed',0);
+                break;
+            case "level 3":
+                lvl3.loadTexture('lvl3_pressed',0);
+                break;
+            case "options":
+                opt.loadTexture('opt_pressed',0);
+                break;
+            case "chicken info":
+                chickenInfo.loadTexture('chickenB_pressed',0);
+                break;
+            case "enemy info":
+                enemieInfo.loadTexture('enemiesB_pressed',0);
+                break;
+            case "how to play":
+                howToPlayInfo.loadTexture('howToPlayB_pressed',0);
+                break;
+        }
+		
         
 	},
-    onClickReleased:function()
+    onClickReleased:function(buttonName,prescope)
     {
-		lvl1.loadTexture('lvl1',0);
-        this.startGame(this);
+        switch(this.buttonName)
+        {
+            case "level 1":
+                lvl1.loadTexture('lvl1',0);
+                this.prescope.startGame(this); 
+                break;
+            case "level 2":
+                lvl2.loadTexture('lvl2',0);
+                break;
+            case "level 3":
+                lvl3.loadTexture('lvl3',0);
+                break;
+            case "options":
+                opt.loadTexture('opt',0);
+                if(!paused)
+                {
+                    // Show panel
+                    paused = true;
+                    BasicGame.optionsPanel.show();
+                    //this.optionsPanel.show();
+                }
+                break;
+            case "chicken info":
+                chickenInfo.loadTexture('chickenB',0);
+                break;
+            case "enemy info":
+                enemieInfo.loadTexture('enemiesB',0);
+                break;
+            case "how to play":
+                howToPlayInfo.loadTexture('howToPlayB',0);
+                break;
+            case "back":
+                this.prescope.state.start('Intro');
+        }
 	},
     
-    onClickOptions: function()
-    {
-        opt.loadTexture('opt_pressed',0);
-    },
-    
-    onClickOptionsReleased: function()
-    {
-        opt.loadTexture('opt',0);
-        if(!paused)
-        {
-            // Show panel
-            paused = true;
-            BasicGame.optionsPanel.show();
-			//this.optionsPanel.show();
-        }
-    },
-    
-    onClickBack: function()
-    {
-        this.state.start('Intro');
-    },
-    
-
 	update: function () 
     {
 
@@ -200,14 +234,12 @@ BasicGame.MainMenu.prototype =
 	startGame: function (pointer) 
     {
 
-
         var dad = this.state;
         setTimeout(function()
         {
             dad.start('Game');
         },100);
 		//	And start the actual game
-
 	}
 
 };
