@@ -42,6 +42,7 @@
     <script src="src/game/scene/Intro.js"></script>
 	<script src="src/game/scene/MainMenu.js"></script>
     <script src="src/game/scene/Options.js"></script>
+	<script src="src/game/scene/InGameOptions.js"></script>
 	<script src="src/game/scene/Game.js"></script>
 	<script src="src/game/scene/Chicken.js"></script>
 	<script src="src/game/scene/Enemies.js"></script>
@@ -55,6 +56,7 @@
 <script type="text/javascript">
 
 (function () {
+
 	//By default we set 
 	BasicGame.screen = "small";
 	BasicGame.srx = Math.max(window.innerWidth,window.innerHeight);
@@ -114,6 +116,7 @@
 	game.state.add('Game', BasicGame.Game);
 
 	//	Now start the Boot state.
+	
 	game.state.start('Boot');
 
 })();
