@@ -11,7 +11,8 @@ BasicGame.Game = function (game)
     this.input;		//	the global input manager (you can access this.input.keyboard, this.input.mouse, as well from it)
     this.load;		//	for preloading assets
     this.math;		//	lots of useful common math operations
-    this.sound;		//	the sound manager - add a sound, play one, set-up markers, etc
+    this.music;
+	this.sound;		//	the sound manager - add a sound, play one, set-up markers, etc
     this.stage;		//	the game stage
     this.time;		//	the clock
     this.tweens;	//	the tween manager
@@ -20,6 +21,9 @@ BasicGame.Game = function (game)
     this.physics;	//	the physics manager
     this.rnd;		//	the repeatable random number generator
 
+	this.paused = false;
+	this.inGameOpt;
+	
 	this.MapTileWidth = 20;
 	this.MapTileHeight = 15;
 	this.MapOffset = 128;
@@ -62,6 +66,11 @@ BasicGame.Game.prototype =
         map.addTilesetImage('tileset');
         var layer = map.createLayer('layer1');
         layer.resizeWorld();
+		
+		this.music = this.add.audio('chicken_family');
+		this.music.loop = true;
+		this.startMusic();
+		
         //this.cameraOffset = new Phaser.Point(160,0);
         
         //var bg = this.add.sprite(0,0,'lvl1_map');
@@ -124,9 +133,20 @@ BasicGame.Game.prototype =
 		
 		var money = this.add.sprite(BasicGame.convertWidth(0),BasicGame.convertHeight(0),'counter');
 		money.bringToTop();
+		
+		this.inGameOpt = new InGameOptionsPanel(this);
+		this.add.existing(this.inGameOpt);
+        //paused = false;
         opt = this.add.sprite(BasicGame.convertWidth(453),BasicGame.convertHeight(5),'opt');
 		opt.inputEnabled = true;
 		opt.bringToTop();
+		opt.events.onInputDown.add(function()
+		{
+			opt.loadTexture('opt_pressed',0);
+		},this);
+		opt.events.onInputUp.add(this.pauseGame,this);
+		BasicGame.optionsPanel = new OptionsPanel(this);
+		this.add.existing(BasicGame.optionsPanel);
 	
 		var longie = this.add.sprite(BasicGame.convertWidth(3),BasicGame.convertHeight(58),'longie'); 
 		var normal = this.add.sprite(BasicGame.convertWidth(3),BasicGame.convertHeight(115),'normal'); 
@@ -299,6 +319,37 @@ BasicGame.Game.prototype =
 		//	Then let's go back to the main menu.
 		this.state.start('MainMenu');
 
+	},
+	
+	pauseGame: function()
+    {
+		opt.loadTexture('opt',0);
+		this.inGameOpt.show();
+    },
+
+    playGame: function()
+    {
+		console.log("LOLO");
+        // Hide panel
+        this.paused = false;
+        this.inGameOpt.hide();
+		BasicGame.optionsPanel.hide();
+    },
+	
+	changeMenu: function()
+	{
+		//this.inGameOpt.hide();
+		BasicGame.optionsPanel.show();
+	},
+	
+	stopMusic: function()
+	{
+		this.music.stop();
+	},
+	
+	startMusic: function()
+	{
+		this.music.play();
 	}
 
 };
