@@ -22,6 +22,7 @@ var Enemies = function (typeEnemy, enemyMoves, enemyLength, enemyScale, enemyFra
 	this.enemy.type_enemy = typeEnemy;
 	listOfEnemies.add(this.enemy);
 	this.enemy.listOfEnemies = listOfEnemies;
+	this.nextTile(this.enemy);
 
 }
 
@@ -29,8 +30,6 @@ var Enemies = function (typeEnemy, enemyMoves, enemyLength, enemyScale, enemyFra
 Enemies.prototype =
 {
 	nextTile: function(enemy) {
-		//console.log("remove of the group "+this.listOfEnemiestest);
-		//console.log("remove of the group "+this.listOfEnemies);
 		if (enemy.curTile < enemy.followingPath.length - 1) {
 			enemy.curTile++;
 			enemy.next_positX = enemy.followingPath[enemy.curTile].x;
@@ -48,19 +47,64 @@ Enemies.prototype =
 			} else if (enemy.next_positX < enemy.x) {
 				enemy.angle = 90;
 			}
-		} 
+		} else {
+			enemy.kill();
+		}
 	},
 
 	moveOnStep: function(enemy) {
-		console.log("last position:("+enemy.x+","+enemy.y+")");
-		console.log("new position:("+enemy.next_positX+","+enemy.next_positY+")");
+		//console.log("last position:("+enemy.x+","+enemy.y+")");
+		//console.log("new position:("+enemy.next_positX+","+enemy.next_positY+")");
 		//console.log("angle : "+enemy.angle);
 		enemy.y = enemy.next_positY;
 		enemy.x = enemy.next_positX;
-		if (enemy.x === 810 && enemy.y === 720) {
-					enemy.listOfEnemies.remove(enemy);
-					enemy.destroy();
-		}
         this.nextTile(enemy);
 	},
+	
 };
+
+var Wave = function(level, game, releaseTime, listEnemy, pathToGo, nb_enemies)  
+{
+
+		this.waveEnemy = game.add.group();
+		this.waveEnemy.enableBody = true;
+		this.waveEnemy.physicsBodyType = Phaser.Physics.ARCADE;
+		this.chemin = pathToGo;
+		console.log(this.chemin[1].x);
+		this.game = game;
+		this.nb_enemies = nb_enemies;
+		console.log(this.nb_enemies);
+		this.nb_enemies_created = 0;
+		this.releaseTime = releaseTime;
+		this.listEnemy = listEnemy;
+		this.setWave();
+		this.firstMove = true;
+}
+Wave.prototype = 
+{
+
+	setWave: function() {
+		while (this.nb_enemies_created != this.nb_enemies) {
+            var typeEnemy = this.listEnemy[parseInt(Math.random() * this.listEnemy.length)];
+        	new Enemies(typeEnemy.nome, typeEnemy.moves, typeEnemy.length, typeEnemy.scale, typeEnemy.frame, this.game, this.chemin, this.waveEnemy);
+			console.log("Create Enemy: "+typeEnemy.nome);
+			this.nb_enemies_created++;
+		}            
+	},
+	move: function() {
+		if (this.waveEnemy.countDead() === this.nb_enemies) {
+			//enemyToSuppress = this.waveEnemy.getTop();
+			//this.waveEnemy.remove(enemyToSuppress);
+			//enemyToSuppress.kill();
+			this.waveEnemy.destroy();
+			console.log("destruction");
+		}
+		this.waveEnemy.forEachAlive(function(ennemy) {
+	      	Enemies.prototype.moveOnStep(ennemy);
+		});
+	},
+
+};
+
+
+
