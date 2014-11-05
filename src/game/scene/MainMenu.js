@@ -13,8 +13,8 @@ BasicGame.MainMenu = function (game)
     var howToPlayInfo;
     var back;
     var paused;
-    var optionsPanel;
-
+	//this.optionsPanel;
+	
 
 };
 
@@ -73,8 +73,9 @@ BasicGame.MainMenu.prototype =
 		back.events.onInputDown.add(this.onClickBack,this);
         
         
-		optionsPanel = new OptionsPanel(this);
-        this.add.existing(optionsPanel);
+		//this.optionsPanel = new OptionsPanel(this);
+        BasicGame.optionsPanel = new OptionsPanel(this);
+		this.add.existing(BasicGame.optionsPanel);
         paused = false;
         
         
@@ -139,8 +140,9 @@ BasicGame.MainMenu.prototype =
         {
             // Hide panel
             paused = false;
-            optionsPanel.hide();
-        }
+            BasicGame.optionsPanel.hide();
+			//this.optionsPanel.hide();
+		}
     },
     
     onMouseOver:function()
@@ -178,7 +180,8 @@ BasicGame.MainMenu.prototype =
         {
             // Show panel
             paused = true;
-            optionsPanel.show();
+            BasicGame.optionsPanel.show();
+			//this.optionsPanel.show();
         }
     },
     
