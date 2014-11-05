@@ -35,24 +35,21 @@ BasicGame.Game = function (game)
 
     this.chickenLayers = [];
 
-    this.qTree = new Phaser.QuadTree(game.physics,0,0,BasicGame.gameWidth,BasicGame.gameHeight,30*15,4,0);
+    var opt; //Options button
 
-    this.lagartos = [];
-
-    //	You can use any of these from any function within this State.
-    //	But do consider them as being 'reserved words', i.e. don't create a property for your own game called "world" or you'll over-write the world reference.
+    //Experimental
+    //this.qTree = new Phaser.QuadTree(game.physics,0,0,BasicGame.gameWidth,BasicGame.gameHeight,30*15,4,0);
 
 
-    this.path_lv1 = [{x: BasicGame.convertWidth(400),y: BasicGame.convertHeight(0)}, {x: BasicGame.convertWidth(400),y: BasicGame.convertHeight(0)}, {x: BasicGame.convertWidth(400),y: BasicGame.convertHeight(25)}, {x: BasicGame.convertWidth(400),y: BasicGame.convertHeight(50)}, 
-				{x: BasicGame.convertWidth(400),y: BasicGame.convertHeight(75)}, {x: BasicGame.convertWidth(400),y: BasicGame.convertHeight(100)}, {x: BasicGame.convertWidth(400),y: BasicGame.convertHeight(120)}, {x: BasicGame.convertWidth(400),y: BasicGame.convertHeight(140)}, 
-		{x: BasicGame.convertWidth(375),y: BasicGame.convertHeight(140)}, {x: BasicGame.convertWidth(350),y: BasicGame.convertHeight(140)}, {x: BasicGame.convertWidth(325),y: BasicGame.convertHeight(140)}, {x: BasicGame.convertWidth(300),y: BasicGame.convertHeight(140)}, 
-			{x: BasicGame.convertWidth(275),y: BasicGame.convertHeight(140)}, {x: BasicGame.convertWidth(250),y: BasicGame.convertHeight(140)}, {x: BasicGame.convertWidth(225),y: BasicGame.convertHeight(140)}, {x: BasicGame.convertWidth(200),y: BasicGame.convertHeight(140)}, 
-			{x: BasicGame.convertWidth(175),y: BasicGame.convertHeight(140)}, {x: BasicGame.convertWidth(150),y: BasicGame.convertHeight(140)}, {x: BasicGame.convertWidth(125),y: BasicGame.convertHeight(140)}, {x: BasicGame.convertWidth(95),y: BasicGame.convertHeight(140)},
-		{x: BasicGame.convertWidth(95),y: BasicGame.convertHeight(175)}, {x: BasicGame.convertWidth(95),y: BasicGame.convertHeight(200)}, {x: BasicGame.convertWidth(95),y: BasicGame.convertHeight(225)}, 
-		{x: BasicGame.convertWidth(125),y: BasicGame.convertHeight(225)}, {x: BasicGame.convertWidth(150),y: BasicGame.convertHeight(225)}, {x: BasicGame.convertWidth(175),y: BasicGame.convertHeight(225)}, {x: BasicGame.convertWidth(200),y: BasicGame.convertHeight(225)}, 
-			{x: BasicGame.convertWidth(225),y: BasicGame.convertHeight(225)}, {x: BasicGame.convertWidth(250),y: BasicGame.convertHeight(225)}, {x: BasicGame.convertWidth(270),y: BasicGame.convertHeight(225)}, 
-		{x: BasicGame.convertWidth(270),y: BasicGame.convertHeight(250)}, {x: BasicGame.convertWidth(270),y: BasicGame.convertHeight(275)}, {x: BasicGame.convertWidth(270),y: BasicGame.convertHeight(300)}, {x: BasicGame.convertWidth(270),y: BasicGame.convertHeight(325)}, 
-			{x: BasicGame.convertWidth(270),y: BasicGame.convertHeight(325)}, {x: BasicGame.convertWidth(270),y: BasicGame.convertHeight(350)}, {x: BasicGame.convertWidth(270),y: BasicGame.convertHeight(375)}, {x: BasicGame.convertWidth(270),y: BasicGame.convertHeight(400)}];
+    this.path_lv1 = [{x: BasicGame.convertWidth(400),y: BasicGame.convertHeight(-30)}, {x: BasicGame.convertWidth(400),y: BasicGame.convertHeight(0)}, {x: BasicGame.convertWidth(400),y: BasicGame.convertHeight(25)}, {x: BasicGame.convertWidth(400),y: BasicGame.convertHeight(50)}, 
+				{x: BasicGame.convertWidth(400),y: BasicGame.convertHeight(75)}, {x: BasicGame.convertWidth(400),y: BasicGame.convertHeight(100)}, {x: BasicGame.convertWidth(400),y: BasicGame.convertHeight(120)}, {x: BasicGame.convertWidth(400),y: BasicGame.convertHeight(145)}, 
+		{x: BasicGame.convertWidth(375),y: BasicGame.convertHeight(145)}, {x: BasicGame.convertWidth(350),y: BasicGame.convertHeight(145)}, {x: BasicGame.convertWidth(325),y: BasicGame.convertHeight(145)}, {x: BasicGame.convertWidth(300),y: BasicGame.convertHeight(145)}, 
+			{x: BasicGame.convertWidth(275),y: BasicGame.convertHeight(145)}, {x: BasicGame.convertWidth(250),y: BasicGame.convertHeight(145)}, {x: BasicGame.convertWidth(225),y: BasicGame.convertHeight(145)}, {x: BasicGame.convertWidth(200),y: BasicGame.convertHeight(145)}, 
+			{x: BasicGame.convertWidth(175),y: BasicGame.convertHeight(145)}, {x: BasicGame.convertWidth(145),y: BasicGame.convertHeight(145)}, {x: BasicGame.convertWidth(125),y: BasicGame.convertHeight(145)}, {x: BasicGame.convertWidth(95),y: BasicGame.convertHeight(145)},
+		{x: BasicGame.convertWidth(95),y: BasicGame.convertHeight(175)}, {x: BasicGame.convertWidth(95),y: BasicGame.convertHeight(200)}, {x: BasicGame.convertWidth(95),y: BasicGame.convertHeight(240)}, 
+		{x: BasicGame.convertWidth(125),y: BasicGame.convertHeight(240)}, {x: BasicGame.convertWidth(150),y: BasicGame.convertHeight(240)}, {x: BasicGame.convertWidth(175),y: BasicGame.convertHeight(240)}, {x: BasicGame.convertWidth(200),y: BasicGame.convertHeight(240)}, 
+			{x: BasicGame.convertWidth(225),y: BasicGame.convertHeight(240)}, {x: BasicGame.convertWidth(250),y: BasicGame.convertHeight(240)}, {x: BasicGame.convertWidth(270),y: BasicGame.convertHeight(240)}, 
+		{x: BasicGame.convertWidth(270),y: BasicGame.convertHeight(250)}, {x: BasicGame.convertWidth(270),y: BasicGame.convertHeight(275)}, {x: BasicGame.convertWidth(270),y: BasicGame.convertHeight(300)}];
 
 };
 
@@ -61,54 +58,71 @@ BasicGame.Game.prototype =
     //Create and Update functions
 	create: function () 
     {     
+        this.loadLevel();
+
+		this.music = this.add.audio('chicken_family');
+		this.music.loop = true;
+		this.startMusic();
+        this.initializeInterface();
+        this.buildChickenMenu();
+        this.initializeGuidedPositioningStructures();
+        this.initializeChickenStructure();
+        this.setupMap();
+        
+        //Lets keep this code clean and understandable
+	
+	this.listEnemies = [{'nome': 'dog', 'moves': [{'type': 'walk', 'frame': '[3,4,5]'}], 'length': '5', 'scale': '1.5', 'frame': '5'}, 
+				{'nome': 'mummy', 'moves': [{'type': 'walk', 'frame': '[]'}], 'length': '10', 'scale': '1', 'frame': '5'},
+				{'nome': 'lagarto', 'moves': [{'type': 'walk down', 'frame': '[0,1,2,1]'}, {'type': 'walk left', 'frame': '[3,4,5,4]'}, {'type': 'walk right', 'frame': '[6,7,8,6]'}, {'type': 'walk up', 'frame': '[9,10,11,10]'}], 'length': '5', 'scale': '1', 'frame': '1'}];
+
+	this.enemies = this.game.add.group();
+	this.enemies.enableBody = true;
+	this.enemies.physicsBodyType = Phaser.Physics.ARCADE;
+	var level = 1;
+	//this.createNewEnemy(level);
+
+	var infoenemies = this.enemies;	
+	var infolistEnemies = this.listEnemies;
+    var infogame = this.game
+
+	//this.createEmemiesLoop(level, infoenemies, infolistEnemies, infogame);
+	
+	/*var dog_path_l1 = this.add.sprite(BasicGame.convertWidth(270), BasicGame.convertHeight(300),'dog');
+	var dog_path_l1 = this.add.sprite(BasicGame.convertWidth(400),BasicGame.convertHeight(140),'dog');
+	var dog_path_l1 = this.add.sprite(BasicGame.convertWidth(95),BasicGame.convertHeight(140),'dog');
+	var dog_path_l1 = this.add.sprite(BasicGame.convertWidth(95),BasicGame.convertHeight(225),'dog');
+	var dog_path_l1 = this.add.sprite(BasicGame.convertWidth(270),BasicGame.convertHeight(225),'dog');
+	var dog_path_l1 = this.add.sprite(BasicGame.convertWidth(270),BasicGame.convertHeight(400),'dog');	
+	*/
+
+
+
+	},
+	update: function () 
+    {
+		//Enemy move
+		this.enemies.forEach(function(enemy) {
+				//console.log("enemy move "+enemy.x);
+				if (enemy.x === 810) {
+					//console.log("enemy should be supressed");
+				} else {
+                	Enemies.prototype.moveOnStep(enemy);
+				}
+            });	
+		//console.log("dans update");
+        this.guidePositioning(this.input.mousePointer.x,this.input.mousePointer.y);
+	},
+    loadLevel: function()
+    {
         var bg = this.add.sprite(0,0,'grass');
         var map = this.add.tilemap('test_lvl');
         map.addTilesetImage('tileset');
         var layer = map.createLayer('layer1');
         layer.resizeWorld();
-		
-		this.music = this.add.audio('chicken_family');
-		this.music.loop = true;
-		this.startMusic();
-		
-        //this.cameraOffset = new Phaser.Point(160,0);
-        
-        //var bg = this.add.sprite(0,0,'lvl1_map');
-	
-	this.listEnemies = [{'name': 'dog', 'moves': [{'type': 'walk', 'frame': '[3,4,5]'}], 'length': '5', 'scale': '4', 'frame': '1'}, 
-				{'name': 'mummy', 'moves': [{'type': 'walk', 'frame': '[]'}], 'length': '10', 'scale': '4', 'frame': '5'},
-				{'name': 'lagarto', 'moves': [{'type': 'walk down', 'frame': '[0,1,2,1]'}, {'type': 'walk left', 'frame': '[3,4,5,4]'}, {'type': 'walk right', 'frame': '[6,7,8,6]'}, {'type': 'walk up', 'frame': '[9,10,11,10]'}], 'length': '5', 'scale': '0.4', 'frame': '1'}];
-	this.listEnemiesOnMap = [];
-        this.EnemyAmount = 0;
-
-	this.enemies = this.add.group();
-        this.createNewEnemy(1, this.listEnemies[parseInt(Math.random() * this.listEnemies.length)]);
-	/*Enemy move
-	this.enemies.forEach(function(enemy) {
-                Enemies.prototype.moveOnStep(enemy);
-            });
-
-	var dog_path_l1 = this.add.sprite(BasicGame.convertWidth(400),BasicGame.convertHeight(-30),'dog');
-	var dog_path_l1 = this.add.sprite(BasicGame.convertWidth(400),BasicGame.convertHeight(140),'dog');
-	var dog_path_l1 = this.add.sprite(BasicGame.convertWidth(95),BasicGame.convertHeight(140),'dog');
-	var dog_path_l1 = this.add.sprite(BasicGame.convertWidth(95),BasicGame.convertHeight(225),'dog');
-	var dog_path_l1 = this.add.sprite(BasicGame.convertWidth(270),BasicGame.convertHeight(225),'dog');
-	var dog_path_l1 = this.add.sprite(BasicGame.convertWidth(270),BasicGame.convertHeight(400),'dog');
-	
-
-	var tween = this.add.tween(dog_path_l1).to({ y: BasicGame.convertHeight(140) }, 2000, Phaser.Easing.Linear.None)
-	  .to({ x: BasicGame.convertWidth(95) }, 2000, Phaser.Easing.Linear.None)
-	  .to({ y: BasicGame.convertHeight(225) }, 1000, Phaser.Easing.Linear.None)
-	  .to({ x: BasicGame.convertWidth(270) }, 1000, Phaser.Easing.Linear.None)
-	  .to({ y: BasicGame.convertHeight(500) }, 2000, Phaser.Easing.Linear.None)
-	  .to({ x: BasicGame.convertWidth(1000) }, 2000, Phaser.Easing.Linear.None)
-	  .to({ y: BasicGame.convertHeight(-1000) }, 100, Phaser.Easing.Linear.None)
-	  .to({ x: BasicGame.convertWidth(400) }, 100, Phaser.Easing.Linear.None)
-	  .loop()
-	  .start();
-	*/
-
-
+    },
+    //Guided Positioning functions
+    initializeGuidedPositioningStructures: function()
+    {
         this.bitmap = this.add.graphics(0,0);
 		this.bitmap.lineStyle(1,0xffffff,1);
 		this.bitmap.beginFill();
@@ -130,86 +144,7 @@ BasicGame.Game.prototype =
 		this.rect.beginFill(0xffffff,0.3);
 		this.rect.drawRect(0,0,this.TileSize,this.TileSize);
 		this.rect.position.x = (-100);
-		
-		var money = this.add.sprite(BasicGame.convertWidth(0),BasicGame.convertHeight(0),'counter');
-		money.bringToTop();
-		
-		this.inGameOpt = new InGameOptionsPanel(this);
-		this.add.existing(this.inGameOpt);
-        //paused = false;
-        opt = this.add.sprite(BasicGame.convertWidth(453),BasicGame.convertHeight(5),'opt');
-		opt.inputEnabled = true;
-		opt.bringToTop();
-		opt.events.onInputDown.add(function()
-		{
-			opt.loadTexture('opt_pressed',0);
-		},this);
-		opt.events.onInputUp.add(this.pauseGame,this);
-		BasicGame.optionsPanel = new OptionsPanel(this);
-		this.add.existing(BasicGame.optionsPanel);
-	
-		var longie = this.add.sprite(BasicGame.convertWidth(3),BasicGame.convertHeight(58),'longie'); 
-		var normal = this.add.sprite(BasicGame.convertWidth(3),BasicGame.convertHeight(115),'normal'); 
-        var poopie = this.add.sprite(BasicGame.convertWidth(0),BasicGame.convertHeight(163),'poopie'); 
-        var fartie = this.add.sprite(BasicGame.convertWidth(3),BasicGame.convertHeight(213),'fartie');
-		var robot = this.add.sprite(BasicGame.convertWidth(3),BasicGame.convertHeight(263),'robot');
-		
-        poopie.inputEnabled = true;
-		poopie.events.onInputDown.add(this.drag,{type:"Poopie",prescope: this});
-        poopie.events.onInputUp.add(this.drop,{type:"Poopie",prescope: this});
-
-        longie.inputEnabled = true;
-		longie.events.onInputDown.add(this.drag,{type:"Longie",prescope: this});
-        longie.events.onInputUp.add(this.drop,{type:"Longie",prescope: this});
-
-        normal.inputEnabled = true;
-		normal.events.onInputDown.add(this.drag,{type:"Normal",prescope: this});
-        normal.events.onInputUp.add(this.drop,{type:"Normal",prescope: this});
-
-        fartie.inputEnabled = true;
-		fartie.events.onInputDown.add(this.drag,{type:"Fartie",prescope: this});
-        fartie.events.onInputUp.add(this.drop,{type:"Fartie",prescope: this});
-        
-        robot.inputEnabled = true;
-		robot.events.onInputDown.add(this.drag,{type:"Robot",prescope: this});
-        robot.events.onInputUp.add(this.drop,{type:"Robot",prescope: this});
-
-		//var longieP = this.add.sprite(BasicGame.convertWidth(100),BasicGame.convertHeight(100),'longieP');
-        
-        //this.input.onDown.add(this.positionChicken, this);
-        
-
-        this.map.forbidTile(2,0);
-        this.map.forbidTile(2,1);
-        this.map.forbidTile(2,2);
-        this.map.forbidTile(3,0);
-        this.map.forbidTile(3,1);
-        this.map.forbidTile(21,0);
-        this.map.forbidTile(21,1);
-
-        this.initializeChickenStructure();
-
-/*   
-        this.game.physics.startSystem(Phaser.Physics.Arcade);
-    for(var i = 0;i<20;i++) //Horrible experimental shit
-        for(var j=0;j<15;j++)
-        {
-            this.lagartos[j*20+i] = this.add.sprite(i*40,j*40,"dog");
-            
-            this.lagartos[j*20+i].body = new Object();
-            this.lagartos[j*20+i].body.x=i*40;
-            this.lagartos[j*20+i].body.y=j*40; 
-            this.lagartos[j*20+i].body.bottom=j*40+40 ;
-            this.lagartos[j*20+i].body.i*40+40; 
-            this.qTree.insert(this.lagartos[j*20+i].body);
-        }
-  */         
-	},
-	update: function () 
-    {
-        this.guidePositioning(this.input.mousePointer.x,this.input.mousePointer.y);
-	},
-    //Guided Positioning functions
+    },
     guidePositioning: function(x,y)
     {
         if((this.positionMode == true)&&((x>=128)&&(x<1408)))
@@ -256,6 +191,68 @@ BasicGame.Game.prototype =
             this.chickenLayers[i].z=i;
         }
     },
+    initializeInterface: function()
+    {
+		var money = this.add.sprite(BasicGame.convertWidth(0),BasicGame.convertHeight(0),'counter');
+		money.bringToTop();
+		
+		this.inGameOpt = new InGameOptionsPanel(this);
+        //this.world.add.existing(this.inGameOpt);
+        console.log(this.inGameOpt.z);
+        console.log(this.inGameOpt);
+        this.world.bringToTop(this.inGameOpt);
+		this.add.existing(this.inGameOpt);
+        //paused = false;
+        opt = this.add.sprite(BasicGame.convertWidth(453),BasicGame.convertHeight(5),'opt');
+		opt.inputEnabled = true;
+		opt.bringToTop();
+		opt.events.onInputDown.add(function()
+		{
+			opt.loadTexture('opt_pressed',0);
+		},this);
+		opt.events.onInputUp.add(this.pauseGame,this);
+		BasicGame.optionsPanel = new OptionsPanel(this);
+		this.add.existing(BasicGame.optionsPanel);
+    },
+    buildChickenMenu: function()
+    {
+		var longie = this.add.sprite(BasicGame.convertWidth(3),BasicGame.convertHeight(58),'longie'); 
+		var normal = this.add.sprite(BasicGame.convertWidth(3),BasicGame.convertHeight(115),'normal'); 
+        var poopie = this.add.sprite(BasicGame.convertWidth(0),BasicGame.convertHeight(163),'poopie'); 
+        var fartie = this.add.sprite(BasicGame.convertWidth(3),BasicGame.convertHeight(213),'fartie');
+		var robot = this.add.sprite(BasicGame.convertWidth(3),BasicGame.convertHeight(263),'robot');
+		
+        poopie.inputEnabled = true;
+		poopie.events.onInputDown.add(this.drag,{type:"Poopie",prescope: this});
+        poopie.events.onInputUp.add(this.drop,{type:"Poopie",prescope: this});
+
+        longie.inputEnabled = true;
+		longie.events.onInputDown.add(this.drag,{type:"Longie",prescope: this});
+        longie.events.onInputUp.add(this.drop,{type:"Longie",prescope: this});
+
+        normal.inputEnabled = true;
+		normal.events.onInputDown.add(this.drag,{type:"Normal",prescope: this});
+        normal.events.onInputUp.add(this.drop,{type:"Normal",prescope: this});
+
+        fartie.inputEnabled = true;
+		fartie.events.onInputDown.add(this.drag,{type:"Fartie",prescope: this});
+        fartie.events.onInputUp.add(this.drop,{type:"Fartie",prescope: this});
+        
+        robot.inputEnabled = true;
+		robot.events.onInputDown.add(this.drag,{type:"Robot",prescope: this});
+        robot.events.onInputUp.add(this.drop,{type:"Robot",prescope: this});
+
+    },
+    setupMap: function()
+    {
+        this.map.forbidTile(2,0);
+        this.map.forbidTile(2,1);
+        this.map.forbidTile(2,2);
+        this.map.forbidTile(3,0);
+        this.map.forbidTile(3,1);
+        this.map.forbidTile(21,0);
+        this.map.forbidTile(21,1);
+    },
     //Position Chicken
     positionChicken: function(type)
     {
@@ -297,7 +294,7 @@ BasicGame.Game.prototype =
         }
         this.chickenAmount++;
     },
-	createNewEnemy : function(level, typeEnemy)
+	createNewEnemy : function(level)
 	{
 		var path;
 		if(level === 2) { 
@@ -307,8 +304,33 @@ BasicGame.Game.prototype =
 		} else {
 			path = this.path_lv1;
 		}
-        	this.listEnemiesOnMap[this.EnemyAmount] = new Enemies(path[0].x, path[0].y, typeEnemy.name, typeEnemy.moves, typeEnemy.length, typeEnemy.scale, typeEnemy.frame, this.game);
-		console.log("Create Enemy: "+typeEnemy.name);
+		var typeEnemy = this.listEnemies[parseInt(Math.random() * this.listEnemies.length)];
+        new Enemies(typeEnemy.nome, typeEnemy.moves, typeEnemy.length, typeEnemy.scale, typeEnemy.frame, this.game, path, this.enemies);
+		console.log("Create Enemy: "+typeEnemy.nome);
+	},
+createEmemiesLoop: function(level, infoenemies, infolistEnemies, infogame)
+	{
+		var nb_max_enemies_on_map = 3;
+		var nb_enemies = 0;
+		var path;
+		if(level === 2) { 
+			path = this.path_lv2;
+		} else if (level === 3) { 
+			path = this.path_lv3;
+		} else {
+			path = this.path_lv1;
+		}
+		var enemysBcl = setInterval(function() {
+                if (nb_enemies < nb_max_enemies_on_map) {
+                    var typeEnemy = infolistEnemies[parseInt(Math.random() * infolistEnemies.length)];
+        			new Enemies(typeEnemy.nome, typeEnemy.moves, typeEnemy.length, typeEnemy.scale, typeEnemy.frame, infogame, path, infoenemies);
+					console.log("Create Enemy: "+typeEnemy.nome);
+                } else {
+                    clearTimeout(enemysBcl);
+                }
+                nb_enemies++;
+            }, 1000);
+		
 	},
 	quitGame: function (pointer) 
     {
@@ -320,13 +342,11 @@ BasicGame.Game.prototype =
 		this.state.start('MainMenu');
 
 	},
-	
 	pauseGame: function()
     {
 		opt.loadTexture('opt',0);
 		this.inGameOpt.show();
     },
-
     playGame: function()
     {
 		console.log("LOLO");
@@ -335,18 +355,15 @@ BasicGame.Game.prototype =
         this.inGameOpt.hide();
 		BasicGame.optionsPanel.hide();
     },
-	
 	changeMenu: function()
 	{
 		//this.inGameOpt.hide();
 		BasicGame.optionsPanel.show();
 	},
-	
 	stopMusic: function()
 	{
 		this.music.stop();
 	},
-	
 	startMusic: function()
 	{
 		this.music.play();
