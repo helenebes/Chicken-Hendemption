@@ -76,7 +76,7 @@ BasicGame.Game.prototype =
 				{'nome': 'lagarto', 'moves': [{'type': 'walk down', 'frame': '[0,1,2,1]'}, {'type': 'walk left', 'frame': '[3,4,5,4]'}, {'type': 'walk right', 'frame': '[6,7,8,6]'}, {'type': 'walk up', 'frame': '[9,10,11,10]'}], 'length': '5', 'scale': '1', 'frame': '1'}];
 
 	var level = 1;
-	var releaseTime = 1000;
+	var releaseTime = this.time.now + 1000;
 	var nbEnemyWave = 3;
 	this.path;
 	if(level === 2) { 

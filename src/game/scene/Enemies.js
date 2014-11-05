@@ -53,7 +53,7 @@ Enemies.prototype =
 	},
 
 	moveOnStep: function(enemy) {
-		//console.log("last position:("+enemy.x+","+enemy.y+")");
+		console.log("last position:("+enemy.x+","+enemy.y+")");
 		//console.log("new position:("+enemy.next_positX+","+enemy.next_positY+")");
 		//console.log("angle : "+enemy.angle);
 		enemy.y = enemy.next_positY;
@@ -77,31 +77,34 @@ var Wave = function(level, game, releaseTime, listEnemy, pathToGo, nb_enemies)
 		this.nb_enemies_created = 0;
 		this.releaseTime = releaseTime;
 		this.listEnemy = listEnemy;
-		this.setWave();
-		this.firstMove = true;
+		this.firstEnemyCreate = false;
 }
 Wave.prototype = 
 {
 
 	setWave: function() {
-		while (this.nb_enemies_created != this.nb_enemies) {
-            var typeEnemy = this.listEnemy[parseInt(Math.random() * this.listEnemy.length)];
+		this.firstEnemyCreate = true;
+        	var typeEnemy = this.listEnemy[parseInt(Math.random() * this.listEnemy.length)];
         	new Enemies(typeEnemy.nome, typeEnemy.moves, typeEnemy.length, typeEnemy.scale, typeEnemy.frame, this.game, this.chemin, this.waveEnemy);
-			console.log("Create Enemy: "+typeEnemy.nome);
-			this.nb_enemies_created++;
-		}            
+		console.log("Create Enemy: "+typeEnemy.nome);
+		this.nb_enemies_created++;           
 	},
 	move: function() {
-		if (this.waveEnemy.countDead() === this.nb_enemies) {
-			//enemyToSuppress = this.waveEnemy.getTop();
-			//this.waveEnemy.remove(enemyToSuppress);
-			//enemyToSuppress.kill();
-			this.waveEnemy.destroy();
-			console.log("destruction");
+		var delayBeforeNewEnemy = 500;
+		if (this.game.time.now >= this.releaseTime && this.nb_enemies_created < this.nb_enemies) {
+			console.log("creat new ennemy");
+			this.setWave();
+			this.releaseTime = this.game.time.now + delayBeforeNewEnemy;
 		}
-		this.waveEnemy.forEachAlive(function(ennemy) {
-	      	Enemies.prototype.moveOnStep(ennemy);
-		});
+		if (this.firstEnemyCreate) {
+			if (this.waveEnemy.countDead() === this.nb_enemies) {
+				this.waveEnemy.destroy();
+				console.log("destruction of the wave");
+			}
+			this.waveEnemy.forEachAlive(function(ennemy) {
+		      		Enemies.prototype.moveOnStep(ennemy);
+			});
+		}
 	},
 
 };
