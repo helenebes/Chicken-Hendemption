@@ -40,8 +40,15 @@ BasicGame.Preloader.prototype = {
         // options
         this.load.image('options_window','assets/'+BasicGame.screen+"/options_window.png");
         this.load.image('options_x','assets/'+BasicGame.screen+"/options_x.png");
-        this.load.image('quit_button','assets/'+BasicGame.screen+"/quit_button.png");
-        this.load.image('quit_button_pressed','assets/'+BasicGame.screen+"/quit_button_pressed.png");
+		this.load.spritesheet('quit_button_sheet','assets/'+BasicGame.screen+"/quit_button_sheet.png",398.5, 105);
+		this.load.spritesheet('reset_button_sheet','assets/'+BasicGame.screen+"/reset_button_sheet.png",398.5, 104);
+		this.load.spritesheet('more_opt_sheet','assets/'+BasicGame.screen+"/more_opt_sheet.png",398.5, 104);
+		
+		// main options
+		this.load.image('main_options_window','assets/'+BasicGame.screen+"/main_options_window.png");
+		this.load.image('check_true','assets/'+BasicGame.screen+"/check_true.png");
+		this.load.image('check_false','assets/'+BasicGame.screen+"/check_false.png");
+		this.load.image('arrow','assets/'+BasicGame.screen+"/arrow.png");
         
         // game
         this.load.image('counter','assets/'+BasicGame.screen+"/money_counter.png");
@@ -63,7 +70,8 @@ BasicGame.Preloader.prototype = {
         this.load.image('fartieP','assets/'+BasicGame.screen+"/fartie.png");
         this.load.image('robotP','assets/'+BasicGame.screen+"/robot.png");
 		
-		
+		// songs
+		this.load.audio('chicken_family', ['assets/sounds/ChickenFamily.mp3', 'assets/sounds/ChickenFamily.ogg']);
 		
         this.load.spritesheet('dog','assets/'+BasicGame.screen+"/dog.png", 40, 40, 12);
         this.load.spritesheet('mummy', 'assets/'+BasicGame.screen+"/mummy.png", 37, 45, 18); // width de cada sprite, height de cada sprite, numero de sprites no arquivo

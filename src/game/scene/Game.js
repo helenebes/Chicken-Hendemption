@@ -11,7 +11,8 @@ BasicGame.Game = function (game)
     this.input;		//	the global input manager (you can access this.input.keyboard, this.input.mouse, as well from it)
     this.load;		//	for preloading assets
     this.math;		//	lots of useful common math operations
-    this.sound;		//	the sound manager - add a sound, play one, set-up markers, etc
+    this.music;
+	this.sound;		//	the sound manager - add a sound, play one, set-up markers, etc
     this.stage;		//	the game stage
     this.time;		//	the clock
     this.tweens;	//	the tween manager
@@ -20,8 +21,9 @@ BasicGame.Game = function (game)
     this.physics;	//	the physics manager
     this.rnd;		//	the repeatable random number generator
 
-    this.width = 1440;
-	this.height = 960;
+	this.paused = false;
+	this.inGameOpt;
+	
 	this.MapTileWidth = 20;
 	this.MapTileHeight = 15;
 	this.MapOffset = 128;
@@ -30,6 +32,13 @@ BasicGame.Game = function (game)
     this.positionMode = false;
     
     this.map = new Map();
+
+    this.chickenLayers = [];
+
+    this.qTree = new Phaser.QuadTree(game.physics,0,0,BasicGame.gameWidth,BasicGame.gameHeight,30*15,4,0);
+
+    this.lagartos = [];
+
     //	You can use any of these from any function within this State.
     //	But do consider them as being 'reserved words', i.e. don't create a property for your own game called "world" or you'll over-write the world reference.
 
@@ -56,6 +65,11 @@ BasicGame.Game.prototype =
         map.addTilesetImage('tileset');
         var layer = map.createLayer('layer1');
         layer.resizeWorld();
+		
+		this.music = this.add.audio('chicken_family');
+		this.music.loop = true;
+		this.startMusic();
+		
         //this.cameraOffset = new Phaser.Point(160,0);
         
         //var bg = this.add.sprite(0,0,'lvl1_map');
@@ -109,9 +123,20 @@ BasicGame.Game.prototype =
 		
 		var money = this.add.sprite(BasicGame.convertWidth(0),BasicGame.convertHeight(0),'counter');
 		money.bringToTop();
+		
+		this.inGameOpt = new InGameOptionsPanel(this);
+		this.add.existing(this.inGameOpt);
+        //paused = false;
         opt = this.add.sprite(BasicGame.convertWidth(453),BasicGame.convertHeight(5),'opt');
 		opt.inputEnabled = true;
 		opt.bringToTop();
+		opt.events.onInputDown.add(function()
+		{
+			opt.loadTexture('opt_pressed',0);
+		},this);
+		opt.events.onInputUp.add(this.pauseGame,this);
+		BasicGame.optionsPanel = new OptionsPanel(this);
+		this.add.existing(BasicGame.optionsPanel);
 	
 		var longie = this.add.sprite(BasicGame.convertWidth(3),BasicGame.convertHeight(58),'longie'); 
 		var normal = this.add.sprite(BasicGame.convertWidth(3),BasicGame.convertHeight(115),'normal'); 
@@ -143,8 +168,6 @@ BasicGame.Game.prototype =
         
         //this.input.onDown.add(this.positionChicken, this);
         
-        this.chickens = [];
-        this.chickenAmount = 0;
 
         this.map.forbidTile(2,0);
         this.map.forbidTile(2,1);
@@ -153,7 +176,24 @@ BasicGame.Game.prototype =
         this.map.forbidTile(3,1);
         this.map.forbidTile(21,0);
         this.map.forbidTile(21,1);
-           
+
+        this.initializeChickenStructure();
+
+/*   
+        this.game.physics.startSystem(Phaser.Physics.Arcade);
+    for(var i = 0;i<20;i++) //Horrible experimental shit
+        for(var j=0;j<15;j++)
+        {
+            this.lagartos[j*20+i] = this.add.sprite(i*40,j*40,"dog");
+            
+            this.lagartos[j*20+i].body = new Object();
+            this.lagartos[j*20+i].body.x=i*40;
+            this.lagartos[j*20+i].body.y=j*40; 
+            this.lagartos[j*20+i].body.bottom=j*40+40 ;
+            this.lagartos[j*20+i].body.i*40+40; 
+            this.qTree.insert(this.lagartos[j*20+i].body);
+        }
+  */         
 	},
 	update: function () 
     {
@@ -202,6 +242,19 @@ BasicGame.Game.prototype =
     {
        this.prescope.positionMode = false;
        this.prescope.positionChicken(this.type);
+    },
+    initializeChickenStructure: function()
+    {
+        //Declare the chicken array, and the initial amount of chickens
+        this.chickens = [];
+        this.chickenAmount = 0;
+
+        //Create the layer groups for the chickens
+        for(var i=0;i<15;i++)
+        {
+            this.chickenLayers[i] = this.add.group();
+            this.chickenLayers[i].z=i;
+        }
     },
     //Position Chicken
     positionChicken: function(type)
@@ -258,8 +311,7 @@ BasicGame.Game.prototype =
         new Enemies(typeEnemy.nome, typeEnemy.moves, typeEnemy.length, typeEnemy.scale, typeEnemy.frame, this.game, path, this.enemies);
 		console.log("Create Enemy: "+typeEnemy.nome);
 	},
-
-	createEmemiesLoop: function(level, infoenemies, infolistEnemies, infogame)
+createEmemiesLoop: function(level, infoenemies, infolistEnemies, infogame)
 	{
 		var nb_max_enemies_on_map = 3;
 		var nb_enemies = 0;
@@ -292,6 +344,37 @@ BasicGame.Game.prototype =
 		//	Then let's go back to the main menu.
 		this.state.start('MainMenu');
 
+	},
+	
+	pauseGame: function()
+    {
+		opt.loadTexture('opt',0);
+		this.inGameOpt.show();
+    },
+
+    playGame: function()
+    {
+		console.log("LOLO");
+        // Hide panel
+        this.paused = false;
+        this.inGameOpt.hide();
+		BasicGame.optionsPanel.hide();
+    },
+	
+	changeMenu: function()
+	{
+		//this.inGameOpt.hide();
+		BasicGame.optionsPanel.show();
+	},
+	
+	stopMusic: function()
+	{
+		this.music.stop();
+	},
+	
+	startMusic: function()
+	{
+		this.music.play();
 	}
 
 };
