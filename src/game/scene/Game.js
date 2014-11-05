@@ -35,12 +35,10 @@ BasicGame.Game = function (game)
 
     this.chickenLayers = [];
 
-    this.qTree = new Phaser.QuadTree(game.physics,0,0,BasicGame.gameWidth,BasicGame.gameHeight,30*15,4,0);
+    var opt; //Options button
 
-    this.lagartos = [];
-
-    //	You can use any of these from any function within this State.
-    //	But do consider them as being 'reserved words', i.e. don't create a property for your own game called "world" or you'll over-write the world reference.
+    //Experimental
+    //this.qTree = new Phaser.QuadTree(game.physics,0,0,BasicGame.gameWidth,BasicGame.gameHeight,30*15,4,0);
 
 
     this.path_lv1 = [{x: BasicGame.convertWidth(400),y: BasicGame.convertHeight(0)}, {x: BasicGame.convertWidth(400),y: BasicGame.convertHeight(0)}, {x: BasicGame.convertWidth(400),y: BasicGame.convertHeight(25)}, {x: BasicGame.convertWidth(400),y: BasicGame.convertHeight(50)}, 
@@ -61,19 +59,18 @@ BasicGame.Game.prototype =
     //Create and Update functions
 	create: function () 
     {     
-        var bg = this.add.sprite(0,0,'grass');
-        var map = this.add.tilemap('test_lvl');
-        map.addTilesetImage('tileset');
-        var layer = map.createLayer('layer1');
-        layer.resizeWorld();
-		
+        this.loadLevel();
+
 		this.music = this.add.audio('chicken_family');
 		this.music.loop = true;
 		this.startMusic();
-		
-        //this.cameraOffset = new Phaser.Point(160,0);
+        this.initializeInterface();
+        this.buildChickenMenu();
+        this.initializeGuidedPositioningStructures();
+        this.initializeChickenStructure();
+        this.setupMap();
         
-        //var bg = this.add.sprite(0,0,'lvl1_map');
+        //Lets keep this code clean and understandable
 	
 	this.listEnemies = [{'name': 'dog', 'moves': [{'type': 'walk', 'frame': '[3,4,5]'}], 'length': '5', 'scale': '4', 'frame': '1'}, 
 				{'name': 'mummy', 'moves': [{'type': 'walk', 'frame': '[]'}], 'length': '10', 'scale': '4', 'frame': '5'},
@@ -109,6 +106,23 @@ BasicGame.Game.prototype =
 	*/
 
 
+
+	},
+	update: function () 
+    {
+        this.guidePositioning(this.input.mousePointer.x,this.input.mousePointer.y);
+	},
+    loadLevel: function()
+    {
+        var bg = this.add.sprite(0,0,'grass');
+        var map = this.add.tilemap('test_lvl');
+        map.addTilesetImage('tileset');
+        var layer = map.createLayer('layer1');
+        layer.resizeWorld();
+    },
+    //Guided Positioning functions
+    initializeGuidedPositioningStructures: function()
+    {
         this.bitmap = this.add.graphics(0,0);
 		this.bitmap.lineStyle(1,0xffffff,1);
 		this.bitmap.beginFill();
@@ -130,86 +144,7 @@ BasicGame.Game.prototype =
 		this.rect.beginFill(0xffffff,0.3);
 		this.rect.drawRect(0,0,this.TileSize,this.TileSize);
 		this.rect.position.x = (-100);
-		
-		var money = this.add.sprite(BasicGame.convertWidth(0),BasicGame.convertHeight(0),'counter');
-		money.bringToTop();
-		
-		this.inGameOpt = new InGameOptionsPanel(this);
-		this.add.existing(this.inGameOpt);
-        //paused = false;
-        opt = this.add.sprite(BasicGame.convertWidth(453),BasicGame.convertHeight(5),'opt');
-		opt.inputEnabled = true;
-		opt.bringToTop();
-		opt.events.onInputDown.add(function()
-		{
-			opt.loadTexture('opt_pressed',0);
-		},this);
-		opt.events.onInputUp.add(this.pauseGame,this);
-		BasicGame.optionsPanel = new OptionsPanel(this);
-		this.add.existing(BasicGame.optionsPanel);
-	
-		var longie = this.add.sprite(BasicGame.convertWidth(3),BasicGame.convertHeight(58),'longie'); 
-		var normal = this.add.sprite(BasicGame.convertWidth(3),BasicGame.convertHeight(115),'normal'); 
-        var poopie = this.add.sprite(BasicGame.convertWidth(0),BasicGame.convertHeight(163),'poopie'); 
-        var fartie = this.add.sprite(BasicGame.convertWidth(3),BasicGame.convertHeight(213),'fartie');
-		var robot = this.add.sprite(BasicGame.convertWidth(3),BasicGame.convertHeight(263),'robot');
-		
-        poopie.inputEnabled = true;
-		poopie.events.onInputDown.add(this.drag,{type:"Poopie",prescope: this});
-        poopie.events.onInputUp.add(this.drop,{type:"Poopie",prescope: this});
-
-        longie.inputEnabled = true;
-		longie.events.onInputDown.add(this.drag,{type:"Longie",prescope: this});
-        longie.events.onInputUp.add(this.drop,{type:"Longie",prescope: this});
-
-        normal.inputEnabled = true;
-		normal.events.onInputDown.add(this.drag,{type:"Normal",prescope: this});
-        normal.events.onInputUp.add(this.drop,{type:"Normal",prescope: this});
-
-        fartie.inputEnabled = true;
-		fartie.events.onInputDown.add(this.drag,{type:"Fartie",prescope: this});
-        fartie.events.onInputUp.add(this.drop,{type:"Fartie",prescope: this});
-        
-        robot.inputEnabled = true;
-		robot.events.onInputDown.add(this.drag,{type:"Robot",prescope: this});
-        robot.events.onInputUp.add(this.drop,{type:"Robot",prescope: this});
-
-		//var longieP = this.add.sprite(BasicGame.convertWidth(100),BasicGame.convertHeight(100),'longieP');
-        
-        //this.input.onDown.add(this.positionChicken, this);
-        
-
-        this.map.forbidTile(2,0);
-        this.map.forbidTile(2,1);
-        this.map.forbidTile(2,2);
-        this.map.forbidTile(3,0);
-        this.map.forbidTile(3,1);
-        this.map.forbidTile(21,0);
-        this.map.forbidTile(21,1);
-
-        this.initializeChickenStructure();
-
-/*   
-        this.game.physics.startSystem(Phaser.Physics.Arcade);
-    for(var i = 0;i<20;i++) //Horrible experimental shit
-        for(var j=0;j<15;j++)
-        {
-            this.lagartos[j*20+i] = this.add.sprite(i*40,j*40,"dog");
-            
-            this.lagartos[j*20+i].body = new Object();
-            this.lagartos[j*20+i].body.x=i*40;
-            this.lagartos[j*20+i].body.y=j*40; 
-            this.lagartos[j*20+i].body.bottom=j*40+40 ;
-            this.lagartos[j*20+i].body.i*40+40; 
-            this.qTree.insert(this.lagartos[j*20+i].body);
-        }
-  */         
-	},
-	update: function () 
-    {
-        this.guidePositioning(this.input.mousePointer.x,this.input.mousePointer.y);
-	},
-    //Guided Positioning functions
+    },
     guidePositioning: function(x,y)
     {
         if((this.positionMode == true)&&((x>=128)&&(x<1408)))
@@ -255,6 +190,68 @@ BasicGame.Game.prototype =
             this.chickenLayers[i] = this.add.group();
             this.chickenLayers[i].z=i;
         }
+    },
+    initializeInterface: function()
+    {
+		var money = this.add.sprite(BasicGame.convertWidth(0),BasicGame.convertHeight(0),'counter');
+		money.bringToTop();
+		
+		this.inGameOpt = new InGameOptionsPanel(this);
+        //this.world.add.existing(this.inGameOpt);
+        console.log(this.inGameOpt.z);
+        console.log(this.inGameOpt);
+        this.world.bringToTop(this.inGameOpt);
+		this.add.existing(this.inGameOpt);
+        //paused = false;
+        opt = this.add.sprite(BasicGame.convertWidth(453),BasicGame.convertHeight(5),'opt');
+		opt.inputEnabled = true;
+		opt.bringToTop();
+		opt.events.onInputDown.add(function()
+		{
+			opt.loadTexture('opt_pressed',0);
+		},this);
+		opt.events.onInputUp.add(this.pauseGame,this);
+		BasicGame.optionsPanel = new OptionsPanel(this);
+		this.add.existing(BasicGame.optionsPanel);
+    },
+    buildChickenMenu: function()
+    {
+		var longie = this.add.sprite(BasicGame.convertWidth(3),BasicGame.convertHeight(58),'longie'); 
+		var normal = this.add.sprite(BasicGame.convertWidth(3),BasicGame.convertHeight(115),'normal'); 
+        var poopie = this.add.sprite(BasicGame.convertWidth(0),BasicGame.convertHeight(163),'poopie'); 
+        var fartie = this.add.sprite(BasicGame.convertWidth(3),BasicGame.convertHeight(213),'fartie');
+		var robot = this.add.sprite(BasicGame.convertWidth(3),BasicGame.convertHeight(263),'robot');
+		
+        poopie.inputEnabled = true;
+		poopie.events.onInputDown.add(this.drag,{type:"Poopie",prescope: this});
+        poopie.events.onInputUp.add(this.drop,{type:"Poopie",prescope: this});
+
+        longie.inputEnabled = true;
+		longie.events.onInputDown.add(this.drag,{type:"Longie",prescope: this});
+        longie.events.onInputUp.add(this.drop,{type:"Longie",prescope: this});
+
+        normal.inputEnabled = true;
+		normal.events.onInputDown.add(this.drag,{type:"Normal",prescope: this});
+        normal.events.onInputUp.add(this.drop,{type:"Normal",prescope: this});
+
+        fartie.inputEnabled = true;
+		fartie.events.onInputDown.add(this.drag,{type:"Fartie",prescope: this});
+        fartie.events.onInputUp.add(this.drop,{type:"Fartie",prescope: this});
+        
+        robot.inputEnabled = true;
+		robot.events.onInputDown.add(this.drag,{type:"Robot",prescope: this});
+        robot.events.onInputUp.add(this.drop,{type:"Robot",prescope: this});
+
+    },
+    setupMap: function()
+    {
+        this.map.forbidTile(2,0);
+        this.map.forbidTile(2,1);
+        this.map.forbidTile(2,2);
+        this.map.forbidTile(3,0);
+        this.map.forbidTile(3,1);
+        this.map.forbidTile(21,0);
+        this.map.forbidTile(21,1);
     },
     //Position Chicken
     positionChicken: function(type)
@@ -320,13 +317,11 @@ BasicGame.Game.prototype =
 		this.state.start('MainMenu');
 
 	},
-	
 	pauseGame: function()
     {
 		opt.loadTexture('opt',0);
 		this.inGameOpt.show();
     },
-
     playGame: function()
     {
 		console.log("LOLO");
@@ -335,18 +330,15 @@ BasicGame.Game.prototype =
         this.inGameOpt.hide();
 		BasicGame.optionsPanel.hide();
     },
-	
 	changeMenu: function()
 	{
 		//this.inGameOpt.hide();
 		BasicGame.optionsPanel.show();
 	},
-	
 	stopMusic: function()
 	{
 		this.music.stop();
 	},
-	
 	startMusic: function()
 	{
 		this.music.play();
