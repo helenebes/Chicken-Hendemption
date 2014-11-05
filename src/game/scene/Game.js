@@ -24,8 +24,6 @@ BasicGame.Game = function (game)
 	this.paused = false;
 	this.inGameOpt;
 	
-    this.width = 1440;
-	this.height = 960;
 	this.MapTileWidth = 20;
 	this.MapTileHeight = 15;
 	this.MapOffset = 128;
@@ -34,6 +32,13 @@ BasicGame.Game = function (game)
     this.positionMode = false;
     
     this.map = new Map();
+
+    this.chickenLayers = [];
+
+    this.qTree = new Phaser.QuadTree(game.physics,0,0,BasicGame.gameWidth,BasicGame.gameHeight,30*15,4,0);
+
+    this.lagartos = [];
+
     //	You can use any of these from any function within this State.
     //	But do consider them as being 'reserved words', i.e. don't create a property for your own game called "world" or you'll over-write the world reference.
 
@@ -173,8 +178,6 @@ BasicGame.Game.prototype =
         
         //this.input.onDown.add(this.positionChicken, this);
         
-        this.chickens = [];
-        this.chickenAmount = 0;
 
         this.map.forbidTile(2,0);
         this.map.forbidTile(2,1);
@@ -183,11 +186,27 @@ BasicGame.Game.prototype =
         this.map.forbidTile(3,1);
         this.map.forbidTile(21,0);
         this.map.forbidTile(21,1);
-           
+
+        this.initializeChickenStructure();
+
+/*   
+        this.game.physics.startSystem(Phaser.Physics.Arcade);
+    for(var i = 0;i<20;i++) //Horrible experimental shit
+        for(var j=0;j<15;j++)
+        {
+            this.lagartos[j*20+i] = this.add.sprite(i*40,j*40,"dog");
+            
+            this.lagartos[j*20+i].body = new Object();
+            this.lagartos[j*20+i].body.x=i*40;
+            this.lagartos[j*20+i].body.y=j*40; 
+            this.lagartos[j*20+i].body.bottom=j*40+40 ;
+            this.lagartos[j*20+i].body.i*40+40; 
+            this.qTree.insert(this.lagartos[j*20+i].body);
+        }
+  */         
 	},
 	update: function () 
     {
-	
         this.guidePositioning(this.input.mousePointer.x,this.input.mousePointer.y);
 	},
     //Guided Positioning functions
@@ -223,6 +242,19 @@ BasicGame.Game.prototype =
     {
        this.prescope.positionMode = false;
        this.prescope.positionChicken(this.type);
+    },
+    initializeChickenStructure: function()
+    {
+        //Declare the chicken array, and the initial amount of chickens
+        this.chickens = [];
+        this.chickenAmount = 0;
+
+        //Create the layer groups for the chickens
+        for(var i=0;i<15;i++)
+        {
+            this.chickenLayers[i] = this.add.group();
+            this.chickenLayers[i].z=i;
+        }
     },
     //Position Chicken
     positionChicken: function(type)
@@ -278,7 +310,6 @@ BasicGame.Game.prototype =
         	this.listEnemiesOnMap[this.EnemyAmount] = new Enemies(path[0].x, path[0].y, typeEnemy.name, typeEnemy.moves, typeEnemy.length, typeEnemy.scale, typeEnemy.frame, this.game);
 		console.log("Create Enemy: "+typeEnemy.name);
 	},
-
 	quitGame: function (pointer) 
     {
 
