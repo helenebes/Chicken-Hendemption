@@ -53,7 +53,10 @@ BasicGame.Game.prototype =
 
 		this.music = this.add.audio('chicken_family');
 		this.music.loop = true;
-		this.startMusic();
+        if(BasicGame.music)
+        {
+            this.startMusic();
+        }
         this.initializeInterface();
         this.buildChickenMenu();
         this.initializeGuidedPositioningStructures();
@@ -256,7 +259,7 @@ BasicGame.Game.prototype =
 
 		//	Here you should destroy anything you no longer need.
 		//	Stop music, delete sprites, purge caches, free resources, all that good stuff.
-
+        this.stopMusic();
 		//	Then let's go back to the main menu.
 		this.state.start('MainMenu');
 
