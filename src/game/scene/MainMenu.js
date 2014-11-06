@@ -27,8 +27,11 @@ BasicGame.MainMenu.prototype =
         
         this.music = this.add.audio('menu_music');
 		this.music.loop = true;
-		this.startMusic();
-            
+        if(BasicGame.music)
+        {
+            this.startMusic();
+        }
+        
 		this.add.sprite(0,0,'menuBg');
         
         lvl1 = this.add.sprite(BasicGame.convertWidth(100),BasicGame.convertHeight(140),'lvl1');
@@ -229,7 +232,7 @@ BasicGame.MainMenu.prototype =
 
 	startGame: function (pointer) 
     {
-
+        this.stopMusic();
         var dad = this.state;
         setTimeout(function()
         {
