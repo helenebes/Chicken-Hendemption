@@ -51,12 +51,7 @@ BasicGame.Game.prototype =
     {     
         this.loadLevel();
 
-		this.music = this.add.audio('chicken_family');
-		this.music.loop = true;
-        if(BasicGame.music)
-        {
-            this.startMusic();
-        }
+        this.startMusic();
         this.initializeInterface();
         this.buildChickenMenu();
         this.initializeGuidedPositioningStructures();
@@ -298,7 +293,12 @@ BasicGame.Game.prototype =
 	},
 	startMusic: function()
 	{
-		this.music.play();
+		this.music = this.add.audio('chicken_family');
+		this.music.loop = true;
+        if(BasicGame.music)
+        {
+            this.music.play();
+        }
 	}
 
 };
