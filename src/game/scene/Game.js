@@ -30,6 +30,7 @@ BasicGame.Game = function (game)
 	this.TileSize = 64;
 
     this.positionMode = false;
+    this.pendingMenu = false;
     
     this.map = new Map();
 
@@ -303,17 +304,25 @@ BasicGame.Game.prototype =
     },
     playGame: function()
     {
-		console.log("LOLO");
-        // Hide panel
-        this.paused = false;
-        this.inGameOpt.hide();
-		BasicGame.optionsPanel.hide();
+        BasicGame.optionsPanel.hide();
+        if(this.pendingMenu)
+        {
+            this.pauseGame();
+            this.pendingMenu = false;
+        }
+        else
+        {
+            // Hide panel
+            this.paused = false;
+            this.inGameOpt.hide();
+        }
     },
 	changeMenu: function()
 	{
 		this.inGameOpt.hide();
 		BasicGame.optionsPanel.show();
         this.world.bringToTop(BasicGame.optionsPanel);
+        this.pendingMenu = true;
 	},
 	stopMusic: function()
 	{
