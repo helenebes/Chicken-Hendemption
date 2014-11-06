@@ -1,13 +1,13 @@
-var Chicken = function (Xtile,Ytile,Index,game)
+var Chicken = function (Xtile,Ytile,Index,gameContext)
 {
     //A abordagem foi mudada para this.variavel, pois precisamos de uma instância de cada um destes por objeto, a var é a mesma para toda a "classe"
     this.index = Index;
-    this.game = game;
+    this.gameContext = gameContext;
     this.x = Xtile;
     this.y = Ytile;
-    this.sprite = game.add.sprite((Xtile*64),((Ytile*64+5)),'normalP');
+    this.sprite = gameContext.add.sprite((Xtile*64),((Ytile*64+5)),'normalP');
     //console.log(this);
-    this.rangeCircle = game.add.graphics(0,0);
+    this.rangeSprite = gameContext.add.graphics(0,0);
     this.range = 64;
 
     this.setSprite();
@@ -20,21 +20,33 @@ Chicken.prototype =
     {
         console.log("Chicken attacked "+enemy);
     },
+    detectEnemies: function()
+    {
+        for(var i=0;i<this.gameContext.game.enemies.length;i++)
+        {
+            console.log(this.gameContext.game.enemies[i].x);
+            if(this.rangeCircle.contains(this.gameContext.game.enemies[i].enemy.x,this.gameContext.game.enemies[i].enemy.y))
+            {
+                console.log("Found an enemy"+this.gameContext.game.enemies[i]);
+            }
+        }
+    },
     setSprite: function()
     {
         this.sprite.inputEnabled = true;
-        this.sprite.events.onInputDown.add(this.print,this);
+        this.sprite.events.onInputDown.add(this.detectEnemies,this);
         this.sprite.events.onInputOver.add(this.showRange,this);
         this.sprite.events.onInputOut.add(this.cleanRange,this);
-        this.game.chickenLayers[this.y].add(this.sprite);
+        this.gameContext.chickenLayers[this.y].add(this.sprite);
     },
     setRange: function()
     {
-        this.rangeCircle.lineStyle(2,0xffffff,1);
-        this.rangeCircle.beginFill(0xffffff,0.15);
-        this.rangeCircle.drawCircle(0,0,this.range);
-        this.rangeCircle.position.x = (this.x*64+32);
-        this.rangeCircle.position.y = (this.y*64+32);
+        this.rangeSprite.lineStyle(2,0xffffff,1);
+        this.rangeSprite.beginFill(0xffffff,0.15);
+        this.rangeSprite.drawCircle(0,0,this.range);
+        this.rangeSprite.position.x = (this.x*64+32);
+        this.rangeSprite.position.y = (this.y*64+32);
+        this.rangeCircle = new Phaser.Circle(this.x*64+32,this.y*64+32,2*this.range);
     },
     print: function()
     {
@@ -45,26 +57,26 @@ Chicken.prototype =
     },
     showRange: function()
     {
-          this.rangeCircle.alpha = 1;
+          this.rangeSprite.alpha = 1;
     },
     cleanRange: function()
     {
-          this.rangeCircle.alpha = 0;
+          this.rangeSprite.alpha = 0;
     }
 
 };
 
-var Longie = function (Xtile,Ytile,Index,game)
+var Longie = function (Xtile,Ytile,Index,gameContext)
 {
     this.index = Index;
-    this.game = game;
+    this.gameContext = gameContext;
     this.x = Xtile;
     this.y = Ytile;
     this.range = 3*64;
 
-    this.sprite = game.add.sprite(Xtile*64,(Ytile*64-31),'longieP');
+    this.sprite = gameContext.add.sprite(Xtile*64,(Ytile*64-31),'longieP');
 
-    this.rangeCircle = game.add.graphics(0,0);
+    this.rangeSprite = gameContext.add.graphics(0,0);
 
     this.setSprite();
     this.setRange();
@@ -76,16 +88,16 @@ Longie.prototype.print = function()
     console.log("Longie is special");
 };
 
-var Poopie = function (Xtile,Ytile,Index,game)
+var Poopie = function (Xtile,Ytile,Index,gameContext)
 {
     this.index = Index;
-    this.game = game;
+    this.gameContext = gameContext;
     this.x = Xtile;
     this.y = Ytile;
     this.range = 128;
 
-    this.sprite = game.add.sprite(Xtile*64-8,(Ytile*64+15),'poopieP');
-    this.rangeCircle = game.add.graphics(0,0);
+    this.sprite = gameContext.add.sprite(Xtile*64-8,(Ytile*64+15),'poopieP');
+    this.rangeSprite = gameContext.add.graphics(0,0);
 
     this.setSprite();
     this.setRange();
@@ -97,16 +109,16 @@ Poopie.prototype.print = function()
     console.log("Poopie is special");
 };
 
-var Fartie = function (Xtile,Ytile,Index,game)
+var Fartie = function (Xtile,Ytile,Index,gameContext)
 {
     this.index = Index;
-    this.game = game;
+    this.gameContext = gameContext;
     this.x = Xtile;
     this.y = Ytile;
     this.range = 64;
 
-    this.sprite = game.add.sprite(Xtile*64,(Ytile*64-8),'fartieP');
-    this.rangeCircle = game.add.graphics(0,0);
+    this.sprite = gameContext.add.sprite(Xtile*64,(Ytile*64-8),'fartieP');
+    this.rangeSprite = gameContext.add.graphics(0,0);
 
     this.setSprite();
     this.setRange();
@@ -118,16 +130,16 @@ Fartie.prototype.print = function()
     console.log("Fartie is special");
 };
 
-var Robot = function (Xtile,Ytile,Index,game)
+var Robot = function (Xtile,Ytile,Index,gameContext)
 {
     this.index = Index;
-    this.game = game;
+    this.gameContext = gameContext;
     this.x = Xtile;
     this.y = Ytile;
     this.range = 64;
 
-    this.sprite = game.add.sprite(Xtile*64-8,(Ytile*64-14),'robotP');
-    this.rangeCircle = game.add.graphics(0,0);
+    this.sprite = gameContext.add.sprite(Xtile*64-8,(Ytile*64-14),'robotP');
+    this.rangeSprite = gameContext.add.graphics(0,0);
 
     this.setSprite();
     this.setRange();
