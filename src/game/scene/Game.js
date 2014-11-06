@@ -30,6 +30,7 @@ BasicGame.Game = function (game)
 	this.TileSize = 64;
 
     this.positionMode = false;
+    this.pendingMenu = false;
     
     this.map = new Map();
 
@@ -157,11 +158,7 @@ BasicGame.Game.prototype =
 		money.bringToTop();
 		
 		this.inGameOpt = new InGameOptionsPanel(this);
-        //this.world.add.existing(this.inGameOpt);
-        console.log(this.inGameOpt.z);
-        console.log(this.inGameOpt);
-        this.world.bringToTop(this.inGameOpt);
-		this.add.existing(this.inGameOpt);
+		this.game.add.existing(this.inGameOpt);
         //paused = false;
         opt = this.add.sprite(BasicGame.convertWidth(453),BasicGame.convertHeight(5),'opt');
 		opt.inputEnabled = true;
@@ -171,13 +168,14 @@ BasicGame.Game.prototype =
 			opt.loadTexture('opt_pressed',0);
 		},this);
 		opt.events.onInputUp.add(this.pauseGame,this);
+        BasicGame.optionsPanel.game = this.game;
 		BasicGame.optionsPanel = new OptionsPanel(this);
-		this.add.existing(BasicGame.optionsPanel);
+		this.game.add.existing(BasicGame.optionsPanel);
     },
     buildChickenMenu: function()
     {
-		var longie = this.add.sprite(BasicGame.convertWidth(3),BasicGame.convertHeight(58),'longie'); 
-		var normal = this.add.sprite(BasicGame.convertWidth(3),BasicGame.convertHeight(115),'normal'); 
+		var normal = this.add.sprite(BasicGame.convertWidth(3),BasicGame.convertHeight(60),'normal'); 
+		var longie = this.add.sprite(BasicGame.convertWidth(3),BasicGame.convertHeight(105),'longie'); 
         var poopie = this.add.sprite(BasicGame.convertWidth(0),BasicGame.convertHeight(163),'poopie'); 
         var fartie = this.add.sprite(BasicGame.convertWidth(3),BasicGame.convertHeight(213),'fartie');
 		var robot = this.add.sprite(BasicGame.convertWidth(3),BasicGame.convertHeight(263),'robot');
@@ -268,19 +266,29 @@ BasicGame.Game.prototype =
     {
 		opt.loadTexture('opt',0);
 		this.inGameOpt.show();
+        this.world.bringToTop(this.inGameOpt);
     },
     playGame: function()
     {
-		console.log("LOLO");
-        // Hide panel
-        this.paused = false;
-        this.inGameOpt.hide();
-		BasicGame.optionsPanel.hide();
+        BasicGame.optionsPanel.hide();
+        if(this.pendingMenu)
+        {
+            this.pauseGame();
+            this.pendingMenu = false;
+        }
+        else
+        {
+            // Hide panel
+            this.paused = false;
+            this.inGameOpt.hide();
+        }
     },
 	changeMenu: function()
 	{
-		//this.inGameOpt.hide();
+		this.inGameOpt.hide();
 		BasicGame.optionsPanel.show();
+        this.world.bringToTop(BasicGame.optionsPanel);
+        this.pendingMenu = true;
 	},
 	stopMusic: function()
 	{
