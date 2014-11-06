@@ -44,6 +44,16 @@ var OptionsPanel = function(game, parent)
 	},this);
 	
 	this.adjustMusicVolume = this.game.add.sprite(-40,120, 'arrow');
+    this.musicSlider = new Phaser.Rectangle(-195,120,372,58);
+    this.adjustMusicVolume.inputEnabled = true;
+    this.adjustMusicVolume.input.enableDrag(true);
+    this.adjustMusicVolume.input.boundsRect = this.musicSlider;
+    this.adjustMusicVolume.events.onInputUp.add(function()
+    {
+        BasicGame.musicVolume = (this.adjustMusicVolume.position.x + 195)/333;
+        console.log("Music Volume: "+BasicGame.musicVolume);
+    },this);
+
 	this.add(this.adjustMusicVolume);
 	
     if(BasicGame.sound)
@@ -68,7 +78,16 @@ var OptionsPanel = function(game, parent)
 		}
 	},this);
 	
-	this.adjustSoundVolume = this.game.add.sprite(-40,290, 'arrow');
+	this.adjustSoundVolume = this.game.add.sprite(-40,284, 'arrow');
+    this.soundSlider = new Phaser.Rectangle(-195,284,372,58);
+    this.adjustSoundVolume.inputEnabled = true;
+    this.adjustSoundVolume.input.enableDrag(true);
+    this.adjustSoundVolume.input.boundsRect = this.soundSlider;
+    this.adjustSoundVolume.events.onInputUp.add(function()
+    {
+        BasicGame.soundVolume = (this.adjustSoundVolume.position.x + 195)/333;
+        console.log("Sound Volume: "+BasicGame.soundVolume);
+    },this);
 	this.add(this.adjustSoundVolume);
 
 	// Place it out of bounds
