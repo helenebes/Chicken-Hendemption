@@ -117,41 +117,43 @@ Wave.prototype =
 			this.releaseTime = this.game.time.now + delayBeforeNewEnemy;
 		}
 		if (this.firstEnemyCreate) {
-			if (this.game.time.now > this.lastMove + 2000) {
+			if (this.game.time.now > this.lastMove + 500) {
 				this.lastMove = this.game.time.now;
 				this.waveEnemy.forEachAlive(function(enemy) {
-							if (!enemy.toTheEnd) {
-								//console.log("last position:("+enemy.x+","+enemy.y+")");
-								//console.log("new position:("+enemy.next_positX+","+enemy.next_positY+")");
-								//console.log("angle : "+enemy.angle);
-								enemy.y = enemy.next_positY + 30;
-								enemy.x = enemy.next_positX;
-
-								if (enemy.nextTile < enemy.path.length - 1) {
-									enemy.nextTile++;
-									if (enemy.nextTile < 9 || enemy.nextTile > 35 || (enemy.nextTile > 22 && enemy.nextTile < 25)){
-										enemy.next_positX = enemy.path[enemy.nextTile].x * 64 + 30;
-										enemy.next_positY = enemy.path[enemy.nextTile].y * 64;
-									} else {
-										enemy.next_positX = enemy.path[enemy.nextTile].x * 64;
-										enemy.next_positY = enemy.path[enemy.nextTile].y * 64 + 30;
-									}
-									// Checking if there is a change of direction left/right
-									if (enemy.next_positY/64 > enemy.y) {
-										enemy.angle = 0;
-									} else if (enemy.next_positY/64 < enemy.y) {
-										enemy.angle = 180;
-									} 
-									// Checking if there is a change of direction up/down
-									if (enemy.next_positX/64 > enemy.x) {
-										enemy.angle = -90;
-									} else if (enemy.next_positX/64 < enemy.x) {
-										enemy.angle = 90;
-									}
-								} else {
-									enemy.toTheEnd = true;
-								}
+					if (!enemy.toTheEnd) {
+						//console.log("last position:("+enemy.x+","+enemy.y+")");
+						//console.log("new position:("+enemy.next_positX+","+enemy.next_positY+")");
+						//console.log("angle : "+enemy.angle);
+						enemy.y = enemy.next_positY;
+						enemy.x = enemy.next_positX;
+						if (enemy.nextTile < enemy.path.length - 1) {
+							enemy.nextTile++;						
+							if (enemy.nextTile < 7 || enemy.nextTile > 32 || (enemy.nextTile > 20 && enemy.nextTile < 25)){
+								enemy.next_positX = enemy.path[enemy.nextTile].x * 64 + 30;
+								enemy.next_positY = enemy.path[enemy.nextTile].y * 64;
+							} else if (enemy.nextTile === 25){
+								enemy.next_positX = enemy.path[enemy.nextTile].x * 64 + 30;
+								enemy.next_positY = enemy.path[enemy.nextTile].y * 64 - 30;
+							} else {
+								enemy.next_positX = enemy.path[enemy.nextTile].x * 64;
+								enemy.next_positY = enemy.path[enemy.nextTile].y * 64 - 30;
 							}
+							// Checking if there is a change of direction left/right
+							if (enemy.next_positY/64 > enemy.y) {
+								enemy.angle = 0;
+							} else if (enemy.next_positY/64 < enemy.y) {
+								enemy.angle = 180;
+							} 
+							// Checking if there is a change of direction up/down
+							if (enemy.next_positX/64 > enemy.x) {
+								enemy.angle = -90;
+							} else if (enemy.next_positX/64 < enemy.x) {
+								enemy.angle = 90;
+							}
+						} else {
+							enemy.toTheEnd = true;
+						}
+					}
 				});
 			}
 		}

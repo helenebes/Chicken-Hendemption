@@ -19,11 +19,11 @@ Level.prototype =
 		{
 			case 1:
 				console.log("level 1");
-				this.path = [{x: 18,y: 0}, {x: 18,y: 1}, {x: 18,y: 2}, {x: 18,y: 3}, {x: 18,y: 4}, {x: 18,y: 5}, {x: 18,y: 6}, {x: 18,y: 7}, 
-{x: 17,y: 7}, {x: 16,y: 7}, {x: 15,y: 7}, {x: 14,y: 7}, {x: 13,y: 7}, {x: 12,y: 7}, {x: 11,y: 7}, {x: 10,y: 7}, {x: 9,y: 7}, {x: 8,y: 7}, {x: 7,y: 7}, {x: 6,y: 7}, {x: 4,y: 7}, 
-{x: 4,y: 8}, {x: 4,y: 9}, {x: 4,y: 10}, {x: 4,y: 11}, 
-{x: 6,y: 11}, {x: 7,y: 11}, {x: 8,y: 11}, {x: 9,y: 11}, {x: 10,y: 11}, {x: 11,y: 11},  {x: 12,y: 11},
- {x: 12,y: 12}, {x: 12,y: 13}, {x: 12,y: 14}];
+				this.path = [{x: 19,y: 0}, {x: 19,y: 1}, {x: 19,y: 2}, {x: 19,y: 3}, {x: 19,y: 4}, {x: 19,y: 5}, {x: 19,y: 6}, {x: 19,y: 7}, {x: 18,y: 7},
+{x: 17,y: 7}, {x: 16,y: 7}, {x: 15,y: 7}, {x: 14,y: 7}, {x: 13,y: 7}, {x: 12,y: 7}, {x: 11,y: 7}, {x: 10,y: 7}, {x: 9,y: 7}, {x: 8,y: 7}, {x: 7,y: 7}, {x: 6,y: 7}, {x: 5,y: 7}, 
+{x: 5,y: 8}, {x: 5,y: 9}, {x: 5,y: 10}, {x: 5,y: 11}, 
+{x: 6,y: 11}, {x: 7,y: 11}, {x: 8,y: 11}, {x: 9,y: 11}, {x: 10,y: 11}, {x: 11,y: 11}, {x: 12,y: 11}, {x: 13,y: 11},
+ {x: 13,y: 12}, {x: 13,y: 13}, {x: 13,y: 14}];
 				console.log(this.path[0].x);
 				break;
 			case 2:
@@ -36,7 +36,7 @@ Level.prototype =
 		}
 	},
 	setWave: function() {
-		this.wave = new Wave(this.game, this.game.time.now + 10, this.path, 3);
+		this.wave = new Wave(this.game, this.game.time.now + 10, this.path, 1);
 	}
 
 };

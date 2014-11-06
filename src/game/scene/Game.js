@@ -60,33 +60,9 @@ BasicGame.Game.prototype =
         this.setupMap();
         
         //Lets keep this code clean and understandable
-	
-	this.listEnemies = [{'nome': 'dog', 'moves': [{'type': 'walk', 'frame': '[3,4,5]'}], 'length': '5', 'scale': '1.5', 'frame': '5'}, 
-				{'nome': 'mummy', 'moves': [{'type': 'walk', 'frame': '[]'}], 'length': '10', 'scale': '1', 'frame': '5'},
-				{'nome': 'lagarto', 'moves': [{'type': 'walk down', 'frame': '[0,1,2,1]'}, {'type': 'walk left', 'frame': '[3,4,5,4]'}, {'type': 'walk right', 'frame': '[6,7,8,6]'}, {'type': 'walk up', 'frame': '[9,10,11,10]'}], 'length': '5', 'scale': '1', 'frame': '1'}];
-
-	var level = 1;
-	var releaseTime = this.time.now + 10;
-	var nbEnemyWave = 3;
-	this.path;
-	if(level === 2) { 
-		this.path = this.path_lv2;
-	} else if (level === 3) { 
-		this.path = this.path_lv3;
-	} else {
-		this.path = this.path_lv1;
-	}
-	this.wave = new Wave(level, this, releaseTime, this.listEnemies, this.path, nbEnemyWave); 
-
-	/*var dog_path_l1 = this.add.sprite(BasicGame.convertWidth(270), BasicGame.convertHeight(300),'dog');
-	var dog_path_l1 = this.add.sprite(BasicGame.convertWidth(400),BasicGame.convertHeight(140),'dog');
-	var dog_path_l1 = this.add.sprite(BasicGame.convertWidth(95),BasicGame.convertHeight(140),'dog');
-	var dog_path_l1 = this.add.sprite(BasicGame.convertWidth(95),BasicGame.convertHeight(225),'dog');
-	var dog_path_l1 = this.add.sprite(BasicGame.convertWidth(270),BasicGame.convertHeight(225),'dog');
-	var dog_path_l1 = this.add.sprite(BasicGame.convertWidth(270),BasicGame.convertHeight(400),'dog');	
-	*/
 
 	this.listTypeEnemy = ['dog', 'mummy', 'lagarto'];
+	this.add.sprite(18*64 + 30,1*64,'dog');
 	this.enemies = [];
 	this.level = new Level(this);
 	this.level.setWave();
