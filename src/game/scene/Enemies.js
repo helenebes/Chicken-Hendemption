@@ -2,7 +2,7 @@ var Enemies = function (game, path, IndexEnemy, wave)
 {
 	this.indexEnemy = IndexEnemy;
     this.game = game;
-	this.enemy = game.add.sprite(path[0].x * 64, path[0].y * 64, 'dog', 0.5);
+	this.enemy = game.add.sprite(path[0].x * 64, path[0].y * 64, 'dog', 1);
 	//console.log("Creation basic enemy (dog)");
 	this.enemy.path = path;
 	this.wave = wave;
@@ -18,13 +18,13 @@ Enemies.prototype =
 		this.enemy.scale.set(1.5);
     	this.anim = this.enemy.animations.add('walk', [3,4,5]);
     	this.enemy.play('walk',5, true);
-		this.enemy.speed = 1;
+		this.enemy.speed = 2;
 		moveEnemy.prototype.nextTile(this.enemy);
 		this.wave.add(this.enemy);
 	},
 	setSprite: function() {
 		this.enemy.inputEnabled = true;
-		this.enemy.x = this.enemy.path[0].x * 64;
+		this.enemy.x = this.enemy.path[0].x * 64 - 30;
 		this.enemy.y = this.enemy.path[0].y * 64;
 		this.enemy.nextTile = 0;
 		this.enemy.toTheEnd = false;
@@ -58,7 +58,7 @@ var Lagarto = function (game, path, IndexEnemy, wave)
 {
 	this.indexEnemy = IndexEnemy;
     this.game = game;
-	this.enemy = game.add.sprite(path[0].x*64, path[0].y*64, 'lagarto', 1.5);
+	this.enemy = game.add.sprite(path[0].x*64, path[0].y*64, 'lagarto', 1);
 	console.log("Creation lagarto");
 	this.enemy.path = path;
 	this.wave = wave;
@@ -136,35 +136,34 @@ var moveEnemy = function(enemy){
 moveEnemy.prototype =
 {
 	moveOnTile: function(enemy){
+
+		if (enemy.speedX < 0 && enemy.x <= enemy.nextTileX || enemy.speedX > 0 && enemy.x >= enemy.nextTileX) {
+			enemy.x = enemy.nextTileX;
+			this.nextTile(enemy);
+		}
+		else if (enemy.speedY > 0 && enemy.y >= enemy.nextTileY || enemy.speedY < 0 && enemy.y <= enemy.nextTileY) {
+			enemy.y = enemy.nextTileY;
+			this.nextTile(enemy);
+		}
 		enemy.y += enemy.speedY;
 		enemy.x += enemy.speedX;
-		//console.log("last position ("+enemy.x + enemy.y+ ")");
-		//console.log("new position ("+enemy.nextTileX + enemy.nextTileX+ ")");
-		if (enemy.speedX > 0 && enemy.x >= enemy.nextTileX) {
-			enemy.x = enemy.nextTileX;
-			this.nextTile(enemy);
-		}
-		else if (enemy.speedX < 0 && enemy.x <= enemy.nextTileX) {
-			enemy.x = enemy.nextTileX;
-			this.nextTile(enemy);
-		}
-		else if (enemy.speedY > 0 && enemy.y >= enemy.nextTileY) {
-			enemy.y = enemy.nextTileY;
-			this.nextTile(enemy);
-		}
-		else if (enemy.speedY < 0 && enemy.y <= enemy.nextTileY) {
-			enemy.y = enemy.nextTileY;
-			this.nextTile(enemy);
-		}
+
+  
+		/*if (enemy.nextTile === 21 || enemy.nextTile === 22){
+				console.log("tile= "+enemy.nextTile);
+				console.log("position :"+enemy.x+ ","+ enemy.y);
+		}*/
 	},
 	nextTile: function(enemy){
 		if (enemy.nextTile < enemy.path.length - 1) {
 			enemy.nextTile++;
-			enemy.nextTileX = enemy.path[enemy.nextTile].x * 64;
-			enemy.nextTileY = enemy.path[enemy.nextTile].y * 64;
-
-			//console.log("last position ("+enemy.x +", "+ enemy.y+ ")");
-			//console.log("new position ("+enemy.nextTileX +", "+ enemy.nextTileX+ ")");
+			if (enemy.path[enemy.nextTile-1].x === enemy.path[enemy.nextTile].x){
+				enemy.nextTileX = enemy.path[enemy.nextTile].x * 64 - 30;
+				enemy.nextTileY = enemy.path[enemy.nextTile].y * 64;
+			} else {
+				enemy.nextTileX = enemy.path[enemy.nextTile].x * 64;
+				enemy.nextTileY = enemy.path[enemy.nextTile].y * 64 - 30;
+			}
 
 			// Checking if there is a change of direction left/right
 			if (enemy.nextTileY > enemy.y) {
@@ -187,6 +186,15 @@ moveEnemy.prototype =
 			} else {
 				enemy.speedX = 0;
 			}
+
+			/*if (enemy.nextTile === 22){
+				//console.log("tile= "+enemy.nextTile);
+				//console.log("speed x "+enemy.speedX);
+				//console.log("speed y "+enemy.speedY);
+				//console.log("x = "+enemy.path[enemy.nextTile].x);
+				console.log("last position ("+enemy.x + ", "+enemy.y+ ")");
+				console.log("new position ("+enemy.nextTileX + ", "+enemy.nextTileY+ ")");
+			}*/
 		} else {
 			enemy.toTheEnd = true;
 		}

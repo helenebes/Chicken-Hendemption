@@ -62,7 +62,6 @@ BasicGame.Game.prototype =
         
         //Lets keep this code clean and understandable
 
-	this.listTypeEnemy = ['dog', 'mummy', 'lagarto'];
 	this.game.enemies = [];
 	this.level = new Level(this.game);
 
