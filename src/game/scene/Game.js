@@ -207,8 +207,8 @@ BasicGame.Game.prototype =
     },
     buildChickenMenu: function()
     {
-		var longie = this.add.sprite(BasicGame.convertWidth(3),BasicGame.convertHeight(58),'longie'); 
-		var normal = this.add.sprite(BasicGame.convertWidth(3),BasicGame.convertHeight(115),'normal'); 
+		var normal = this.add.sprite(BasicGame.convertWidth(3),BasicGame.convertHeight(60),'normal'); 
+		var longie = this.add.sprite(BasicGame.convertWidth(3),BasicGame.convertHeight(105),'longie'); 
         var poopie = this.add.sprite(BasicGame.convertWidth(0),BasicGame.convertHeight(163),'poopie'); 
         var fartie = this.add.sprite(BasicGame.convertWidth(3),BasicGame.convertHeight(213),'fartie');
 		var robot = this.add.sprite(BasicGame.convertWidth(3),BasicGame.convertHeight(263),'robot');
