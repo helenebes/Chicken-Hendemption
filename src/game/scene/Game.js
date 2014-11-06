@@ -35,6 +35,7 @@ BasicGame.Game = function (game)
     this.map = new Map();
 
     this.chickenLayers = [];
+	
 
     var opt; //Options button
 
@@ -62,14 +63,13 @@ BasicGame.Game.prototype =
         //Lets keep this code clean and understandable
 
 	this.listTypeEnemy = ['dog', 'mummy', 'lagarto'];
-	this.enemies = [];
+	this.game.enemies = [];
 	this.level = new Level(this.game);
-	this.level.setWave();
 
 	},
 	update: function () 
     {
-		this.level.wave.move();
+	this.level.updateLevel();
 		//console.log("dans update");
         this.guidePositioning(this.input.mousePointer.x,this.input.mousePointer.y);
 	},

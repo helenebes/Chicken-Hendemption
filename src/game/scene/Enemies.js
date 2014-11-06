@@ -2,8 +2,8 @@ var Enemies = function (game, path, IndexEnemy, wave)
 {
 	this.indexEnemy = IndexEnemy;
     this.game = game;
-	this.enemy = game.add.sprite(path[0].x * this.game.TileSize, path[0].y * this.game.TileSize, 'dog', 0.5);
-	console.log("Creation basic enemy (dog)");
+	this.enemy = game.add.sprite(path[0].x * 64, path[0].y * 64, 'dog', 0.5);
+	//console.log("Creation basic enemy (dog)");
 	this.enemy.path = path;
 	this.wave = wave;
 	this.setSprite();
@@ -24,8 +24,8 @@ Enemies.prototype =
 	},
 	setSprite: function() {
 		this.enemy.inputEnabled = true;
-		this.enemy.x = this.enemy.path[0].x * this.game.TileSize;
-		this.enemy.y = this.enemy.path[0].y * this.game.TileSize;
+		this.enemy.x = this.enemy.path[0].x * 64;
+		this.enemy.y = this.enemy.path[0].y * 64;
 		this.enemy.nextTile = 0;
 		this.enemy.toTheEnd = false;
 	}	
@@ -35,7 +35,7 @@ var Mummy = function (game, path, IndexEnemy, wave)
 {
 	this.indexEnemy = IndexEnemy;
     this.game = game;
-	this.enemy = game.add.sprite(path[0].x*game.TileSize, path[0].y*game.TileSize, 'mummy', 1);
+	this.enemy = game.add.sprite(path[0].x*64, path[0].y*64, 'mummy', 1);
 	console.log("Creation mummy");
 	this.enemy.path = path;
 	this.wave = wave;
@@ -58,7 +58,7 @@ var Lagarto = function (game, path, IndexEnemy, wave)
 {
 	this.indexEnemy = IndexEnemy;
     this.game = game;
-	this.enemy = game.add.sprite(path[0].x*game.TileSize, path[0].y*game.TileSize, 'lagarto', 1.5);
+	this.enemy = game.add.sprite(path[0].x*64, path[0].y*64, 'lagarto', 1.5);
 	console.log("Creation lagarto");
 	this.enemy.path = path;
 	this.wave = wave;
@@ -77,17 +77,18 @@ Lagarto.prototype.setAnim = function()
 	this.wave.add(this.enemy);
 };
 
-var Wave = function(game, releaseTime, path, nb_enemies)  
+var Wave = function(game, releaseTime, path, infoWaves)  
 {
 
 		this.waveEnemy = game.add.group();
 		this.path = path;
 		this.game = game;
-		this.nbEnemiesEachWave = nb_enemies;
+		this.infoWaves = infoWaves;
 		this.nbEnemiesCreated = 0;
 		this.releaseTime = releaseTime;
 		this.firstEnemyCreate = false;
 		this.lastMove = 0;
+		this.setWave();
 }
 Wave.prototype = 
 {
@@ -95,7 +96,7 @@ Wave.prototype =
 	setWave: function() {
 		this.firstEnemyCreate = true;
 		var typeEnemy = 'dog';
-        //var typeEnemy = this.game.listTypeEnemy[parseInt(Math.random() * this.game.listTypeEnemy.length)];
+        //var typeEnemy = this.infoWaves.typeEnemy[parseInt(Math.random() * this.infoWaves.typeEnemy.length)];
 		switch (typeEnemy)
 		{
 			case 'dog':
@@ -112,10 +113,10 @@ Wave.prototype =
 		this.nbEnemiesCreated++;           
 	},
 	move: function() {
-		var delayBeforeNewEnemy = 200;
-		if (this.game.time.now >= this.releaseTime && this.nbEnemiesCreated < this.nbEnemiesEachWave) {
+		var delayBeforeNewEnemy = 5000;
+		if (this.game.time.now >= this.releaseTime + delayBeforeNewEnemy && this.nbEnemiesCreated < this.infoWaves.nbEnemyByWave) {
 			this.setWave();
-			this.releaseTime = this.game.time.now + delayBeforeNewEnemy;
+			this.releaseTime = this.game.time.now;
 		}
 		if (this.firstEnemyCreate) {
 			if (this.game.time.now > this.lastMove) {
