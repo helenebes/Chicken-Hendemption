@@ -63,6 +63,7 @@ BasicGame.Preloader.prototype = {
         this.load.image('tileset',  'assets/'+BasicGame.screen+"/tileset.png");
         this.load.image('grass',  'assets/'+BasicGame.screen+"/map1.png");
         
+        this.load.image('coop',  'assets/'+BasicGame.screen+"/coop.png");
         
 		this.load.image('playBtn','assets/'+BasicGame.screen+"/playBtn.png");
         this.load.image('longie','assets/'+BasicGame.screen+"/longieB.png");
@@ -78,10 +79,13 @@ BasicGame.Preloader.prototype = {
 		
 		// songs
 		this.load.audio('chicken_family', ['assets/sounds/ChickenFamily.mp3', 'assets/sounds/ChickenFamily.ogg']);
+        this.load.audio('menu_music', ['assets/sounds/MenuMusic.mp3', 'assets/sounds/MenuMusic.ogg']);
 		
         this.load.spritesheet('dog','assets/'+BasicGame.screen+"/dog.png", 40, 40, 12);
         this.load.spritesheet('mummy', 'assets/'+BasicGame.screen+"/mummy.png", 37, 45, 18); // width de cada sprite, height de cada sprite, numero de sprites no arquivo
         this.load.spritesheet('lagarto','assets/'+BasicGame.screen+"/lagarto2.png", 61.3, 61.25, 12);
+        this.load.spritesheet('snake','assets/'+BasicGame.screen+"/snake.png", 100, 94.25, 12);
+        this.load.spritesheet('turtle','assets/'+BasicGame.screen+"/turtle.png", 130, 118.5, 16);
         
 	},
 

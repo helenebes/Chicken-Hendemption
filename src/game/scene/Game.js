@@ -97,7 +97,6 @@ BasicGame.Game.prototype =
 	*/
 
 
-
 	},
 	update: function () 
     {

@@ -24,13 +24,11 @@ BasicGame.MainMenu.prototype =
     
 	create: function () 
     {
-
-		//	We've already preloaded our assets, so let's kick right into the Main Menu itself.
-		//	Here all we're doing is playing some music and adding a picture and button
-		//	Naturally I expect you to do something significantly better :)
         
-        
-        //this.stage.smoothed = false;      
+        this.music = this.add.audio('menu_music');
+		this.music.loop = true;
+		this.startMusic();
+            
 		this.add.sprite(0,0,'menuBg');
         
         lvl1 = this.add.sprite(BasicGame.convertWidth(100),BasicGame.convertHeight(140),'lvl1');
@@ -78,8 +76,6 @@ BasicGame.MainMenu.prototype =
         BasicGame.optionsPanel = new OptionsPanel(this);
 		this.game.add.existing(BasicGame.optionsPanel);
         paused = false;
-        
-        
         
 		/*
 		//Aligning HUD to view edges
@@ -240,6 +236,17 @@ BasicGame.MainMenu.prototype =
             dad.start('Game');
         },100);
 		//	And start the actual game
+	},
+    
+    stopMusic: function()
+	{
+		this.music.stop();
+	},
+	startMusic: function()
+	{
+		this.music.play();
 	}
+    
+    
 
 };
