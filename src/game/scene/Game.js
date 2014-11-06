@@ -62,9 +62,8 @@ BasicGame.Game.prototype =
         //Lets keep this code clean and understandable
 
 	this.listTypeEnemy = ['dog', 'mummy', 'lagarto'];
-	this.add.sprite(18*64 + 30,1*64,'dog');
 	this.enemies = [];
-	this.level = new Level(this);
+	this.level = new Level(this.game);
 	this.level.setWave();
 
 	},
