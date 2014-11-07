@@ -82,8 +82,11 @@ BasicGame.Preloader.prototype = {
         
         // game
         this.load.image('counter','assets/'+BasicGame.screen+"/money_counter.png");
-        this.load.tilemap('lvl1_map', 'assets/'+BasicGame.screen+"/lvl1.json", null, Phaser.Tilemap.TILED_JSON);
-        this.load.tilemap('test_lvl', 'assets/'+BasicGame.screen+"/teste.json", null, Phaser.Tilemap.TILED_JSON);
+        this.load.tilemap('lvl1_map', 'assets/'+BasicGame.screen+"/level_1.json", null, Phaser.Tilemap.TILED_JSON);
+        this.load.tilemap('lvl2_map', 'assets/'+BasicGame.screen+"/level_2.json", null, Phaser.Tilemap.TILED_JSON);
+        this.load.tilemap('lvl3_map', 'assets/'+BasicGame.screen+"/level_3.json", null, Phaser.Tilemap.TILED_JSON);
+
+        //this.load.tilemap('test_lvl', 'assets/'+BasicGame.screen+"/teste.json", null, Phaser.Tilemap.TILED_JSON);
         this.load.image('tileset',  'assets/'+BasicGame.screen+"/tileset.png");
         this.load.image('grass',  'assets/'+BasicGame.screen+"/map1.png");
         

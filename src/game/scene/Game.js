@@ -50,9 +50,9 @@ BasicGame.Game.prototype =
 	create: function () 
     {     
 
+        this.map.cleanMap();
         this.setControlVars();
         this.loadLevel();
-        this.map.cleanMap();
 
         this.startMusic();
         this.initializeInterface();
@@ -80,13 +80,13 @@ BasicGame.Game.prototype =
     loadLevel: function()
     {
         //All of this should come from the level "class"
-        this.coop = new Coop(12, 14,10,this);
 
         var bg = this.add.sprite(0,0,'grass');
-        var map = this.add.tilemap('test_lvl');
+        var map = this.add.tilemap('lvl1_map');
         map.addTilesetImage('tileset');
         var layer = map.createLayer('layer1');
         layer.resizeWorld();
+        this.coop = new Coop(12, 14,10,this);
     },
     setControlVars: function()
     {
@@ -118,6 +118,12 @@ BasicGame.Game.prototype =
 		this.rect.beginFill(0xffffff,0.3);
 		this.rect.drawRect(0,0,this.TileSize,this.TileSize);
 		this.rect.position.x = (-100);
+
+	 	this.badRect = this.add.graphics(0,0);
+		this.badRect.lineStyle(4,0xff0000,1);
+		this.badRect.beginFill(0xff0000,0.3);
+		this.badRect.drawRect(0,0,this.TileSize,this.TileSize);
+		this.badRect.position.x = (-100);
     },
     guidePositioning: function(x,y)
     {
@@ -126,16 +132,29 @@ BasicGame.Game.prototype =
             this.highlightTile(x,y);
             this.showGrid(x);
         }else{
-			this.rect.position.x = (-this.TileSize);
-			this.bitmap.position.x = (-1408);
+			this.rect.position.x = (-this.TileSize-4);
+			this.badRect.position.x = (-this.TileSize-4);
+			this.bitmap.position.x = (-1408 -4);
         }
 
 	
     },
     highlightTile: function (x,y) 
     {
-        this.rect.position.x = ((~~(x/this.TileSize))*this.TileSize);
-        this.rect.position.y = ((~~(y/this.TileSize))*this.TileSize);
+        var X = (~~(x/this.TileSize));
+        var Y = (~~(y/this.TileSize));
+        if(this.map.testTile(X,Y))
+        {
+			this.rect.position.x = (-this.TileSize-4);
+            this.badRect.position.x = (X*this.TileSize);
+            this.badRect.position.y = (Y*this.TileSize);
+        }
+        else
+        {
+			this.badRect.position.x = (-this.TileSize-4);
+            this.rect.position.x = (X*this.TileSize);
+            this.rect.position.y = (Y*this.TileSize);
+        }
 	},
 	showGrid: function (x) 
     {
@@ -262,8 +281,8 @@ BasicGame.Game.prototype =
                     break; 
             }
             console.log("Positioning Chicken "+x+" "+y);
+            this.chickenAmount++;
         }
-        this.chickenAmount++;
     },
     chickenUpdate: function()
     {
