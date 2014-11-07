@@ -114,7 +114,7 @@ BasicGame.Preloader.prototype = {
         this.load.image('robotP','assets/'+BasicGame.screen+"/robot.png");
 		
 		// songs
-		this.load.audio('chicken_family', ['assets/sounds/ChickenFamily.mp3', 'assets/sounds/ChickenFamily.ogg']);
+		this.load.audio('chicken_family', ['assets/sounds/happy.ogg']);
         this.load.audio('menu_music', ['assets/sounds/MenuMusic.mp3', 'assets/sounds/MenuMusic.ogg']);
         this.load.audio('click_in', ['assets/sounds/click3.ogg']);
         this.load.audio('click_out', ['assets/sounds/click4.ogg']);
