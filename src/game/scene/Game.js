@@ -49,6 +49,11 @@ BasicGame.Game.prototype =
     //Create and Update functions
 	create: function () 
     {     
+        var style = { font: "65px Arial", fill: "#ff0044", align: "center" };
+
+        var textobj = this.add.text(100,100, "skjhdbajsdbjaksdhasbdkaskjhdbajsdbjaksdhasbdkaskjhdbajsdbjaksdhasbdkaskjhdbajsdbjaksdhasbdkaskjhdbajsdbasbdkaskjhd", style);
+        this.world.bringToTop(textobj);
+
         this.setControlVars();
         this.loadLevel();
         this.map.cleanMap();
@@ -62,8 +67,8 @@ BasicGame.Game.prototype =
         
         //Lets keep this code clean and understandable
 
-	this.game.enemies = [];
-	this.level = new Level(this.game);
+        this.game.enemies = [];
+        this.level = new Level(this.game);
 
 	},
 	update: function () 
@@ -299,6 +304,11 @@ BasicGame.Game.prototype =
         this.world.bringToTop(BasicGame.optionsPanel);
         this.pendingMenu = true;
 	},
+    updateVolume: function()
+    {
+        this.music.volume = BasicGame.musicVolume;
+        //this.sound.volume = BasicGame.soundVolume;
+    },
 	stopMusic: function()
 	{
 		this.music.stop();
@@ -307,6 +317,7 @@ BasicGame.Game.prototype =
 	{
 		this.music = this.add.audio('chicken_family');
 		this.music.loop = true;
+        this.music.volume = BasicGame.musicVolume;
         if(BasicGame.music)
         {
             this.music.play();

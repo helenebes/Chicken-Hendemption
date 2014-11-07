@@ -25,6 +25,7 @@ Chicken.prototype =
         for(var i=0;i<this.gameContext.game.enemies.length;i++)
         {
             console.log(this.gameContext.game.enemies[i].enemy.x);
+            console.log(this.gameContext.game.enemies[i].enemy.y);
             if(this.rangeCircle.contains(this.gameContext.game.enemies[i].enemy.x,this.gameContext.game.enemies[i].enemy.y))
             {
                 console.log("Found an enemy"+this.gameContext.game.enemies[i]);

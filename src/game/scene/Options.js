@@ -51,6 +51,7 @@ var OptionsPanel = function(game, parent)
     this.adjustMusicVolume.events.onInputUp.add(function()
     {
         BasicGame.musicVolume = (this.adjustMusicVolume.position.x + 195)/333;
+		this.game.state.getCurrentState().updateVolume();
         console.log("Music Volume: "+BasicGame.musicVolume);
     },this);
 
@@ -86,6 +87,7 @@ var OptionsPanel = function(game, parent)
     this.adjustSoundVolume.events.onInputUp.add(function()
     {
         BasicGame.soundVolume = (this.adjustSoundVolume.position.x + 195)/333;
+		this.game.state.getCurrentState().updateVolume();
         console.log("Sound Volume: "+BasicGame.soundVolume);
     },this);
 	this.add(this.adjustSoundVolume);
