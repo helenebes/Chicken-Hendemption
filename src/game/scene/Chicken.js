@@ -93,6 +93,10 @@ Longie.prototype.print = function()
 {
     console.log("Longie is special");
 };
+Longie.prototype.attack = function(enemy)
+{
+    enemy.enemy.isAttacked(10);
+};
 
 var Poopie = function (Xtile,Ytile,Index,gameContext)
 {
