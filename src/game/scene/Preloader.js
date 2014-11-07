@@ -66,6 +66,19 @@ BasicGame.Preloader.prototype = {
         this.load.image('golden_egg','assets/'+BasicGame.screen+"/golden_egg.png");
         this.load.image('no_egg','assets/'+BasicGame.screen+"/no_egg.png");
         
+        // how to play 
+        this.load.image('how_to_play','assets/'+BasicGame.screen+"/how_to_play.png");
+        
+        // chicken info window
+        this.load.image('chicken_info_1','assets/'+BasicGame.screen+"/chicken_info_1.png");
+        this.load.image('chicken_info_2','assets/'+BasicGame.screen+"/chicken_info_2.png");
+        this.load.image('chicken_info_3','assets/'+BasicGame.screen+"/chicken_info_3.png");
+        this.load.spritesheet('right_arrow','assets/'+BasicGame.screen+"/right_arrow_sheet.png",80, 64);
+        this.load.spritesheet('left_arrow','assets/'+BasicGame.screen+"/left_arrow_sheet.png",80, 64);
+        
+        // enemie info window
+        this.load.image('enemie_info_1','assets/'+BasicGame.screen+"/enemie_info_1.png");
+        this.load.image('enemie_info_2','assets/'+BasicGame.screen+"/enemie_info_2.png");
         
         // game
         this.load.image('counter','assets/'+BasicGame.screen+"/money_counter.png");

@@ -13,7 +13,7 @@ var OptionsPanel = function(game, parent)
 	// Add close button
 	this.btnClose = this.game.add.button(190,-40, 'options_x', function()
     {
-		this.game.state.getCurrentState().playGame();
+		this.game.state.getCurrentState().playGame("Options");
         
     }, this);
 	this.add(this.btnClose);
