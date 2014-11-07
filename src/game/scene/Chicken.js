@@ -5,6 +5,9 @@ var Chicken = function (Xtile,Ytile,Index,gameContext)
     this.gameContext = gameContext;
     this.x = Xtile;
     this.y = Ytile;
+    this.lastAttack = 0;
+    this.attackSpeed = 50;
+
     this.sprite = gameContext.add.sprite((Xtile*64),((Ytile*64+5)),'normalP');
     //console.log(this);
     this.rangeSprite = gameContext.add.graphics(0,0);
@@ -51,7 +54,15 @@ Chicken.prototype =
     },
     update: function()
     {
-        this.detectEnemies();
+        if(this.gameContext.game.time.now > (this.lastAttack + 500-this.attackSpeed))
+        {
+            this.detectEnemies();
+            this.lastAttack = this.gameContext.game.time.now;
+        }
+        else
+        {
+            console.log("Too early");
+            }
     },
     print: function()
     {
@@ -78,6 +89,8 @@ var Longie = function (Xtile,Ytile,Index,gameContext)
     this.x = Xtile;
     this.y = Ytile;
     this.range = 3*64;
+    this.lastAttack = 0;
+    this.attackSpeed = 50;
 
     this.sprite = gameContext.add.sprite(Xtile*64,(Ytile*64-31),'longieP');
 
@@ -95,7 +108,7 @@ Longie.prototype.print = function()
 };
 Longie.prototype.attack = function(enemy)
 {
-    enemy.enemy.isAttacked(10);
+    this.gameContext.createBullet(this.x*64+32,this.y*64,enemy.enemy);
 };
 
 var Poopie = function (Xtile,Ytile,Index,gameContext)
@@ -105,6 +118,8 @@ var Poopie = function (Xtile,Ytile,Index,gameContext)
     this.x = Xtile;
     this.y = Ytile;
     this.range = 256;
+    this.lastAttack = 0;
+    this.attackSpeed = 50;
 
     this.sprite = gameContext.add.sprite(Xtile*64-8,(Ytile*64+15),'poopieP');
     this.rangeSprite = gameContext.add.graphics(0,0);
@@ -141,6 +156,8 @@ var Fartie = function (Xtile,Ytile,Index,gameContext)
     this.x = Xtile;
     this.y = Ytile;
     this.range = 3*64;
+    this.lastAttack = 0;
+    this.attackSpeed = 50;
 
     this.sprite = gameContext.add.sprite(Xtile*64,(Ytile*64-8),'fartieP');
     this.rangeSprite = gameContext.add.graphics(0,0);
@@ -173,6 +190,8 @@ var Robot = function (Xtile,Ytile,Index,gameContext)
     this.x = Xtile;
     this.y = Ytile;
     this.range = 64;
+    this.lastAttack = 0;
+    this.attackSpeed = 50;
 
     this.sprite = gameContext.add.sprite(Xtile*64-8,(Ytile*64-14),'robotP');
     this.rangeSprite = gameContext.add.graphics(0,0);

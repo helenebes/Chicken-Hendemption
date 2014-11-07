@@ -35,6 +35,7 @@ BasicGame.Game = function (game)
     this.map = new Map();
 
     this.chickens;
+    this.bullets = [];
     this.chickenLayers = [];
 	
     var opt; //Options button
@@ -75,6 +76,7 @@ BasicGame.Game.prototype =
             this.guidePositioning(this.input.mousePointer.x,this.input.mousePointer.y);
         }
         this.chickenUpdate();
+        this.updateBullets();
 		//console.log("dans update");
 	},
     loadLevel: function()
@@ -313,6 +315,7 @@ BasicGame.Game.prototype =
     },
 	pauseGame: function()
     {
+        console.log("Bullets: "+this.bullets.length);
 		opt.loadTexture('opt',0);
 		this.inGameOpt.show();
         this.world.bringToTop(this.inGameOpt);
@@ -366,6 +369,24 @@ BasicGame.Game.prototype =
         {
             this.music.play();
         }
+    },
+    createBullet: function(x,y,enemy)
+    {
+        this.bullets.push({sprite:this.add.sprite(x,y,'cornBullet'),xStepSize: x - enemy.x,yStepSize: y - enemy.y, index: 0,Enemy:enemy});
+    },
+    updateBullets: function()
+    {
+        for(var i=0;i<this.bullets.length;i++) 
+        {
+            this.bullets[i].index++; 
+            this.bullets[i].sprite.position.x -= this.bullets[i].xStepSize/20;
+            this.bullets[i].sprite.position.y -= this.bullets[i].yStepSize/20;
+            if(this.bullets[i].index >= 20)
+            {
+                this.bullets[i].Enemy.isAttacked(10);
+                this.bullets[i].sprite.kill();
+                this.bullets.splice(i,1);
+            }
+        }
     }
-
 };
