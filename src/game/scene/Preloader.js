@@ -56,6 +56,17 @@ BasicGame.Preloader.prototype = {
 		this.load.image('check_false','assets/'+BasicGame.screen+"/check_false.png");
 		this.load.image('arrow','assets/'+BasicGame.screen+"/arrow.png");
         
+        // end game window
+        this.load.image('defeat_window','assets/'+BasicGame.screen+"/defeat_window.png");
+        this.load.image('victory_window','assets/'+BasicGame.screen+"/victory_window.png");
+        this.load.spritesheet('quitB','assets/'+BasicGame.screen+"/quitB.png",150, 89);
+        this.load.spritesheet('retryB','assets/'+BasicGame.screen+"/retryB.png",158, 94);
+        this.load.spritesheet('nextLvlB','assets/'+BasicGame.screen+"/nextLvlB.png",270, 89);
+        this.load.image('nextLvlBDisabled','assets/'+BasicGame.screen+"/nextLvlBDisabled.png");
+        this.load.image('golden_egg','assets/'+BasicGame.screen+"/golden_egg.png");
+        this.load.image('no_egg','assets/'+BasicGame.screen+"/no_egg.png");
+        
+        
         // game
         this.load.image('counter','assets/'+BasicGame.screen+"/money_counter.png");
         this.load.tilemap('lvl1_map', 'assets/'+BasicGame.screen+"/lvl1.json", null, Phaser.Tilemap.TILED_JSON);
@@ -63,9 +74,18 @@ BasicGame.Preloader.prototype = {
         this.load.image('tileset',  'assets/'+BasicGame.screen+"/tileset.png");
         this.load.image('grass',  'assets/'+BasicGame.screen+"/map1.png");
         
-        this.load.image('coop',  'assets/'+BasicGame.screen+"/coop.png");
+        this.load.image('coop_10',  'assets/'+BasicGame.screen+"/coop_10.png");
+        this.load.image('coop_9',  'assets/'+BasicGame.screen+"/coop_9.png");
+        this.load.image('coop_8',  'assets/'+BasicGame.screen+"/coop_8.png");
+        this.load.image('coop_7',  'assets/'+BasicGame.screen+"/coop_7.png");
+        this.load.image('coop_6',  'assets/'+BasicGame.screen+"/coop_6.png");
+        this.load.image('coop_5',  'assets/'+BasicGame.screen+"/coop_5.png");
+        this.load.image('coop_4',  'assets/'+BasicGame.screen+"/coop_4.png");
+        this.load.image('coop_3',  'assets/'+BasicGame.screen+"/coop_3.png");
+        this.load.image('coop_2',  'assets/'+BasicGame.screen+"/coop_2.png");
+        this.load.image('coop_1',  'assets/'+BasicGame.screen+"/coop_1.png");
+        this.load.image('coop_0',  'assets/'+BasicGame.screen+"/coop_0.png");
         
-		this.load.image('playBtn','assets/'+BasicGame.screen+"/playBtn.png");
         this.load.image('longie','assets/'+BasicGame.screen+"/longieB.png");
         this.load.image('normal','assets/'+BasicGame.screen+"/normalB.png");
         this.load.image('poopie','assets/'+BasicGame.screen+"/poopieB.png");

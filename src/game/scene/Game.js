@@ -36,7 +36,6 @@ BasicGame.Game = function (game)
 
     this.chickenLayers = [];
 	
-
     var opt; //Options button
 
     //Experimental
@@ -58,15 +57,28 @@ BasicGame.Game.prototype =
         this.initializeChickenStructure();
         this.setupMap();
         
+        var coop = new Coop(12, 14,this);
+        
+        coop.removeEgg();
+        coop.removeEgg();
+        coop.removeEgg();
+        coop.removeEgg();
+        coop.removeEgg();
+        coop.removeEgg();
+        coop.removeEgg();
+        coop.removeEgg();
+        coop.removeEgg();
+        coop.removeEgg();
+        
         //Lets keep this code clean and understandable
 
-	this.game.enemies = [];
-	this.level = new Level(this.game);
+        this.game.enemies = [];
+        this.level = new Level(this.game);
 
 	},
 	update: function () 
     {
-	this.level.updateLevel();
+        this.level.updateLevel();
 		//console.log("dans update");
         this.guidePositioning(this.input.mousePointer.x,this.input.mousePointer.y);
 	},
@@ -259,6 +271,16 @@ BasicGame.Game.prototype =
 		this.state.start('MainMenu');
 
 	},
+    gameOver: function()
+    {
+        var endGameWindow = new EndGamePanel(this,"defeat",0);
+        endGameWindow.show();
+    },
+    gameVictory: function()
+    {
+        var endGameWindow = new EndGamePanel(this,"victory",0);
+        endGameWindow.show();
+    },
 	pauseGame: function()
     {
 		opt.loadTexture('opt',0);
