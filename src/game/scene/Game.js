@@ -34,6 +34,7 @@ BasicGame.Game = function (game)
     
     this.map = new Map();
 
+    this.chickens;
     this.chickenLayers = [];
 	
     var opt; //Options button
@@ -48,10 +49,6 @@ BasicGame.Game.prototype =
     //Create and Update functions
 	create: function () 
     {     
-        var style = { font: "65px Arial", fill: "#ff0044", align: "center" };
-
-        var textobj = this.add.text(100,100, "skjhdbajsdbjaksdhasbdkaskjhdbajsdbjaksdhasbdkaskjhdbajsdbjaksdhasbdkaskjhdbajsdbjaksdhasbdkaskjhdbajsdbasbdkaskjhd", style);
-        this.world.bringToTop(textobj);
 
         this.setControlVars();
         this.loadLevel();
@@ -66,16 +63,6 @@ BasicGame.Game.prototype =
         
         var coop = new Coop(12, 14,this);
         
-        coop.removeEgg();
-        coop.removeEgg();
-        coop.removeEgg();
-        coop.removeEgg();
-        coop.removeEgg();
-        coop.removeEgg();
-        coop.removeEgg();
-        coop.removeEgg();
-        coop.removeEgg();
-        coop.removeEgg();
         
         //Lets keep this code clean and understandable
 
@@ -90,10 +77,12 @@ BasicGame.Game.prototype =
             this.level.updateLevel();
             this.guidePositioning(this.input.mousePointer.x,this.input.mousePointer.y);
         }
+        this.chickenUpdate();
 		//console.log("dans update");
 	},
     loadLevel: function()
     {
+        //All of this should come from the level "class"
         var bg = this.add.sprite(0,0,'grass');
         var map = this.add.tilemap('test_lvl');
         map.addTilesetImage('tileset');
@@ -276,6 +265,13 @@ BasicGame.Game.prototype =
             console.log("Positioning Chicken "+x+" "+y);
         }
         this.chickenAmount++;
+    },
+    chickenUpdate: function()
+    {
+        for(var i=0;i<this.chickens.length;i++)
+        {
+            this.chickens[i].update();
+        }
     },
 	quitGame: function (pointer) 
     {

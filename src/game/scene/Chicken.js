@@ -12,13 +12,15 @@ var Chicken = function (Xtile,Ytile,Index,gameContext)
 
     this.setSprite();
     this.setRange();
+    this.cleanRange();
 }
 
 Chicken.prototype =
 {
     attack: function(enemy)
     {
-        console.log("Chicken attacked "+enemy);
+        console.log("Chicken attacked ");
+        enemy.enemy.isAttacked(10);
     },
     detectEnemies: function()
     {
@@ -29,6 +31,7 @@ Chicken.prototype =
             if(this.rangeCircle.contains(this.gameContext.game.enemies[i].enemy.x,this.gameContext.game.enemies[i].enemy.y))
             {
                 console.log("Found an enemy"+this.gameContext.game.enemies[i]);
+                this.attack(this.gameContext.game.enemies[i]);
             }
         }
     },
@@ -48,6 +51,11 @@ Chicken.prototype =
         this.rangeSprite.position.x = (this.x*64+32);
         this.rangeSprite.position.y = (this.y*64+32);
         this.rangeCircle = new Phaser.Circle(this.x*64+32,this.y*64+32,2*this.range);
+    },
+    update: function()
+    {
+        console.log("Updating Chicken");
+        this.detectEnemies();
     },
     print: function()
     {
@@ -81,6 +89,7 @@ var Longie = function (Xtile,Ytile,Index,gameContext)
 
     this.setSprite();
     this.setRange();
+    this.cleanRange();
 }
 
 Longie.prototype = Object.create(Chicken.prototype);
@@ -95,19 +104,24 @@ var Poopie = function (Xtile,Ytile,Index,gameContext)
     this.gameContext = gameContext;
     this.x = Xtile;
     this.y = Ytile;
-    this.range = 128;
+    this.range = 256;
 
     this.sprite = gameContext.add.sprite(Xtile*64-8,(Ytile*64+15),'poopieP');
     this.rangeSprite = gameContext.add.graphics(0,0);
 
     this.setSprite();
     this.setRange();
+    this.cleanRange();
 }
 
 Poopie.prototype = Object.create(Chicken.prototype);
 Poopie.prototype.print = function()
 {
     console.log("Poopie is special");
+};
+Poopie.prototype.attack = function(enemy)
+{
+   enemy.enemy.speed = 1;
 };
 
 var Fartie = function (Xtile,Ytile,Index,gameContext)
@@ -123,6 +137,7 @@ var Fartie = function (Xtile,Ytile,Index,gameContext)
 
     this.setSprite();
     this.setRange();
+    this.cleanRange();
 }
 
 Fartie.prototype = Object.create(Chicken.prototype);
@@ -144,6 +159,7 @@ var Robot = function (Xtile,Ytile,Index,gameContext)
 
     this.setSprite();
     this.setRange();
+    this.cleanRange();
 }
 
 Robot.prototype = Object.create(Chicken.prototype);

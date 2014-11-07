@@ -21,8 +21,8 @@ Level.prototype =
 	},
 	setFirstWave: function(){
 		console.log("first Wave created");
-		this.waves[0] = new Wave(this.game, this.game.time.now + 50, this.path, this.infoWaves);
-		this.timeBeginLastWave = this.game.time.now + 50;
+		this.waves[0] = new Wave(this.game, this.game.time.now + 1000, this.path, this.infoWaves);
+		this.timeBeginLastWave = this.game.time.now + 1000;
 	},
 	setCoopLocalisation: function() {
 		this.coopLocalisation = {x: this.path[this.path.length-1].x, y: this.path[this.path.length-1].y};
