@@ -3,6 +3,8 @@ BasicGame.MainMenu = function (game)
 {
 
 	this.music = null;
+    this.clickButtonSound = null;
+    this.unclickButtonSound = null;
 	this.playButton = null;
     var lvl1;
     var lvl2;
@@ -30,7 +32,7 @@ BasicGame.MainMenu.prototype =
     {
         
         this.startMusic();
-        
+        this.startSounds();
 		this.add.sprite(0,0,'menuBg');
         
         lvl1 = this.add.sprite(BasicGame.convertWidth(100),BasicGame.convertHeight(140),'lvl1');
@@ -163,6 +165,7 @@ BasicGame.MainMenu.prototype =
     
 	onClick:function(buttonName)
     {
+        this.prescope.clickButtonSound.play();
         switch(this.buttonName)
         {
             case "level 1":
@@ -192,6 +195,7 @@ BasicGame.MainMenu.prototype =
 	},
     onClickReleased:function(buttonName,prescope)
     {
+        this.prescope.unclickButtonSound.play();
         switch(this.buttonName)
         {
             case "level 1":
@@ -279,6 +283,11 @@ BasicGame.MainMenu.prototype =
             this.music.play();
         }
 	},
+    startSounds: function()
+    {
+        this.clickButtonSound = this.add.audio('click_in');
+        this.unclickButtonSound = this.add.audio('click_out');
+    },
     resumeMusic: function()
     {
         this.music.volume = BasicGame.musicVolume;
