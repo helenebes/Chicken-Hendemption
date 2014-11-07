@@ -59,7 +59,6 @@ BasicGame.Game.prototype =
         this.setupMap();
         
         //Lets keep this code clean and understandable
-
 	this.game.enemies = [];
 	this.level = new Level(this.game);
 
