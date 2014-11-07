@@ -38,8 +38,8 @@ var OptionsPanel = function(game, parent)
 		else
 		{
 			this.checkMusic.loadTexture('check_true',0);
-			this.game.state.getCurrentState().startMusic();
 			BasicGame.music = true;
+			this.game.state.getCurrentState().resumeMusic();
 		}
 	},this);
 	

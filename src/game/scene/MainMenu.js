@@ -253,7 +253,15 @@ BasicGame.MainMenu.prototype =
         {
             this.music.play();
         }
-	}
+	},
+    resumeMusic: function()
+    {
+        this.music.volume = BasicGame.musicVolume;
+        if(BasicGame.music)
+        {
+            this.music.play();
+        }
+    }
     
     
 
