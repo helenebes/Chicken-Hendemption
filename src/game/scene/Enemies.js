@@ -19,7 +19,11 @@ Enemies.prototype =
 		this.enemy.animations.add('walk right', [6,7,8]);
 		this.enemy.animations.add('walk up', [9,10,11]);
     	this.enemy.play('walk down',2, true);
-		this.enemy.speed = 24;
+		this.enemy.speed = 5;
+		this.enemy.offsetX = 30;
+		this.enemy.offsetY = 30;
+		this.enemy.x = this.enemy.path[0].x * 64 + this.enemy.offsetX;
+		this.enemy.y = this.enemy.path[0].y * 64 + this.enemy.offsetY;
 		this.enemy.health = 100;
 		this.enemy.damageToEggs = 10;
 		this.enemy.damageToChicken = 0;
@@ -30,17 +34,13 @@ Enemies.prototype =
 	setSprite: function() {
 		this.enemy.inputEnabled = true;
 		this.enemy.input.enableDrag();
-		this.enemy.x = this.enemy.path[0].x * 64 - 30;
-		this.enemy.y = this.enemy.path[0].y * 64;
 		this.enemy.nextTile = 0;
 		this.enemy.alive;
 		this.enemy.toTheEnd = false;
-		this.enemy.dies = (function() {
-				if (this.health === 0) {
+		this.enemy.isAttacked = (function(damage) {
+				this.health -= damage;
+				if (this.health <= 0) {
 					this.kill();
-					//it needs to be suppressed of the list of enemies !!!
-					//this.game.ennemies[this.indexEnemy] = this.game.ennemies[this.game.ennemies.length-1];
-					//enemy.game.ennemies.pop();
 				}
 		});
 	},
@@ -55,11 +55,11 @@ Enemies.prototype =
 
 var Mummy = function (game, path, IndexEnemy, wave)
 {
-	this.enemy.indexEnemy = IndexEnemy;
     this.game = game;
 	this.enemy = game.add.sprite(path[0].x*64, path[0].y*64, 'mummy');
 	console.log("Creation mummy");
 	this.enemy.path = path;
+	this.enemy.indexEnemy = IndexEnemy;
 	this.wave = wave;
 	this.setSprite();
 	this.setAnim();
@@ -72,6 +72,10 @@ Mummy.prototype.setAnim = function()
     var anim = this.enemy.animations.add('walk');
     this.enemy.play('walk', 10, true);
 	this.enemy.speed = 20;
+	this.enemy.offsetX = 30;
+	this.enemy.offsetY = 30;
+	this.enemy.x = this.enemy.path[0].x * 64 + this.enemy.offsetX;
+	this.enemy.y = this.enemy.path[0].y * 64 + this.enemy.offsetY;
 	this.enemy.health = 200;
 	this.enemy.damageToEggs = 5;
 	this.enemy.damageToChicken = 0;
@@ -82,11 +86,11 @@ Mummy.prototype.setAnim = function()
 
 var Lagarto = function (game, path, IndexEnemy, wave)
 {
-	this.enemy.indexEnemy = IndexEnemy;
     this.game = game;
 	this.enemy = game.add.sprite(path[0].x*64, path[0].y*64, 'lagarto');
 	console.log("Creation lagarto");
 	this.enemy.path = path;
+	this.enemy.indexEnemy = IndexEnemy;
 	this.wave = wave;
 	this.setSprite();
 	this.setAnim();
@@ -101,7 +105,11 @@ Lagarto.prototype.setAnim = function()
 	this.enemy.animations.add('walk right', [6,7,8]);
 	this.enemy.animations.add('walk up', [9,10,11]);
     this.enemy.play('walk down', 1, true);
-	this.enemy.speed = 40;
+	this.enemy.speed = 1;
+	this.enemy.offsetX = -30;
+	this.enemy.offsetY = -30;
+	this.enemy.x = this.enemy.path[0].x * 64 + this.enemy.offsetX;
+	this.enemy.y = this.enemy.path[0].y * 64 + this.enemy.offsetY;
 	this.enemy.health = 50;
 	this.enemy.damageToEggs = 10;
 	this.enemy.damageToChicken = 0;
@@ -112,11 +120,11 @@ Lagarto.prototype.setAnim = function()
 
 var Snake = function (game, path, IndexEnemy, wave)
 {
-	this.enemy.indexEnemy = IndexEnemy;
     this.game = game;
 	this.enemy = game.add.sprite(path[0].x*64, path[0].y*64, 'snake');
 	console.log("Creation snake");
 	this.enemy.path = path;
+	this.enemy.indexEnemy = IndexEnemy;
 	this.wave = wave;
 	this.setSprite();
 	this.setAnim();
@@ -125,13 +133,17 @@ var Snake = function (game, path, IndexEnemy, wave)
 Snake.prototype = Object.create(Enemies.prototype);
 Snake.prototype.setAnim = function()
 {
-    this.enemy.scale.set(1.5);
+    this.enemy.scale.set(1);
 	this.enemy.animations.add('walk down', [0,1,2]);
     this.enemy.animations.add('walk left', [3,4,5]);
 	this.enemy.animations.add('walk right', [6,7,8]);
 	this.enemy.animations.add('walk up', [9,10,11]);
     this.enemy.play('walk down',1, true);
 	this.enemy.speed = 20;
+	this.enemy.offsetX = -30;
+	this.enemy.offsetY = -30;
+	this.enemy.x = this.enemy.path[0].x * 64 + this.enemy.offsetX;
+	this.enemy.y = this.enemy.path[0].y * 64 + this.enemy.offsetY;
 	this.enemy.health = 70;
 	this.enemy.damageToEggs = 10;
 	this.enemy.damageToChicken = 0;
@@ -142,11 +154,11 @@ Snake.prototype.setAnim = function()
 
 var Turtle = function (game, path, IndexEnemy, wave)
 {
-	this.enemy.indexEnemy = IndexEnemy;
     this.game = game;
 	this.enemy = game.add.sprite(path[0].x*64, path[0].y*64, 'turtle');
 	console.log("Creation turtle");
 	this.enemy.path = path;
+	this.enemy.indexEnemy = IndexEnemy;
 	this.wave = wave;
 	this.setSprite();
 	this.setAnim();
@@ -155,13 +167,17 @@ var Turtle = function (game, path, IndexEnemy, wave)
 Turtle.prototype = Object.create(Enemies.prototype);
 Turtle.prototype.setAnim = function()
 {
-    this.enemy.scale.set(1.5);
+    this.enemy.scale.set(0.7);
 	this.enemy.animations.add('walk down', [0,1,2,3]);
     this.enemy.animations.add('walk left', [4,5,6,7]);
 	this.enemy.animations.add('walk right', [8,9,10,11]);
 	this.enemy.animations.add('walk up', [12,13,14,15]);
     this.enemy.play('walk down',3, true);
 	this.enemy.speed = 5;
+	this.enemy.offsetX = -30;
+	this.enemy.offsetY = -30;
+	this.enemy.x = this.enemy.path[0].x * 64 + this.enemy.offsetX;
+	this.enemy.y = this.enemy.path[0].y * 64 + this.enemy.offsetY;
 	this.enemy.damageReduction = 10;
 	this.enemy.health = 250;
 	this.enemy.damageToEggs = 30;
@@ -189,7 +205,7 @@ Wave.prototype =
 
 	setWave: function() {
 		this.firstEnemyCreate = true;
-		var typeEnemy = 'dog';
+		var typeEnemy = 'turtle';
         //var typeEnemy = this.infoWaves.typeEnemy[parseInt(Math.random() * this.infoWaves.typeEnemy.length)];
 		switch (typeEnemy)
 		{
@@ -201,6 +217,12 @@ Wave.prototype =
 				break;
 			case 'lagarto':
 				this.game.enemies[this.game.enemies.length] = new Lagarto(this.game, this.path, this.game.enemies.length, this.waveEnemy);
+				break;
+			case 'turtle':
+				this.game.enemies[this.game.enemies.length] = new Turtle(this.game, this.path, this.game.enemies.length, this.waveEnemy);
+				break;
+			case 'snake':
+				this.game.enemies[this.game.enemies.length] = new Snake(this.game, this.path, this.game.enemies.length, this.waveEnemy);
 				break;
 		}	
 		console.log("Create Enemy: "+typeEnemy);
@@ -214,7 +236,11 @@ Wave.prototype =
 		}
 		if (this.firstEnemyCreate) {
 			while (this.waveEnemy.countDead() > 0) {
-				this.waveEnemy.remove(this.waveEnemy.getFirstDead());
+				var toKill = this.waveEnemy.getFirstDead();
+				this.game.enemies[this.game.enemies.length-1].enemy.indexEnemy = toKill.indexEnemy;
+				this.game.enemies[toKill.indexEnemy] = this.game.enemies[this.game.enemies.length-1];
+				this.game.enemies.pop();
+				this.waveEnemy.remove(toKill);
 			}
 			if (this.game.time.now > this.lastMove) {
 				this.lastMove = this.game.time.now;
@@ -234,11 +260,11 @@ moveEnemy.prototype =
 {
 	moveOnTile: function(enemy){
 
-		if (enemy.nextTile === 15) {
-			enemy.health = 0;
-			enemy.dies();
+		/*if (enemy.nextTile === 15) {
+			enemy.health = 10;
+			enemy.isAttacked(10);
 			console.log("enemy dead !!");
-		}
+		}*/
 
 		if (enemy.speedX < 0 && enemy.x <= enemy.nextTileX || enemy.speedX > 0 && enemy.x >= enemy.nextTileX) {
 			enemy.x = enemy.nextTileX;
@@ -260,13 +286,8 @@ moveEnemy.prototype =
 	nextTile: function(enemy){
 		if (enemy.nextTile < enemy.path.length - 1) {
 			enemy.nextTile++;
-			if (enemy.path[enemy.nextTile-1].x === enemy.path[enemy.nextTile].x){
-				enemy.nextTileX = enemy.path[enemy.nextTile].x * 64 - 30;
-				enemy.nextTileY = enemy.path[enemy.nextTile].y * 64;
-			} else {
-				enemy.nextTileX = enemy.path[enemy.nextTile].x * 64;
-				enemy.nextTileY = enemy.path[enemy.nextTile].y * 64 - 30;
-			}
+			enemy.nextTileX = enemy.path[enemy.nextTile].x * 64 + enemy.offsetX;
+			enemy.nextTileY = enemy.path[enemy.nextTile].y * 64 + enemy.offsetX;
 
 			// Checking if there is a change of direction left/right
 			if (enemy.nextTileY > enemy.y) {
