@@ -19,19 +19,16 @@ Chicken.prototype =
 {
     attack: function(enemy)
     {
-        console.log("Chicken attacked ");
         enemy.enemy.isAttacked(10);
     },
     detectEnemies: function()
     {
         for(var i=0;i<this.gameContext.game.enemies.length;i++)
         {
-            console.log(this.gameContext.game.enemies[i].enemy.x);
-            console.log(this.gameContext.game.enemies[i].enemy.y);
             if(this.rangeCircle.contains(this.gameContext.game.enemies[i].enemy.x,this.gameContext.game.enemies[i].enemy.y))
             {
-                console.log("Found an enemy"+this.gameContext.game.enemies[i]);
                 this.attack(this.gameContext.game.enemies[i]);
+                break;
             }
         }
     },
@@ -54,7 +51,6 @@ Chicken.prototype =
     },
     update: function()
     {
-        console.log("Updating Chicken");
         this.detectEnemies();
     },
     print: function()
@@ -123,6 +119,16 @@ Poopie.prototype.attack = function(enemy)
 {
    enemy.enemy.speed = 1;
 };
+Poopie.prototype.detectEnemies = function()
+{
+    for(var i=0;i<this.gameContext.game.enemies.length;i++)
+    {
+        if(this.rangeCircle.contains(this.gameContext.game.enemies[i].enemy.x,this.gameContext.game.enemies[i].enemy.y))
+        {
+            this.attack(this.gameContext.game.enemies[i]);
+        }
+    }
+};
 
 var Fartie = function (Xtile,Ytile,Index,gameContext)
 {
@@ -130,7 +136,7 @@ var Fartie = function (Xtile,Ytile,Index,gameContext)
     this.gameContext = gameContext;
     this.x = Xtile;
     this.y = Ytile;
-    this.range = 64;
+    this.range = 3*64;
 
     this.sprite = gameContext.add.sprite(Xtile*64,(Ytile*64-8),'fartieP');
     this.rangeSprite = gameContext.add.graphics(0,0);
@@ -144,6 +150,16 @@ Fartie.prototype = Object.create(Chicken.prototype);
 Fartie.prototype.print = function()
 {
     console.log("Fartie is special");
+};
+Fartie.prototype.detectEnemies = function()
+{
+    for(var i=0;i<this.gameContext.game.enemies.length;i++)
+    {
+        if(this.rangeCircle.contains(this.gameContext.game.enemies[i].enemy.x,this.gameContext.game.enemies[i].enemy.y))
+        {
+            this.attack(this.gameContext.game.enemies[i]);
+        }
+    }
 };
 
 var Robot = function (Xtile,Ytile,Index,gameContext)

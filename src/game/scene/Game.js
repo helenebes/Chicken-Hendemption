@@ -61,9 +61,6 @@ BasicGame.Game.prototype =
         this.initializeChickenStructure();
         this.setupMap();
         
-        var coop = new Coop(12, 14,this);
-        
-        
         //Lets keep this code clean and understandable
 
         this.game.enemies = [];
@@ -83,6 +80,8 @@ BasicGame.Game.prototype =
     loadLevel: function()
     {
         //All of this should come from the level "class"
+        this.coop = new Coop(12, 14,10,this);
+
         var bg = this.add.sprite(0,0,'grass');
         var map = this.add.tilemap('test_lvl');
         map.addTilesetImage('tileset');
