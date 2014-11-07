@@ -113,6 +113,8 @@ BasicGame.Preloader.prototype = {
 		// songs
 		this.load.audio('chicken_family', ['assets/sounds/ChickenFamily.mp3', 'assets/sounds/ChickenFamily.ogg']);
         this.load.audio('menu_music', ['assets/sounds/MenuMusic.mp3', 'assets/sounds/MenuMusic.ogg']);
+        this.load.audio('click_in', ['assets/sounds/click3.ogg']);
+        this.load.audio('click_out', ['assets/sounds/click4.ogg']);
 		
         this.load.spritesheet('dog','assets/'+BasicGame.screen+"/dog.png", 40, 40, 12);
         this.load.spritesheet('mummy', 'assets/'+BasicGame.screen+"/mummy.png", 37, 45, 18); // width de cada sprite, height de cada sprite, numero de sprites no arquivo
