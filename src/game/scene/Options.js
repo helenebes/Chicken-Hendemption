@@ -43,7 +43,7 @@ var OptionsPanel = function(game, parent)
 		}
 	},this);
 	
-	this.adjustMusicVolume = this.game.add.sprite(-40,120, 'arrow');
+	this.adjustMusicVolume = this.game.add.sprite(BasicGame.musicVolume*333 -195,120, 'arrow');
     this.musicSlider = new Phaser.Rectangle(-195,120,372,58);
     this.adjustMusicVolume.inputEnabled = true;
     this.adjustMusicVolume.input.enableDrag(true);
@@ -79,7 +79,7 @@ var OptionsPanel = function(game, parent)
 		}
 	},this);
 	
-	this.adjustSoundVolume = this.game.add.sprite(-40,284, 'arrow');
+	this.adjustSoundVolume = this.game.add.sprite(BasicGame.soundVolume*333 -195,284, 'arrow');
     this.soundSlider = new Phaser.Rectangle(-195,284,372,58);
     this.adjustSoundVolume.inputEnabled = true;
     this.adjustSoundVolume.input.enableDrag(true);
