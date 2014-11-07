@@ -8,9 +8,13 @@ BasicGame.MainMenu = function (game)
     var lvl2;
     var lvl3;
     var opt;
-    var chickenInfo;
-    var enemieInfo;
-    var howToPlayInfo;
+    var chickenInfoButton;
+    var chickenInfoWindow;
+    var enemyInfoButton;
+    var enemyInfoWindow;
+    var howToPlayInfoButton;
+    var howToPlayInfoWindow;
+    
     var back;
     var paused;
 	//this.optionsPanel;
@@ -33,9 +37,9 @@ BasicGame.MainMenu.prototype =
         lvl2 = this.add.sprite(BasicGame.convertWidth(190),BasicGame.convertHeight(140),'lvl2');
         lvl3 = this.add.sprite(BasicGame.convertWidth(280),BasicGame.convertHeight(140),'lvl3');
         opt = this.add.sprite(BasicGame.convertWidth(453),BasicGame.convertHeight(5),'opt');
-        chickenInfo = this.add.sprite(BasicGame.convertWidth(90),BasicGame.convertHeight(278),'chickenB');
-        enemieInfo = this.add.sprite(BasicGame.convertWidth(210),BasicGame.convertHeight(278),'enemiesB');
-        howToPlayInfo = this.add.sprite(BasicGame.convertWidth(330),BasicGame.convertHeight(270),'howToPlayB');
+        chickenInfoButton = this.add.sprite(BasicGame.convertWidth(90),BasicGame.convertHeight(278),'chickenB');
+        enemyInfoButton = this.add.sprite(BasicGame.convertWidth(210),BasicGame.convertHeight(278),'enemiesB');
+        howToPlayInfoButton = this.add.sprite(BasicGame.convertWidth(330),BasicGame.convertHeight(270),'howToPlayB');
         back = this.add.sprite(BasicGame.convertWidth(20),BasicGame.convertHeight(270),'back');
         
 		lvl1.inputEnabled = true;
@@ -54,17 +58,17 @@ BasicGame.MainMenu.prototype =
 		opt.events.onInputDown.add(this.onClick,{buttonName:"options",prescope: this});
         opt.events.onInputUp.add(this.onClickReleased,{buttonName:"options",prescope: this});
         
-		chickenInfo.inputEnabled = true;
-		chickenInfo.events.onInputDown.add(this.onClick,{buttonName:"chicken info",prescope: this});
-        chickenInfo.events.onInputUp.add(this.onClickReleased,{buttonName:"chicken info",prescope: this});
+		chickenInfoButton.inputEnabled = true;
+		chickenInfoButton.events.onInputDown.add(this.onClick,{buttonName:"chicken info",prescope: this});
+        chickenInfoButton.events.onInputUp.add(this.onClickReleased,{buttonName:"chicken info",prescope: this});
         
-		enemieInfo.inputEnabled = true;
-		enemieInfo.events.onInputDown.add(this.onClick,{buttonName:"enemy info",prescope: this});
-        enemieInfo.events.onInputUp.add(this.onClickReleased,{buttonName:"enemy info",prescope: this});
+		enemyInfoButton.inputEnabled = true;
+		enemyInfoButton.events.onInputDown.add(this.onClick,{buttonName:"enemy info",prescope: this});
+        enemyInfoButton.events.onInputUp.add(this.onClickReleased,{buttonName:"enemy info",prescope: this});
         
-		howToPlayInfo.inputEnabled = true;
-		howToPlayInfo.events.onInputDown.add(this.onClick,{buttonName:"how to play",prescope: this});
-        howToPlayInfo.events.onInputUp.add(this.onClickReleased,{buttonName:"how to play",prescope: this});
+		howToPlayInfoButton.inputEnabled = true;
+		howToPlayInfoButton.events.onInputDown.add(this.onClick,{buttonName:"how to play",prescope: this});
+        howToPlayInfoButton.events.onInputUp.add(this.onClickReleased,{buttonName:"how to play",prescope: this});
         
 		back.inputEnabled = true;
 		back.events.onInputDown.add(this.onClickReleased,{buttonName:"back",prescope: this});
@@ -75,6 +79,9 @@ BasicGame.MainMenu.prototype =
 		this.game.add.existing(BasicGame.optionsPanel);
         paused = false;
         
+        howToPlayInfoWindow = new Window(this, "How To Play");
+        chickenInfoWindow = new Window(this, "Chickens");
+        enemyInfoWindow = new Window(this, "Enemies");
 		/*
 		//Aligning HUD to view edges
 		//Align to left top edge
@@ -129,27 +136,29 @@ BasicGame.MainMenu.prototype =
         
     },
 
-    playGame: function()
+    playGame: function(windowType)
     {
         if(paused)
         {
             // Hide panel
             paused = false;
-            BasicGame.optionsPanel.hide();
-			//this.optionsPanel.hide();
+            
+            switch(windowType)
+            {
+                case "Options":
+                    BasicGame.optionsPanel.hide();
+                    break;
+                case "How To Play":
+                    howToPlayInfoWindow.hide();
+                    break;
+                case "Chickens":
+                    chickenInfoWindow.hide();
+                    break;
+                case "Enemies":
+                    enemyInfoWindow.hide();
+                    break;
+            }
 		}
-    },
-    
-    onMouseOver:function()
-    {
-        poopie_H.scale.x = 0.9;
-        poopie_H.scale.y = 0.9;
-    },
-    
-    onMouseOut:function()
-    {
-        poopie_H.scale.x = 0.8;
-        poopie_H.scale.y = 0.8;
     },
     
 	onClick:function(buttonName)
@@ -169,13 +178,13 @@ BasicGame.MainMenu.prototype =
                 opt.loadTexture('opt_pressed',0);
                 break;
             case "chicken info":
-                chickenInfo.loadTexture('chickenB_pressed',0);
+                chickenInfoButton.loadTexture('chickenB_pressed',0);
                 break;
             case "enemy info":
-                enemieInfo.loadTexture('enemiesB_pressed',0);
+                enemyInfoButton.loadTexture('enemiesB_pressed',0);
                 break;
             case "how to play":
-                howToPlayInfo.loadTexture('howToPlayB_pressed',0);
+                howToPlayInfoButton.loadTexture('howToPlayB_pressed',0);
                 break;
         }
 		
@@ -206,16 +215,32 @@ BasicGame.MainMenu.prototype =
                 }
                 break;
             case "chicken info":
-                chickenInfo.loadTexture('chickenB',0);
+                chickenInfoButton.loadTexture('chickenB',0);
+                if(!paused)
+                {
+                    paused = true;
+                    chickenInfoWindow.show();
+                }
                 break;
             case "enemy info":
-                enemieInfo.loadTexture('enemiesB',0);
+                enemyInfoButton.loadTexture('enemiesB',0);
+                if(!paused)
+                {
+                    paused = true;
+                    enemyInfoWindow.show();
+                }
                 break;
             case "how to play":
-                howToPlayInfo.loadTexture('howToPlayB',0);
+                howToPlayInfoButton.loadTexture('howToPlayB',0);
+                if(!paused)
+                {
+                    paused = true;
+                    howToPlayInfoWindow.show();
+                }
                 break;
             case "back":
                 this.prescope.state.start('Intro');
+                
         }
 	},
     

@@ -1,7 +1,7 @@
-var Coop = function (Xtile,Ytile,gameContext)
+var Coop = function (Xtile,Ytile, InitialEggsNum, gameContext)
 {
-    this.sprite = gameContext.add.sprite((Xtile*64) + 16,(Ytile*64) - 16,'coop_10');
-    this.eggCounter = 10;
+    this.sprite = gameContext.add.sprite((Xtile*64) + 16,(Ytile*64) - 16,'coop_' + InitialEggsNum);
+    this.eggCounter = InitialEggsNum;
     this.gameContext = gameContext;
 }
 
