@@ -25,12 +25,7 @@ BasicGame.MainMenu.prototype =
 	create: function () 
     {
         
-        this.music = this.add.audio('menu_music');
-		this.music.loop = true;
-        if(BasicGame.music)
-        {
-            this.startMusic();
-        }
+        this.startMusic();
         
 		this.add.sprite(0,0,'menuBg');
         
@@ -240,15 +235,33 @@ BasicGame.MainMenu.prototype =
         },100);
 		//	And start the actual game
 	},
-    
+    updateVolume: function()
+    {
+        this.music.volume = BasicGame.musicVolume;
+        //this.sound.volume = BasicGame.soundVolume;
+    },
     stopMusic: function()
 	{
 		this.music.stop();
 	},
 	startMusic: function()
 	{
-		this.music.play();
-	}
+        this.music = this.add.audio('menu_music');
+		this.music.loop = true;
+        this.music.volume = BasicGame.musicVolume;
+        if(BasicGame.music)
+        {
+            this.music.play();
+        }
+	},
+    resumeMusic: function()
+    {
+        this.music.volume = BasicGame.musicVolume;
+        if(BasicGame.music)
+        {
+            this.music.play();
+        }
+    }
     
     
 

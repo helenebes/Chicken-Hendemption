@@ -21,7 +21,7 @@ BasicGame.Game = function (game)
     this.physics;	//	the physics manager
     this.rnd;		//	the repeatable random number generator
 
-	this.paused = false;
+	this.paused;
 	this.inGameOpt;
 	
 	this.MapTileWidth = 20;
@@ -29,8 +29,8 @@ BasicGame.Game = function (game)
 	this.MapOffset = 128;
 	this.TileSize = 64;
 
-    this.positionMode = false;
-    this.pendingMenu = false;
+    this.positionMode;
+    this.pendingMenu;
     
     this.map = new Map();
 
@@ -48,7 +48,14 @@ BasicGame.Game.prototype =
     //Create and Update functions
 	create: function () 
     {     
+        var style = { font: "65px Arial", fill: "#ff0044", align: "center" };
+
+        var textobj = this.add.text(100,100, "skjhdbajsdbjaksdhasbdkaskjhdbajsdbjaksdhasbdkaskjhdbajsdbjaksdhasbdkaskjhdbajsdbjaksdhasbdkaskjhdbajsdbasbdkaskjhd", style);
+        this.world.bringToTop(textobj);
+
+        this.setControlVars();
         this.loadLevel();
+        this.map.cleanMap();
 
         this.startMusic();
         this.initializeInterface();
@@ -78,9 +85,12 @@ BasicGame.Game.prototype =
 	},
 	update: function () 
     {
-        this.level.updateLevel();
+        if(this.paused == false)
+        {
+            this.level.updateLevel();
+            this.guidePositioning(this.input.mousePointer.x,this.input.mousePointer.y);
+        }
 		//console.log("dans update");
-        this.guidePositioning(this.input.mousePointer.x,this.input.mousePointer.y);
 	},
     loadLevel: function()
     {
@@ -89,6 +99,12 @@ BasicGame.Game.prototype =
         map.addTilesetImage('tileset');
         var layer = map.createLayer('layer1');
         layer.resizeWorld();
+    },
+    setControlVars: function()
+    {
+        this.paused = false;
+        this.pendingMenu = false;
+        this.positionMenu = false;
     },
     //Guided Positioning functions
     initializeGuidedPositioningStructures: function()
@@ -227,12 +243,12 @@ BasicGame.Game.prototype =
         var Ytile = (~~(this.input.mousePointer.y/this.TileSize));
         var x = (Xtile)*this.TileSize;
         var y = (Ytile)*this.TileSize;
-        console.log("Putting: "+Xtile+","+Ytile);
         if(this.map.testTile(Xtile,Ytile))
         {
             console.log("Tile is occupied/forbidden");
         } else if((x>=128)&&(x<1408))
         {
+            console.log("Putting: "+Xtile+","+Ytile);
             this.map.setTile(Xtile,Ytile);
             switch(type)
             {
@@ -286,6 +302,7 @@ BasicGame.Game.prototype =
 		opt.loadTexture('opt',0);
 		this.inGameOpt.show();
         this.world.bringToTop(this.inGameOpt);
+        this.paused = true;
     },
     playGame: function()
     {
@@ -309,6 +326,11 @@ BasicGame.Game.prototype =
         this.world.bringToTop(BasicGame.optionsPanel);
         this.pendingMenu = true;
 	},
+    updateVolume: function()
+    {
+        this.music.volume = BasicGame.musicVolume;
+        //this.sound.volume = BasicGame.soundVolume;
+    },
 	stopMusic: function()
 	{
 		this.music.stop();
@@ -317,10 +339,19 @@ BasicGame.Game.prototype =
 	{
 		this.music = this.add.audio('chicken_family');
 		this.music.loop = true;
+        this.music.volume = BasicGame.musicVolume;
         if(BasicGame.music)
         {
             this.music.play();
         }
-	}
+	},
+    resumeMusic: function()
+    {
+        this.music.volume = BasicGame.musicVolume;
+        if(BasicGame.music)
+        {
+            this.music.play();
+        }
+    }
 
 };

@@ -38,12 +38,12 @@ var OptionsPanel = function(game, parent)
 		else
 		{
 			this.checkMusic.loadTexture('check_true',0);
-			this.game.state.getCurrentState().startMusic();
 			BasicGame.music = true;
+			this.game.state.getCurrentState().resumeMusic();
 		}
 	},this);
 	
-	this.adjustMusicVolume = this.game.add.sprite(-40,120, 'arrow');
+	this.adjustMusicVolume = this.game.add.sprite(BasicGame.musicVolume*333 -195,120, 'arrow');
     this.musicSlider = new Phaser.Rectangle(-195,120,372,58);
     this.adjustMusicVolume.inputEnabled = true;
     this.adjustMusicVolume.input.enableDrag(true);
@@ -51,6 +51,7 @@ var OptionsPanel = function(game, parent)
     this.adjustMusicVolume.events.onInputUp.add(function()
     {
         BasicGame.musicVolume = (this.adjustMusicVolume.position.x + 195)/333;
+		this.game.state.getCurrentState().updateVolume();
         console.log("Music Volume: "+BasicGame.musicVolume);
     },this);
 
@@ -78,7 +79,7 @@ var OptionsPanel = function(game, parent)
 		}
 	},this);
 	
-	this.adjustSoundVolume = this.game.add.sprite(-40,284, 'arrow');
+	this.adjustSoundVolume = this.game.add.sprite(BasicGame.soundVolume*333 -195,284, 'arrow');
     this.soundSlider = new Phaser.Rectangle(-195,284,372,58);
     this.adjustSoundVolume.inputEnabled = true;
     this.adjustSoundVolume.input.enableDrag(true);
@@ -86,6 +87,7 @@ var OptionsPanel = function(game, parent)
     this.adjustSoundVolume.events.onInputUp.add(function()
     {
         BasicGame.soundVolume = (this.adjustSoundVolume.position.x + 195)/333;
+		this.game.state.getCurrentState().updateVolume();
         console.log("Sound Volume: "+BasicGame.soundVolume);
     },this);
 	this.add(this.adjustSoundVolume);
