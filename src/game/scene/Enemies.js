@@ -1,14 +1,12 @@
 var Enemies = function (game, path, IndexEnemy, wave)
 {
-	this.indexEnemy = IndexEnemy;
     this.game = game;
-	this.enemy = game.add.sprite(path[0].x * 64, path[0].y * 64, 'dog', 1);
-	//console.log("Creation basic enemy (dog)");
+	this.enemy = game.add.sprite(path[0].x * 64, path[0].y * 64, 'dog');
 	this.enemy.path = path;
+	this.enemy.indexEnemy = IndexEnemy;
 	this.wave = wave;
 	this.setSprite();
 	this.setAnim();
-
 }
 
 
@@ -16,26 +14,50 @@ Enemies.prototype =
 {
 	setAnim: function() {
 		this.enemy.scale.set(1.5);
-    	this.anim = this.enemy.animations.add('walk', [3,4,5]);
-    	this.enemy.play('walk',5, true);
-		this.enemy.speed = 2;
+		this.enemy.animations.add('walk down', [0,1,2]);
+    	this.enemy.animations.add('walk left', [3,4,5]);
+		this.enemy.animations.add('walk right', [6,7,8]);
+		this.enemy.animations.add('walk up', [9,10,11]);
+    	this.enemy.play('walk down',2, true);
+		this.enemy.speed = 24;
+		this.enemy.health = 100;
+		this.enemy.damageToEggs = 10;
+		this.enemy.damageToChicken = 0;
+		this.enemy.attackSpeed = 15;
 		moveEnemy.prototype.nextTile(this.enemy);
 		this.wave.add(this.enemy);
 	},
 	setSprite: function() {
 		this.enemy.inputEnabled = true;
+		this.enemy.input.enableDrag();
 		this.enemy.x = this.enemy.path[0].x * 64 - 30;
 		this.enemy.y = this.enemy.path[0].y * 64;
 		this.enemy.nextTile = 0;
+		this.enemy.alive;
 		this.enemy.toTheEnd = false;
+		this.enemy.dies = (function() {
+				if (this.health === 0) {
+					this.kill();
+					//it needs to be suppressed of the list of enemies !!!
+					//this.game.ennemies[this.indexEnemy] = this.game.ennemies[this.game.ennemies.length-1];
+					//enemy.game.ennemies.pop();
+				}
+		});
+	},
+	damageToChicken: function(chicken) {
+		chicken.health -= this.enemy.damageToChicken;
+	},
+
+	damageSpeed: function(damageSpeed){
+		this.enemy.speed -= damageSpeed;
 	}	
 };
 
 var Mummy = function (game, path, IndexEnemy, wave)
 {
-	this.indexEnemy = IndexEnemy;
+	this.enemy.indexEnemy = IndexEnemy;
     this.game = game;
-	this.enemy = game.add.sprite(path[0].x*64, path[0].y*64, 'mummy', 1);
+	this.enemy = game.add.sprite(path[0].x*64, path[0].y*64, 'mummy');
 	console.log("Creation mummy");
 	this.enemy.path = path;
 	this.wave = wave;
@@ -49,16 +71,20 @@ Mummy.prototype.setAnim = function()
     this.enemy.scale.set(1.5);
     var anim = this.enemy.animations.add('walk');
     this.enemy.play('walk', 10, true);
-	this.enemy.speed = 1;
+	this.enemy.speed = 20;
+	this.enemy.health = 200;
+	this.enemy.damageToEggs = 5;
+	this.enemy.damageToChicken = 0;
+	this.enemy.attackSpeed = 15;
 	moveEnemy.prototype.nextTile(this.enemy);
 	this.wave.add(this.enemy);
 };
 
 var Lagarto = function (game, path, IndexEnemy, wave)
 {
-	this.indexEnemy = IndexEnemy;
+	this.enemy.indexEnemy = IndexEnemy;
     this.game = game;
-	this.enemy = game.add.sprite(path[0].x*64, path[0].y*64, 'lagarto', 1);
+	this.enemy = game.add.sprite(path[0].x*64, path[0].y*64, 'lagarto');
 	console.log("Creation lagarto");
 	this.enemy.path = path;
 	this.wave = wave;
@@ -70,9 +96,77 @@ Lagarto.prototype = Object.create(Enemies.prototype);
 Lagarto.prototype.setAnim = function()
 {
     this.enemy.scale.set(1.5);
-    this.anim = this.enemy.animations.add('walk', [3,4,5]);
-    this.enemy.play('walk',5, true);
-	this.enemy.speed = 4;
+	this.enemy.animations.add('walk down', [0,1,2]);
+    this.enemy.animations.add('walk left', [3,4,5]);
+	this.enemy.animations.add('walk right', [6,7,8]);
+	this.enemy.animations.add('walk up', [9,10,11]);
+    this.enemy.play('walk down', 1, true);
+	this.enemy.speed = 40;
+	this.enemy.health = 50;
+	this.enemy.damageToEggs = 10;
+	this.enemy.damageToChicken = 0;
+	this.enemy.attackSpeed = 40;
+	moveEnemy.prototype.nextTile(this.enemy);
+	this.wave.add(this.enemy);
+};
+
+var Snake = function (game, path, IndexEnemy, wave)
+{
+	this.enemy.indexEnemy = IndexEnemy;
+    this.game = game;
+	this.enemy = game.add.sprite(path[0].x*64, path[0].y*64, 'snake');
+	console.log("Creation snake");
+	this.enemy.path = path;
+	this.wave = wave;
+	this.setSprite();
+	this.setAnim();
+}
+
+Snake.prototype = Object.create(Enemies.prototype);
+Snake.prototype.setAnim = function()
+{
+    this.enemy.scale.set(1.5);
+	this.enemy.animations.add('walk down', [0,1,2]);
+    this.enemy.animations.add('walk left', [3,4,5]);
+	this.enemy.animations.add('walk right', [6,7,8]);
+	this.enemy.animations.add('walk up', [9,10,11]);
+    this.enemy.play('walk down',1, true);
+	this.enemy.speed = 20;
+	this.enemy.health = 70;
+	this.enemy.damageToEggs = 10;
+	this.enemy.damageToChicken = 0;
+	this.enemy.attackSpeed = 25;
+	moveEnemy.prototype.nextTile(this.enemy);
+	this.wave.add(this.enemy);
+};
+
+var Turtle = function (game, path, IndexEnemy, wave)
+{
+	this.enemy.indexEnemy = IndexEnemy;
+    this.game = game;
+	this.enemy = game.add.sprite(path[0].x*64, path[0].y*64, 'turtle');
+	console.log("Creation turtle");
+	this.enemy.path = path;
+	this.wave = wave;
+	this.setSprite();
+	this.setAnim();
+}
+
+Turtle.prototype = Object.create(Enemies.prototype);
+Turtle.prototype.setAnim = function()
+{
+    this.enemy.scale.set(1.5);
+	this.enemy.animations.add('walk down', [0,1,2,3]);
+    this.enemy.animations.add('walk left', [4,5,6,7]);
+	this.enemy.animations.add('walk right', [8,9,10,11]);
+	this.enemy.animations.add('walk up', [12,13,14,15]);
+    this.enemy.play('walk down',3, true);
+	this.enemy.speed = 5;
+	this.enemy.damageReduction = 10;
+	this.enemy.health = 250;
+	this.enemy.damageToEggs = 30;
+	this.enemy.damageToChicken = 0;
+	this.enemy.attackSpeed = 40;
 	moveEnemy.prototype.nextTile(this.enemy);
 	this.wave.add(this.enemy);
 };
@@ -119,6 +213,9 @@ Wave.prototype =
 			this.releaseTime = this.game.time.now;
 		}
 		if (this.firstEnemyCreate) {
+			while (this.waveEnemy.countDead() > 0) {
+				this.waveEnemy.remove(this.waveEnemy.getFirstDead());
+			}
 			if (this.game.time.now > this.lastMove) {
 				this.lastMove = this.game.time.now;
 				this.waveEnemy.forEachAlive(function(enemy) {
@@ -136,6 +233,12 @@ var moveEnemy = function(enemy){
 moveEnemy.prototype =
 {
 	moveOnTile: function(enemy){
+
+		if (enemy.nextTile === 15) {
+			enemy.health = 0;
+			enemy.dies();
+			console.log("enemy dead !!");
+		}
 
 		if (enemy.speedX < 0 && enemy.x <= enemy.nextTileX || enemy.speedX > 0 && enemy.x >= enemy.nextTileX) {
 			enemy.x = enemy.nextTileX;
@@ -167,10 +270,18 @@ moveEnemy.prototype =
 
 			// Checking if there is a change of direction left/right
 			if (enemy.nextTileY > enemy.y) {
-				enemy.angle = -90;
+				if (enemy.key === "mummy") {
+					enemy.angle = -90;
+				} else {
+					enemy.play('walk down',2, true);
+				}
 				enemy.speedY = enemy.speed;
 			} else if (enemy.nextTileY < enemy.y) {
-				enemy.angle = 90;
+				if (enemy.key === "mummy") {
+					enemy.angle = 90;
+				} else {
+					enemy.play('walk up',2, true);
+				}
 				enemy.speedY = -enemy.speed;
 			} else {
 				enemy.speedY = 0;
@@ -178,10 +289,18 @@ moveEnemy.prototype =
 
 			// Checking if there is a change of direction up/down
 			if (enemy.nextTileX > enemy.x) {
-				enemy.angle = 180;
+				if (enemy.key === "mummy") {
+					enemy.angle = 180;
+				} else {
+					enemy.play('walk right',2, true);
+				}
 				enemy.speedX = enemy.speed;
 			} else if (enemy.nextTileX < enemy.x) {
-				enemy.angle = 0;
+				if (enemy.key === "mummy") {
+					enemy.angle = 0;
+				} else {
+					enemy.play('walk left',2, true);
+				}
 				enemy.speedX = -enemy.speed;
 			} else {
 				enemy.speedX = 0;
