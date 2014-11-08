@@ -199,13 +199,17 @@ BasicGame.MainMenu.prototype =
         switch(this.buttonName)
         {
             case "level 1":
+                BasicGame.currentLevel = 1;
                 lvl1.loadTexture('lvl1',0);
                 this.prescope.startGame(this); 
                 break;
             case "level 2":
+                BasicGame.currentLevel = 2;
                 lvl2.loadTexture('lvl2',0);
+                this.prescope.startGame(this); 
                 break;
             case "level 3":
+                BasicGame.currentLevel = 3;
                 lvl3.loadTexture('lvl3',0);
                 break;
             case "options":

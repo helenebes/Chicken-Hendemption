@@ -17,7 +17,7 @@ var Level = function(game)
 Level.prototype = 
 {
 	setLevel: function() {
-		this.level = 1;	
+		this.level = 2;	
 	},
 	setFirstWave: function(){
 		console.log("first Wave created");

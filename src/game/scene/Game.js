@@ -414,5 +414,9 @@ BasicGame.Game.prototype =
                 this.bullets.splice(i,1);
             }
         }
+    },
+    shutdown: function()
+    {
+        this.stopMusic();
     }
 };

@@ -26,8 +26,7 @@ var InGameOptionsPanel = function(game, parent)
 	
 	this.btnReset = this.game.add.button(-200,200, 'reset_button_sheet',function()
     {
-		// to be done when there are a way to set wich level you are in
-		
+	this.game.state.getCurrentState().reloadLevel();	
     },this,0, 0, 1, 0);
 	this.add(this.btnReset);
 	
