@@ -32,6 +32,7 @@ Enemies.prototype =
 		this.wave.add(this.enemy);
 	},
 	setSprite: function() {
+		this.lastAttackCoop = 0;
 		this.enemy.inputEnabled = true;
 		this.enemy.input.enableDrag();
 		this.enemy.nextTile = 0;
@@ -44,12 +45,30 @@ Enemies.prototype =
 				}
 		});
 	},
-	damageToChicken: function(chicken) {
+	attackChicken: function(chicken) {
 		chicken.health -= this.enemy.damageToChicken;
 	},
 
 	damageSpeed: function(damageSpeed){
 		this.enemy.speed -= damageSpeed;
+	},
+	attackCoop: function(coop){
+		if (this.enemy.toTheEnd) {
+			if (this.game.time.now > this.lastAttackCoop*10/this.enemy.attackSpeed) {
+				//console.log(this.enemy.key);
+				this.lastAttackCoop = this.game.time.now;
+				this.game.currentEggHealth -= this.enemy.damageToEggs;
+				if (this.game.currentEggHealth <= 0) {
+					this.game.currentEggHealth = 100;
+					coop.removeEgg();
+				}
+			}
+		}
+	},
+	update: function(coop){
+		if (coop.eggCounter > 0) {
+			this.attackCoop(coop);
+		}
 	}	
 };
 
@@ -105,15 +124,15 @@ Lagarto.prototype.setAnim = function()
 	this.enemy.animations.add('walk right', [6,7,8]);
 	this.enemy.animations.add('walk up', [9,10,11]);
     this.enemy.play('walk down', 1, true);
-	this.enemy.speed = 1;
+	this.enemy.speed = 40;
 	this.enemy.offsetX = -30;
-	this.enemy.offsetY = -30;
+	this.enemy.offsetY = -40;
 	this.enemy.x = this.enemy.path[0].x * 64 + this.enemy.offsetX;
 	this.enemy.y = this.enemy.path[0].y * 64 + this.enemy.offsetY;
 	this.enemy.health = 50;
 	this.enemy.damageToEggs = 10;
 	this.enemy.damageToChicken = 0;
-	this.enemy.attackSpeed = 40;
+	this.enemy.attackSpeed = 60;
 	moveEnemy.prototype.nextTile(this.enemy);
 	this.wave.add(this.enemy);
 };
@@ -205,8 +224,8 @@ Wave.prototype =
 
 	setWave: function() {
 		this.firstEnemyCreate = true;
-		var typeEnemy = 'turtle';
-        //var typeEnemy = this.infoWaves.typeEnemy[parseInt(Math.random() * this.infoWaves.typeEnemy.length)];
+		//var typeEnemy = 'lagarto';
+        var typeEnemy = this.infoWaves.typeEnemy[parseInt(Math.random() * this.infoWaves.typeEnemy.length)];
 		switch (typeEnemy)
 		{
 			case 'dog':
@@ -225,7 +244,6 @@ Wave.prototype =
 				this.game.enemies[this.game.enemies.length] = new Snake(this.game, this.path, this.game.enemies.length, this.waveEnemy);
 				break;
 		}	
-		console.log("Create Enemy: "+typeEnemy);
 		this.nbEnemiesCreated++;           
 	},
 	move: function() {
@@ -245,7 +263,9 @@ Wave.prototype =
 			if (this.game.time.now > this.lastMove) {
 				this.lastMove = this.game.time.now;
 				this.waveEnemy.forEachAlive(function(enemy) {
-					moveEnemy.prototype.moveOnTile(enemy);
+					if (!enemy.toTheEnd){
+						moveEnemy.prototype.moveOnTile(enemy);
+					}
 				});
 			}
 		}
@@ -276,12 +296,6 @@ moveEnemy.prototype =
 		}
 		enemy.y += enemy.speedY;
 		enemy.x += enemy.speedX;
-
-  
-		/*if (enemy.nextTile === 21 || enemy.nextTile === 22){
-				console.log("tile= "+enemy.nextTile);
-				console.log("position :"+enemy.x+ ","+ enemy.y);
-		}*/
 	},
 	nextTile: function(enemy){
 		if (enemy.nextTile < enemy.path.length - 1) {
@@ -326,16 +340,8 @@ moveEnemy.prototype =
 			} else {
 				enemy.speedX = 0;
 			}
-
-			/*if (enemy.nextTile === 22){
-				//console.log("tile= "+enemy.nextTile);
-				//console.log("speed x "+enemy.speedX);
-				//console.log("speed y "+enemy.speedY);
-				//console.log("x = "+enemy.path[enemy.nextTile].x);
-				console.log("last position ("+enemy.x + ", "+enemy.y+ ")");
-				console.log("new position ("+enemy.nextTileX + ", "+enemy.nextTileY+ ")");
-			}*/
 		} else {
+			console.log("to the end");
 			enemy.toTheEnd = true;
 		}
 	}

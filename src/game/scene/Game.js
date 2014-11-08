@@ -65,6 +65,7 @@ BasicGame.Game.prototype =
         //Lets keep this code clean and understandable
 
         this.game.enemies = [];
+		this.game.currentEggHealth = 100;
         this.level = new Level(this.game);
 
 	},
@@ -76,6 +77,7 @@ BasicGame.Game.prototype =
             this.guidePositioning(this.input.mousePointer.x,this.input.mousePointer.y);
         }
         this.chickenUpdate();
+		this.enemiesUpdate(this.coop);
         this.updateBullets();
 		//console.log("dans update");
 	},
@@ -291,6 +293,13 @@ BasicGame.Game.prototype =
         for(var i=0;i<this.chickens.length;i++)
         {
             this.chickens[i].update();
+        }
+    },
+	enemiesUpdate: function(coop)
+    {
+        for(var i=0;i<this.game.enemies.length;i++)
+        {
+            this.game.enemies[i].update(coop);
         }
     },
 	quitGame: function (pointer) 
