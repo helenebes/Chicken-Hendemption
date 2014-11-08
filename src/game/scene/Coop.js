@@ -10,6 +10,7 @@ Coop.prototype =
     removeEgg: function()
     {
         this.eggCounter--;
+		console.log("remove egg");
         this.sprite.loadTexture('coop_' + this.eggCounter ,0);
         if(this.eggCounter <= 0)
         {  
