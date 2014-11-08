@@ -372,16 +372,27 @@ BasicGame.Game.prototype =
     },
     createBullet: function(x,y,enemy)
     {
-        this.bullets.push({sprite:this.add.sprite(x,y,'cornBullet'),xStepSize: x - enemy.x,yStepSize: y - enemy.y, index: 0,Enemy:enemy});
+        var xDist = (x-enemy.x);
+        var yDist = (y-enemy.y);
+        var speed = 20;
+        var distance = Math.sqrt(xDist*xDist + yDist*yDist);
+        this.bullets.push(
+                {
+                    sprite:     this.add.sprite(x,y,'cornBullet'),
+                    xStepSize:  (xDist/distance)*speed,
+                    yStepSize:  (yDist/distance)*speed,
+                    index:      distance/speed,
+                    Enemy:enemy
+                });
     },
     updateBullets: function()
     {
         for(var i=0;i<this.bullets.length;i++) 
         {
-            this.bullets[i].index++; 
-            this.bullets[i].sprite.position.x -= this.bullets[i].xStepSize/20;
-            this.bullets[i].sprite.position.y -= this.bullets[i].yStepSize/20;
-            if(this.bullets[i].index >= 20)
+            this.bullets[i].index--; 
+            this.bullets[i].sprite.position.x -= this.bullets[i].xStepSize;
+            this.bullets[i].sprite.position.y -= this.bullets[i].yStepSize;
+            if(this.bullets[i].index < 0)
             {
                 this.bullets[i].Enemy.isAttacked(10);
                 this.bullets[i].sprite.kill();
