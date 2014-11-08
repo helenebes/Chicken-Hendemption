@@ -92,6 +92,11 @@ BasicGame.Game.prototype =
         layer.resizeWorld();
         this.coop = new Coop(12, 14,10,this);
     },
+    reloadLevel: function()
+    {
+        this.state.start('Game');
+
+    },
     setControlVars: function()
     {
         this.paused = false;
@@ -379,7 +384,7 @@ BasicGame.Game.prototype =
             this.music.play();
         }
     },
-    createBullet: function(x,y,enemy)
+    createBullet: function(x,y,enemy,damage)
     {
         var xDist = (x-enemy.x);
         var yDist = (y-enemy.y);
@@ -391,7 +396,8 @@ BasicGame.Game.prototype =
                     xStepSize:  (xDist/distance)*speed,
                     yStepSize:  (yDist/distance)*speed,
                     index:      distance/speed,
-                    Enemy:enemy
+                    Enemy:      enemy,
+                    Damage:     damage
                 });
     },
     updateBullets: function()
@@ -403,7 +409,7 @@ BasicGame.Game.prototype =
             this.bullets[i].sprite.position.y -= this.bullets[i].yStepSize;
             if(this.bullets[i].index < 0)
             {
-                this.bullets[i].Enemy.isAttacked(10);
+                this.bullets[i].Enemy.isAttacked(this.bullets[i].Damage);
                 this.bullets[i].sprite.kill();
                 this.bullets.splice(i,1);
             }

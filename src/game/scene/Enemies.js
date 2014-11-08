@@ -20,6 +20,7 @@ Enemies.prototype =
 		this.enemy.animations.add('walk up', [9,10,11]);
     	this.enemy.play('walk down',2, true);
 		this.enemy.speed = 5;
+		this.enemy.oldSpeed = this.enemy.speed;
 		this.enemy.offsetX = 30;
 		this.enemy.offsetY = 30;
 		this.enemy.x = this.enemy.path[0].x * 64 + this.enemy.offsetX;
@@ -91,6 +92,7 @@ Mummy.prototype.setAnim = function()
     var anim = this.enemy.animations.add('walk');
     this.enemy.play('walk', 10, true);
 	this.enemy.speed = 20;
+    this.enemy.oldSpeed = this.enemy.speed;
 	this.enemy.offsetX = 30;
 	this.enemy.offsetY = 30;
 	this.enemy.x = this.enemy.path[0].x * 64 + this.enemy.offsetX;
@@ -125,6 +127,7 @@ Lagarto.prototype.setAnim = function()
 	this.enemy.animations.add('walk up', [9,10,11]);
     this.enemy.play('walk down', 1, true);
 	this.enemy.speed = 40;
+    this.enemy.oldSpeed = this.enemy.speed;
 	this.enemy.offsetX = -30;
 	this.enemy.offsetY = -40;
 	this.enemy.x = this.enemy.path[0].x * 64 + this.enemy.offsetX;
@@ -159,6 +162,7 @@ Snake.prototype.setAnim = function()
 	this.enemy.animations.add('walk up', [9,10,11]);
     this.enemy.play('walk down',1, true);
 	this.enemy.speed = 20;
+    this.enemy.oldSpeed = this.enemy.speed;
 	this.enemy.offsetX = -30;
 	this.enemy.offsetY = -30;
 	this.enemy.x = this.enemy.path[0].x * 64 + this.enemy.offsetX;
@@ -193,6 +197,7 @@ Turtle.prototype.setAnim = function()
 	this.enemy.animations.add('walk up', [12,13,14,15]);
     this.enemy.play('walk down',3, true);
 	this.enemy.speed = 5;
+    this.enemy.oldSpeed = this.enemy.speed;
 	this.enemy.offsetX = -30;
 	this.enemy.offsetY = -30;
 	this.enemy.x = this.enemy.path[0].x * 64 + this.enemy.offsetX;
