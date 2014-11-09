@@ -66,10 +66,13 @@ Level.prototype =
 			this.waves[this.waves.length] = new Wave(this.game, this.game.time.now, this.path, this.infoWaves);
 			this.timeBeginLastWave = this.game.time.now;
 		}
-		for(var iLevel = 0; iLevel < this.waves.length; iLevel++){
-			this.waves[iLevel].move();
+		if (this.state.coop.eggCounter > 0) 
+		{
+			for(var iLevel = 0; iLevel < this.waves.length; iLevel++){
+				this.waves[iLevel].move();
+			}
 		}
-		if (this.waves.length === this.infoWaves.nbWaves && this.state.coop.eggCounter > 0 && this.waves[this.waves.length-1].waveEnemy.countLiving() === 0 && this.waves[this.waves.length-1].waveEnemy.length === this.infoWaves.nbEnemyByWave && this.victory === false) 
+		if (this.waves.length === this.infoWaves.nbWaves && this.state.coop.eggCounter > 0 && this.waves[this.waves.length-1].waveEnemy.countLiving() === 0 && this.waves[this.waves.length-1].nbEnemyKilled === this.infoWaves.nbEnemyByWave && this.victory === false) 
 		{
 			this.victory = true;
 			this.state.gameVictory();
