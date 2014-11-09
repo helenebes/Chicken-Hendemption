@@ -83,8 +83,9 @@ BasicGame.Preloader.prototype = {
         // game
         this.load.image('counter','assets/'+BasicGame.screen+"/money_counter.png");
         this.load.image('cornBullet','assets/'+BasicGame.screen+"/corn_bullet.png");
-        //this.load.spritesheet('explosion','assets/'+BasicGame.screen+"/explosion.png",472, 500);
         this.load.spritesheet('explosion','assets/'+BasicGame.screen+"/explosion1.png",256, 256,12);
+        this.load.spritesheet('poop','assets/'+BasicGame.screen+"/poop.png",256, 256,12);
+        this.load.spritesheet('normal_attack','assets/'+BasicGame.screen+"/normal_attack.png",32, 32,12);
         this.load.image('laser','assets/'+BasicGame.screen+"/laser.png");
         this.load.tilemap('lvl1_map', 'assets/'+BasicGame.screen+"/level_1.json", null, Phaser.Tilemap.TILED_JSON);
         this.load.tilemap('lvl2_map', 'assets/'+BasicGame.screen+"/level_2.json", null, Phaser.Tilemap.TILED_JSON);
@@ -122,6 +123,9 @@ BasicGame.Preloader.prototype = {
         this.load.audio('menu_music', ['assets/sounds/MenuMusic.mp3', 'assets/sounds/MenuMusic.ogg']);
         this.load.audio('click_in', ['assets/sounds/click3.ogg']);
         this.load.audio('click_out', ['assets/sounds/click4.ogg']);
+        this.load.audio('laser', ['assets/sounds/laser.ogg']);
+        this.load.audio('corn_attack', ['assets/sounds/corn_attack.ogg']);
+        this.load.audio('explosion_sound', ['assets/sounds/explosion.ogg']);
 		
         this.load.spritesheet('dog','assets/'+BasicGame.screen+"/dog.png", 40, 40, 12);
         this.load.spritesheet('mummy', 'assets/'+BasicGame.screen+"/mummy.png", 37, 45, 18); // width de cada sprite, height de cada sprite, numero de sprites no arquivo

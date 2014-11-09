@@ -284,8 +284,8 @@ BasicGame.MainMenu.prototype =
 	},
     stopSounds: function()
     {
-        this.clickButtonSound.mute = true;
-        this.unclickButtonSound.mute = true;
+        this.clickButtonSound.volume = 0;
+        this.unclickButtonSound.volume = 0;
     },
     resumeSounds: function()
     {
