@@ -259,33 +259,9 @@ var Robot = function (Xtile,Ytile,Index,gameContext)
 Robot.prototype = Object.create(Chicken.prototype);
 Robot.prototype.initializeLaser = function(thickness,length)
 {
-    this.laserPolygonG = this.gameContext.add.graphics(this.x*64-10,this.y*64+6);
-    /*this.laserPolygon.lineStyle(1,0xffffff,1);
-    this.laserPolygon.beginFill();
-
-    this.laserPolygon.moveTo(-thickness/2, -thickness/2);
-    this.laserPolygon.lineTo(-thickness/2,length);
-    this.laserPolygon.lineTo(thickness/2,length);
-    this.laserPolygon.lineTo(thickness/2,-thickness/2);
-    this.laserPolygon.lineTo(-thickness/2,-thickness/2);
-
-    this.laserPolygon.alpha = 0;
-    this.laserPolygon.position.x = this.x*64 - 10;
-    this.laserPolygon.position.y = this.y*64 + 6;
-    */
-    this.laserPolygon = new Phaser.Polygon(
-            -thickness/2,-thickness/2,
-            -thickness/2,length,
-            thickness/2,length,
-            thickness/2,-thickness/2,
-            -thickness/2,-thickness/2
-            )
-            
-
     this.laserSprite = this.gameContext.add.sprite(this.x*64 - 10,this.y*64+6,'laser');
     this.laserSprite.anchor.setTo(16/700,0.5);
     this.laserSprite.angle =0;
-    
 };
 Robot.prototype.print = function()
 {
@@ -293,19 +269,15 @@ Robot.prototype.print = function()
 };
 Robot.prototype.attack = function(enemy)
 {
-//    this.lastAttack = this.gameContext.game.time.now;
-    this.laserPolygon.angle = (180/Math.PI)*Math.atan((- enemy.enemy.centrex + (this.x*64))/(+ enemy.enemy.centrey - (this.y*64)));
     this.laserSprite.angle = 90+ (180/Math.PI)*Math.atan((- enemy.enemy.centrex + (this.x*64))/(+ enemy.enemy.centrey - (this.y*64)));
     if(enemy.enemy.centrey - (this.y*64+32) < 0)
     {
-        this.laserPolygon.angle += 180;
         this.laserSprite.angle += 180;
     }
     for(var i=0;i<this.gameContext.game.enemies.length;i++)
     {
-        if(this.laserPolygon.contains(this.gameContext.game.enemies[i].enemy.x,this.gameContext.game.enemies[i].enemy.y))
+        if(this.laserSprite.overlap(this.gameContext.game.enemies[i].enemy))
         {
-            console.log("damage");
             this.gameContext.game.enemies[i].enemy.isAttacked(this.damage);
         }
     }
