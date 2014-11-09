@@ -51,10 +51,11 @@ BasicGame.Game.prototype =
     //Create and Update functions
 	create: function () 
     {     
-
+		this.game.enemies = [];
+		this.game.currentEggHealth = 100;
         this.map.cleanMap();
         this.setControlVars();
-        this.loadLevel();
+        this.level = new Level(this, BasicGame.currentLevel);
 
         this.startMusic();
         this.startSounds();
@@ -65,10 +66,6 @@ BasicGame.Game.prototype =
         this.setupMap();
         
         //Lets keep this code clean and understandable
-
-        this.game.enemies = [];
-		this.game.currentEggHealth = 100;
-        this.level = new Level(this.game);
 
 	},
 	update: function () 
@@ -83,22 +80,6 @@ BasicGame.Game.prototype =
         this.updateBullets();
 		//console.log("dans update");
 	},
-    loadLevel: function()
-    {
-        //All of this should come from the level "class"
-
-        var bg = this.add.sprite(0,0,'grass');
-        var map = this.add.tilemap('lvl1_map');
-        map.addTilesetImage('tileset');
-        var layer = map.createLayer('layer1');
-        layer.resizeWorld();
-        this.coop = new Coop(12, 14,10,this);
-    },
-    reloadLevel: function()
-    {
-        this.state.start('Game');
-
-    },
     setControlVars: function()
     {
         this.paused = false;
