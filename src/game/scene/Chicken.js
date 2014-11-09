@@ -260,8 +260,9 @@ Robot.prototype = Object.create(Chicken.prototype);
 Robot.prototype.initializeLaser = function(thickness,length)
 {
     this.laserSprite = this.gameContext.add.sprite(this.x*64 - 10,this.y*64+6,'laser');
-    this.laserSprite.anchor.setTo(16/700,0.5);
+    this.laserSprite.anchor.setTo(16/1600,0.5);
     this.laserSprite.angle =0;
+    this.laserSprite.alpha =0;
 };
 Robot.prototype.print = function()
 {
