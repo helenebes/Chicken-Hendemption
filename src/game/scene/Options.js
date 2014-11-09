@@ -76,7 +76,7 @@ var OptionsPanel = function(game, parent)
 		else
 		{
 			this.checkSound.loadTexture('check_true',0);
-            this.game.state.getCurrentState().resumeSounds();
+            this.game.state.getCurrentState().updateVolume();
 			BasicGame.sound = true;
 		}
 	},this);

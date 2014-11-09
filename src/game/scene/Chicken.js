@@ -9,22 +9,35 @@ var Chicken = function (Xtile,Ytile,Index,gameContext)
     this.lastAttack = 0;
     this.attackSpeed = 50;
     this.damage = 10;
-
+    this.attack;
+    
     this.sprite = gameContext.add.sprite((Xtile*64),((Ytile*64+5)),'normalP');
     //console.log(this);
     this.rangeSprite = gameContext.add.graphics(0,0);
-    this.range = 64;
+    this.range = 96;
 
     this.setSprite();
     this.setRange();
     this.cleanRange();
+    this.initializeAttackEffect();
 }
 Chicken.prototype =
 {
     attack: function(enemy)
     {
-        enemy.enemy.isAttacked(this.damage);
         this.lastAttack = this.gameContext.game.time.now;
+        enemy.enemy.isAttacked(this.damage);
+        this.attackEffect.alpha = 1;
+        this.attackEffect.animations.play('attacking', 10, false);
+        this.attackEffect.position.x = enemy.enemy.centrex;
+        this.attackEffect.position.y = enemy.enemy.centrey;
+        
+        var attack = this.attackEffect;
+        
+        setTimeout(function()
+        {
+           attack.alpha = 0;
+        },200)
     },
     detectEnemies: function()
     {
@@ -36,6 +49,14 @@ Chicken.prototype =
                 break;
             }
         }
+    },
+    initializeAttackEffect: function()
+    {
+
+        this.attackEffect = this.gameContext.add.sprite(this.x*64-96,this.y*64-96, 'normal_attack');
+        var anim = this.attackEffect.animations.add('attacking');
+        this.attackEffect.alpha = 0;
+        this.gameContext.effectsLayer.add(this.attackEffect);
     },
     setSprite: function()
     {
@@ -160,15 +181,25 @@ var Poopie = function (Xtile,Ytile,Index,gameContext)
     this.lastAttack = 0;
     this.attackSpeed = 30;
     this.damage = 10;
+    this.explosion;
 
     this.sprite = gameContext.add.sprite(Xtile*64-8,(Ytile*64+15),'poopieP');
     this.rangeSprite = gameContext.add.graphics(0,0);
 
     this.setSprite();
     this.setRange();
+    this.initializeExplosion();
     this.cleanRange();
 }
 Poopie.prototype = Object.create(AOEChicken.prototype);
+Poopie.prototype.initializeExplosion = function()
+{
+
+        this.explosion = this.gameContext.add.sprite(this.x*64-96,this.y*64-96, 'poop');
+        var anim = this.explosion.animations.add('pooping');
+        this.explosion.alpha = 0;
+        this.gameContext.effectsLayer.add(this.explosion);
+};
 Poopie.prototype.print = function()
 {
     console.log("Poopie is special");
@@ -177,7 +208,9 @@ Poopie.prototype.attack = function(enemy)
 {
     this.lastAttack = this.gameContext.game.time.now;
     enemy.enemy.speed = enemy.enemy.oldSpeed/4;
-
+    this.explosion.alpha = 0.5;
+    this.explosion.animations.play('pooping', 10, false);
+    //this.explosionSound.play();
     enemy.enemy.speed = 0.5;
     setTimeout(function()
        {
@@ -197,7 +230,7 @@ var Fartie = function (Xtile,Ytile,Index,gameContext)
     this.lastAttack = 0;
     this.attackSpeed = 10;
     this.damage = 10;
-
+    this.explosionSound = this.gameContext.add.audio('explosion_sound');
     this.sprite = gameContext.add.sprite(Xtile*64,(Ytile*64-8),'fartieP');
     this.rangeSprite = gameContext.add.graphics(0,0);
 
@@ -226,6 +259,7 @@ Fartie.prototype.attack = function()
     this.lastAttack = this.gameContext.game.time.now;
     this.explosion.alpha = 0.5;
     this.explosion.animations.play('explode', 10, false);
+    this.explosionSound.play();
     var explosion = this.explosion;
     setTimeout(function()
        {
@@ -260,8 +294,9 @@ Robot.prototype = Object.create(Chicken.prototype);
 Robot.prototype.initializeLaser = function(thickness,length)
 {
     this.laserSprite = this.gameContext.add.sprite(this.x*64 - 10,this.y*64+6,'laser');
-    this.laserSprite.anchor.setTo(16/700,0.5);
+    this.laserSprite.anchor.setTo(16/1600,0.5);
     this.laserSprite.angle =0;
+    this.laserSprite.alpha =0;
 };
 Robot.prototype.print = function()
 {
