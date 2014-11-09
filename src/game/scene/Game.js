@@ -313,7 +313,7 @@ BasicGame.Game.prototype =
 	nextLevel: function()
 	{
 		BasicGame.currentLevel++;
-		this.create();
+        this.reloadLevel();
 	},
     gameOver: function()
     {
