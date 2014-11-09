@@ -67,6 +67,7 @@ BasicGame.Game.prototype =
         //Lets keep this code clean and understandable
 
         this.game.enemies = [];
+		this.game.currentEggHealth = 100;
         this.level = new Level(this.game);
 
 	},
@@ -78,6 +79,7 @@ BasicGame.Game.prototype =
             this.guidePositioning(this.input.mousePointer.x,this.input.mousePointer.y);
         }
         this.chickenUpdate();
+		this.enemiesUpdate(this.coop);
         this.updateBullets();
 		//console.log("dans update");
 	},
@@ -91,6 +93,11 @@ BasicGame.Game.prototype =
         var layer = map.createLayer('layer1');
         layer.resizeWorld();
         this.coop = new Coop(12, 14,10,this);
+    },
+    reloadLevel: function()
+    {
+        this.state.start('Game');
+
     },
     setControlVars: function()
     {
@@ -296,6 +303,13 @@ BasicGame.Game.prototype =
             this.chickens[i].update();
         }
     },
+	enemiesUpdate: function(coop)
+    {
+        for(var i=0;i<this.game.enemies.length;i++)
+        {
+            this.game.enemies[i].update(coop);
+        }
+    },
 	quitGame: function (pointer) 
     {
 
@@ -385,23 +399,39 @@ BasicGame.Game.prototype =
             this.music.play();
         }
     },
-    createBullet: function(x,y,enemy)
+    createBullet: function(x,y,enemy,damage)
     {
-        this.bullets.push({sprite:this.add.sprite(x,y,'cornBullet'),xStepSize: x - enemy.x,yStepSize: y - enemy.y, index: 0,Enemy:enemy});
+        var xDist = (x-enemy.x);
+        var yDist = (y-enemy.y);
+        var speed = 20;
+        var distance = Math.sqrt(xDist*xDist + yDist*yDist);
+        this.bullets.push(
+                {
+                    sprite:     this.add.sprite(x,y,'cornBullet'),
+                    xStepSize:  (xDist/distance)*speed,
+                    yStepSize:  (yDist/distance)*speed,
+                    index:      distance/speed,
+                    Enemy:      enemy,
+                    Damage:     damage
+                });
     },
     updateBullets: function()
     {
         for(var i=0;i<this.bullets.length;i++) 
         {
-            this.bullets[i].index++; 
-            this.bullets[i].sprite.position.x -= this.bullets[i].xStepSize/20;
-            this.bullets[i].sprite.position.y -= this.bullets[i].yStepSize/20;
-            if(this.bullets[i].index >= 20)
+            this.bullets[i].index--; 
+            this.bullets[i].sprite.position.x -= this.bullets[i].xStepSize;
+            this.bullets[i].sprite.position.y -= this.bullets[i].yStepSize;
+            if(this.bullets[i].index < 0)
             {
-                this.bullets[i].Enemy.isAttacked(10);
+                this.bullets[i].Enemy.isAttacked(this.bullets[i].Damage);
                 this.bullets[i].sprite.kill();
                 this.bullets.splice(i,1);
             }
         }
+    },
+    shutdown: function()
+    {
+        this.stopMusic();
     }
 };

@@ -9,6 +9,8 @@ BasicGame = {
     musicVolume: 1,
     soundVolume: 1,
 
+    currentLevel: 0,
+
     /* Your game can check BasicGame.orientated in internal loops to know if it should pause or not */
     orientated: false
 
