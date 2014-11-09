@@ -56,7 +56,7 @@ Chicken.prototype =
     },
     update: function()
     {
-        if(this.gameContext.game.time.now > (this.lastAttack + 500-this.attackSpeed))
+        if(this.gameContext.game.time.now > (this.lastAttack + 5000/this.attackSpeed))
         {
             this.detectEnemies();
         }
@@ -192,7 +192,7 @@ var Fartie = function (Xtile,Ytile,Index,gameContext)
     this.y = Ytile;
     this.range = 3*64;
     this.lastAttack = 0;
-    this.attackSpeed = 50;
+    this.attackSpeed = 10;
     this.damage = 10;
 
     this.sprite = gameContext.add.sprite(Xtile*64,(Ytile*64-8),'fartieP');
@@ -201,8 +201,19 @@ var Fartie = function (Xtile,Ytile,Index,gameContext)
     this.setSprite();
     this.setRange();
     this.cleanRange();
+    this.initializeExplosion();
+    this.explosion;
 }
 Fartie.prototype = Object.create(AOEChicken.prototype);
+Fartie.prototype.initializeExplosion = function()
+{
+
+        this.explosion = this.gameContext.add.sprite(this.x*64-96,this.y*64-96, 'explosion');
+        //this.explosion.scale.set(2);
+        var anim = this.explosion.animations.add('explode');
+        this.explosion.alpha = 0;
+        this.gameContext.effectsLayer.add(this.explosion);
+};
 Fartie.prototype.print = function()
 {
     console.log("Fartie is special");
@@ -210,6 +221,13 @@ Fartie.prototype.print = function()
 Fartie.prototype.attack = function()
 {
     this.lastAttack = this.gameContext.game.time.now;
+    this.explosion.alpha = 0.5;
+    this.explosion.animations.play('explode', 10, false);
+    var explosion = this.explosion;
+    setTimeout(function()
+       {
+            explosion.alpha = 0;
+       },1000)
 };
 //Robot
 //Shoots a laser that damages all enemies in a line
