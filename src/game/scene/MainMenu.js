@@ -85,11 +85,6 @@ BasicGame.MainMenu.prototype =
         chickenInfoWindow = new Window(this, "Chickens");
         enemyInfoWindow = new Window(this, "Enemies");
         
-        var lag = this.add.sprite(BasicGame.convertWidth(300), BasicGame.convertHeight(5), 'explosion', 1);
-        //lag.scale.set(0.4);
-        var anim3 = lag.animations.add('explode');
-        lag.animations.play('explode', 10, true);
-        
 		/*
 		//Aligning HUD to view edges
 		//Align to left top edge
@@ -217,7 +212,7 @@ BasicGame.MainMenu.prototype =
             case "level 3":
                 BasicGame.currentLevel = 3;
                 lvl3.loadTexture('lvl3',0);
-                //this.prescope.startGame(this);
+                this.prescope.startGame(this);
                 break;
             case "options":
                 opt.loadTexture('opt',0);
