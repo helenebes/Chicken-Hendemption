@@ -243,7 +243,6 @@ var Robot = function (Xtile,Ytile,Index,gameContext)
     this.attackSpeed = 50;
     this.damage = 10;
 
-    this.laserPolygon = 
 
     this.sprite = gameContext.add.sprite(Xtile*64-8,(Ytile*64-14),'robotP');
     this.rangeSprite = gameContext.add.graphics(0,0);
@@ -252,25 +251,33 @@ var Robot = function (Xtile,Ytile,Index,gameContext)
     this.setRange();
     this.cleanRange();
     
-    this.initializeLaser();
+    this.initializeLaser(48,1000);
 }
 Robot.prototype = Object.create(Chicken.prototype);
-Robot.prototype.initializeLaser = function()
+Robot.prototype.initializeLaser = function(thickness,length)
 {
-    this.laserPolygon = this.gameContext.add.graphics(0,0);
-    this.laserPolygon.lineStyle(1,0xffffff,1);
+    this.laserPolygonG = this.gameContext.add.graphics(this.x*64-10,this.y*64+6);
+    /*this.laserPolygon.lineStyle(1,0xffffff,1);
     this.laserPolygon.beginFill();
 
-    this.laserPolygon.moveTo(0, 0);
-    this.laserPolygon.lineTo(0,1000);
-    this.laserPolygon.lineTo(20,1000);
-    this.laserPolygon.lineTo(20,0);
-    this.laserPolygon.lineTo(0,0);
+    this.laserPolygon.moveTo(-thickness/2, -thickness/2);
+    this.laserPolygon.lineTo(-thickness/2,length);
+    this.laserPolygon.lineTo(thickness/2,length);
+    this.laserPolygon.lineTo(thickness/2,-thickness/2);
+    this.laserPolygon.lineTo(-thickness/2,-thickness/2);
 
     this.laserPolygon.alpha = 0;
     this.laserPolygon.position.x = this.x*64 - 10;
     this.laserPolygon.position.y = this.y*64 + 6;
-
+    */
+    this.laserPolygon = new Phaser.Polygon(
+            -thickness/2,-thickness/2,
+            -thickness/2,length,
+            thickness/2,length,
+            thickness/2,-thickness/2,
+            -thickness/2,-thickness/2
+            )
+            
 
     this.laserSprite = this.gameContext.add.sprite(this.x*64 - 10,this.y*64+6,'laser');
     this.laserSprite.anchor.setTo(16/700,0.5);
@@ -291,6 +298,12 @@ Robot.prototype.attack = function(enemy)
         this.laserPolygon.angle += 180;
         this.laserSprite.angle += 180;
     }
-    this.gameContext.world.bringToTop(this.laserPolygon);
-//    enemy.enemy.isAttacked(10);
+    for(var i=0;i<this.gameContext.game.enemies.length;i++)
+    {
+        if(this.laserPolygon.contains(this.gameContext.game.enemies[i].enemy.x,this.gameContext.game.enemies[i].enemy.y))
+        {
+            console.log("damage");
+            this.gameContext.game.enemies[i].enemy.isAttacked(this.damage);
+        }
+    }
 };
