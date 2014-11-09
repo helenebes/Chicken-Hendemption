@@ -7,11 +7,16 @@ var Enemies = function (game, path, IndexEnemy, wave)
 	this.wave = wave;
 	this.setSprite();
 	this.setAnim();
+	this.setCentre();
 }
 
 
 Enemies.prototype =
 {
+	setCentre: function(){
+		this.enemy.centrex = this.enemy.x + this.enemy.Xlength/2;
+		this.enemy.centrey = this.enemy.y + this.enemy.Ylength/2;
+	},
 	setAnim: function() {
 		this.enemy.scale.set(1.5);
 		this.enemy.animations.add('walk down', [0,1,2]);
@@ -21,8 +26,8 @@ Enemies.prototype =
     	this.enemy.play('walk down',2, true);
 		this.enemy.speed = 5;
 		this.enemy.oldSpeed = this.enemy.speed;
-		this.enemy.offsetX = 30;
-		this.enemy.offsetY = 30;
+		this.enemy.offsetX = -30;
+		this.enemy.offsetY = -30;
 		this.enemy.x = this.enemy.path[0].x * 64 + this.enemy.offsetX;
 		this.enemy.y = this.enemy.path[0].y * 64 + this.enemy.offsetY;
 		this.enemy.health = 100;
@@ -83,6 +88,7 @@ var Mummy = function (game, path, IndexEnemy, wave)
 	this.wave = wave;
 	this.setSprite();
 	this.setAnim();
+	this.setCentre();
 }
 
 Mummy.prototype = Object.create(Enemies.prototype);
@@ -115,6 +121,7 @@ var Lagarto = function (game, path, IndexEnemy, wave)
 	this.wave = wave;
 	this.setSprite();
 	this.setAnim();
+	this.setCentre();
 }
 
 Lagarto.prototype = Object.create(Enemies.prototype);
@@ -150,6 +157,7 @@ var Snake = function (game, path, IndexEnemy, wave)
 	this.wave = wave;
 	this.setSprite();
 	this.setAnim();
+	this.setCentre();
 }
 
 Snake.prototype = Object.create(Enemies.prototype);
@@ -185,6 +193,7 @@ var Turtle = function (game, path, IndexEnemy, wave)
 	this.wave = wave;
 	this.setSprite();
 	this.setAnim();
+	this.setCentre();
 }
 
 Turtle.prototype = Object.create(Enemies.prototype);
@@ -293,14 +302,18 @@ moveEnemy.prototype =
 
 		if (enemy.speedX < 0 && enemy.x <= enemy.nextTileX || enemy.speedX > 0 && enemy.x >= enemy.nextTileX) {
 			enemy.x = enemy.nextTileX;
+			enemy.centrex = enemy.x + enemy.Xlength/2;
 			this.nextTile(enemy);
 		}
 		else if (enemy.speedY > 0 && enemy.y >= enemy.nextTileY || enemy.speedY < 0 && enemy.y <= enemy.nextTileY) {
 			enemy.y = enemy.nextTileY;
+			enemy.centrey = enemy.y + enemy.Ylength/2;
 			this.nextTile(enemy);
 		}
 		enemy.y += enemy.speedY;
 		enemy.x += enemy.speedX;
+		enemy.centrex = enemy.x + enemy.Xlength/2;
+		enemy.centrey = enemy.y + enemy.Ylength/2;
 	},
 	nextTile: function(enemy){
 		if (enemy.nextTile < enemy.path.length - 1) {
