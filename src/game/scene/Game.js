@@ -446,9 +446,19 @@ BasicGame.Game.prototype =
 	{
 		var style = { font: "65px Arial", fill: "#000000", align: "center" };
 		this.lastNbEgg = this.coop.eggCounter;
-		this.lastNbbullet = this.bulletUsed;    	
+		this.lastNbbullet = this.bulletUsed;
+		this.lastNbWaves = this.level.waves.length;   	
 		this.cornScore = this.game.add.text(BasicGame.convertWidth(0)+90, BasicGame.convertHeight(0)+10, this.level.initialCorn - this.bulletUsed, style);
-		this.eggScore = this.game.add.text(BasicGame.convertWidth(0)+74, BasicGame.convertHeight(0)+95, this.coop.eggCounter, style);		
+		this.eggScore = this.game.add.text(BasicGame.convertWidth(0)+74, BasicGame.convertHeight(0)+95, this.coop.eggCounter, style);
+		style = { font: "30px Arial", fill: "#000000", align: "center" };
+		if (BasicGame.currentLevel < 3)
+		{
+			this.afficheNbWaves = this.game.add.text(16*64, 14*64, 'Waves Remaining:  ', style);
+			this.afficheNbWaves = this.game.add.text(20*64, 14*64, this.level.infoWaves.nbWaves - this.level.waves.length, style);
+		} else {
+			this.afficheNbWaves = this.game.add.text(10*64, BasicGame.convertHeight(0)+70, 'Waves Remaining:  ', style);
+			this.afficheNbWaves = this.game.add.text(14*64, BasicGame.convertHeight(0)+70, this.level.infoWaves.nbWaves - this.level.waves.length, style);
+		}	
 	},
 	updateScore: function() 
 	{
@@ -472,6 +482,20 @@ BasicGame.Game.prototype =
 			{
 				this.cornScore = this.game.add.text(BasicGame.convertWidth(0)+90, BasicGame.convertHeight(0)+10, '0', style);
 			}
+		}
+		if (this.lastNbWaves != this.level.waves.length) 
+		{
+			style = { font: "30px Arial", fill: "#000000", align: "center" };
+			this.afficheNbWaves.destroy();
+			if (BasicGame.currentLevel < 3)
+			{
+				this.afficheNbWaves = this.game.add.text(16*64, 14*64, 'Waves Remaining:  ', style);
+				this.afficheNbWaves = this.game.add.text(20*64, 14*64, this.level.infoWaves.nbWaves - this.level.waves.length, style);
+			} else {
+				this.afficheNbWaves = this.game.add.text(10*64, BasicGame.convertHeight(0)+70, 'Waves Remaining:  '+ this.level.infoWaves.nbWaves - this.level.waves.length, style);
+				this.afficheNbWaves = this.game.add.text(14*64, BasicGame.convertHeight(0)+70, this.level.infoWaves.nbWaves - this.level.waves.length, style);
+			}
+			this.lastNbWaves = this.level.waves.length;
 		}		
 	}
 };
