@@ -53,6 +53,7 @@ BasicGame.Game.prototype =
     {     
 		this.game.enemies = [];
 		this.game.currentEggHealth = 100;
+		this.bulletUsed = 0;
         this.map.cleanMap();
         this.setControlVars();
         this.level = new Level(this, BasicGame.currentLevel);
@@ -309,6 +310,11 @@ BasicGame.Game.prototype =
 		this.state.start('MainMenu');
 
 	},
+	nextLevel: function()
+	{
+		BasicGame.currentLevel++;
+		this.create();
+	},
     gameOver: function()
     {
         var endGameWindow = new EndGamePanel(this,"defeat",0);
@@ -316,7 +322,13 @@ BasicGame.Game.prototype =
     },
     gameVictory: function()
     {
-        var endGameWindow = new EndGamePanel(this,"victory",0);
+		if (this.coop.eggCounter === this.level.initialEggs) 
+		{
+			var goldenEggs = 3;
+		} else {
+			var goldenEggs = 9 - this.level.initialEggs - this.coop.eggCounter;
+		}
+        var endGameWindow = new EndGamePanel(this,"victory",goldenEggs);
         endGameWindow.show();
     },
 	pauseGame: function()
@@ -390,6 +402,7 @@ BasicGame.Game.prototype =
     },
     createBullet: function(x,y,enemy,damage)
     {
+		this.bulletUsed ++;
         var xDist = (x-enemy.x);
         var yDist = (y-enemy.y);
         var speed = 20;
@@ -427,8 +440,8 @@ BasicGame.Game.prototype =
 	{
 		var style = { font: "65px Arial", fill: "#000000", align: "center" };
 		this.lastNbEgg = this.coop.eggCounter;
-		this.lastNbbullet = this.bullets.length;    	
-		this.cornScore = this.game.add.text(BasicGame.convertWidth(0)+90, BasicGame.convertHeight(0)+10, this.level.initialCorn - this.bullets.length, style);
+		this.lastNbbullet = this.bulletUsed;    	
+		this.cornScore = this.game.add.text(BasicGame.convertWidth(0)+90, BasicGame.convertHeight(0)+10, this.level.initialCorn - this.bulletUsed, style);
 		this.eggScore = this.game.add.text(BasicGame.convertWidth(0)+74, BasicGame.convertHeight(0)+95, this.coop.eggCounter, style);		
 	},
 	updateScore: function() 
@@ -444,11 +457,15 @@ BasicGame.Game.prototype =
 				this.eggScore = this.game.add.text(BasicGame.convertWidth(0)+100, BasicGame.convertHeight(0)+95, '0', style);
 			}
 		}
-		if (this.bullets.length != this.lastNbbullet) 
+		if (this.bulletUsed != this.lastNbbullet) 
 		{
 			this.cornScore.destroy();
-			this.cornScore = this.game.add.text(BasicGame.convertWidth(0)+90, BasicGame.convertHeight(0)+10, this.level.initialCorn - this.bullets.length, style);
-			this.lastNbbullet = this.bullets.length;
+			this.cornScore = this.game.add.text(BasicGame.convertWidth(0)+90, BasicGame.convertHeight(0)+10, this.level.initialCorn - this.bulletUsed, style);
+			this.lastNbbullet = this.bulletUsed;
+			if (this.level.initialCorn === this.bulletUsed)
+			{
+				this.cornScore = this.game.add.text(BasicGame.convertWidth(0)+90, BasicGame.convertHeight(0)+10, '0', style);
+			}
 		}		
 	}
 };

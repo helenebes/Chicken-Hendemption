@@ -2,6 +2,7 @@ var Level = function(state, level)
 {
 	this.state = state;
 	this.game = state.game;
+	this.victory = false;
 	this.waves = [];
 	this.infoWaves = [];
 	this.level = level;
@@ -48,9 +49,7 @@ Level.prototype =
 				this.map = 'lvl2';
 				break;
 			case 3:
-				this.path = [{x: 4,y: 0}, {x: 19,y: 1}, {x: 19,y: 2}, {x: 19,y: 3}, {x: 19,y: 4}, {x: 19,y: 5}, {x: 19,y: 6}, {x: 18,y: 7},
-{x: 17,y: 7}, {x: 16,y: 7}, {x: 15,y: 7}, {x: 14,y: 7}, {x: 13,y: 7}, {x: 12,y: 7}, {x: 11,y: 7}, {x: 10,y: 7}, {x: 9,y: 7}, {x: 8,y: 7}, {x: 7,y: 7}, {x: 6,y: 7}, {x: 5,y: 7}, 
-{x: 5,y: 8}, {x: 5,y: 9}, {x: 5,y: 10}, {x: 5,y: 11}, {x: 6,y: 11}, {x: 7,y: 11}, {x: 8,y: 11}, {x: 9,y: 11}, {x: 10,y: 11}, {x: 11,y: 11},  {x: 12,y: 11}, {x: 12,y: 12}, {x: 12,y: 13}, {x: 12,y: 14}];
+				this.path = [{x: 4,y: 14}, {x: 4,y: 4}, {x: 20,y: 4}, {x: 20,y: 8}, {x: 8,y: 8}, {x: 8,y: 12}, {x: 19,y: 12}, {x: 19,y: 14}];
 				this.initialEggs = 10;
 				this.initialCorn = 200;
 				this.infoWaves = {"timeBetweenTwo": 40000, "nbEnemyByWave": 4, "nbWaves": 5, "typeEnemy": ['snake', 'turtle', 'lagarto']};
@@ -69,6 +68,11 @@ Level.prototype =
 		}
 		for(var iLevel = 0; iLevel < this.waves.length; iLevel++){
 			this.waves[iLevel].move();
+		}
+		if (this.waves.length === this.infoWaves.nbWaves && this.state.coop.eggCounter > 0 && this.waves[this.waves.length-1].waveEnemy.countLiving() === 0 && this.waves[this.waves.length-1].waveEnemy.length === this.infoWaves.nbEnemyByWave && this.victory === false) 
+		{
+			this.victory = true;
+			this.state.gameVictory();
 		}
 	},
 	loadLevel: function()

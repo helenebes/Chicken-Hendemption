@@ -8,12 +8,15 @@ var EndGamePanel = function(game, finishingState, goldenEggsNum, parent)
     {
         this.panel = this.create(1,1, 'victory_window');
         this.panel.anchor.setTo(0.5, 0);
-        this.btnNext = this.game.add.button(50,250, 'nextLvlB',function()
-        {
-            
-            
-        },this,0, 0, 1, 0);
-        this.add(this.btnNext);
+		if (BasicGame.currentLevel < 3) 
+		{
+		    this.btnNext = this.game.add.button(50,250, 'nextLvlB',function()
+		    {
+				this.game.state.getCurrentState().nextLevel();
+		        
+		    },this,0, 0, 1, 0);
+		    this.add(this.btnNext);
+		}
     }
     if(finishingState == "defeat")
     {

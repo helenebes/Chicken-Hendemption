@@ -7,11 +7,18 @@ var Enemies = function (game, path, IndexEnemy, wave)
 	this.wave = wave;
 	this.setSprite();
 	this.setAnim();
+	this.setCentre();
 }
 
 
 Enemies.prototype =
 {
+	setCentre: function(){
+		this.enemy.offsetCentreX = this.game.cache.getImage(this.enemy.key).width/2;
+		this.enemy.offsetCentreY = this.game.cache.getImage(this.enemy.key).width/2;
+		this.enemy.centrex = this.enemy.x + this.enemy.offsetCentreX;
+		this.enemy.centrey = this.enemy.y + this.enemy.offsetCentreY;
+	},
 	setAnim: function() {
 		this.enemy.scale.set(1.5);
 		this.enemy.animations.add('walk down', [0,1,2]);
@@ -21,13 +28,12 @@ Enemies.prototype =
     	this.enemy.play('walk down',2, true);
 		this.enemy.speed = 5;
 		this.enemy.oldSpeed = this.enemy.speed;
-		this.enemy.offsetX = 30;
-		this.enemy.offsetY = 30;
+		this.enemy.offsetX = -30;
+		this.enemy.offsetY = -30;
 		this.enemy.x = this.enemy.path[0].x * 64 + this.enemy.offsetX;
 		this.enemy.y = this.enemy.path[0].y * 64 + this.enemy.offsetY;
 		this.enemy.health = 100;
 		this.enemy.damageToEggs = 10;
-		this.enemy.damageToChicken = 0;
 		this.enemy.attackSpeed = 15;
 		moveEnemy.prototype.nextTile(this.enemy);
 		this.wave.add(this.enemy);
@@ -46,10 +52,6 @@ Enemies.prototype =
 				}
 		});
 	},
-	attackChicken: function(chicken) {
-		chicken.health -= this.enemy.damageToChicken;
-	},
-
 	damageSpeed: function(damageSpeed){
 		this.enemy.speed -= damageSpeed;
 	},
@@ -83,6 +85,7 @@ var Mummy = function (game, path, IndexEnemy, wave)
 	this.wave = wave;
 	this.setSprite();
 	this.setAnim();
+	this.setCentre();
 }
 
 Mummy.prototype = Object.create(Enemies.prototype);
@@ -99,7 +102,6 @@ Mummy.prototype.setAnim = function()
 	this.enemy.y = this.enemy.path[0].y * 64 + this.enemy.offsetY;
 	this.enemy.health = 200;
 	this.enemy.damageToEggs = 5;
-	this.enemy.damageToChicken = 0;
 	this.enemy.attackSpeed = 15;
 	moveEnemy.prototype.nextTile(this.enemy);
 	this.wave.add(this.enemy);
@@ -115,6 +117,7 @@ var Lagarto = function (game, path, IndexEnemy, wave)
 	this.wave = wave;
 	this.setSprite();
 	this.setAnim();
+	this.setCentre();
 }
 
 Lagarto.prototype = Object.create(Enemies.prototype);
@@ -134,7 +137,6 @@ Lagarto.prototype.setAnim = function()
 	this.enemy.y = this.enemy.path[0].y * 64 + this.enemy.offsetY;
 	this.enemy.health = 50;
 	this.enemy.damageToEggs = 10;
-	this.enemy.damageToChicken = 0;
 	this.enemy.attackSpeed = 60;
 	moveEnemy.prototype.nextTile(this.enemy);
 	this.wave.add(this.enemy);
@@ -150,6 +152,7 @@ var Snake = function (game, path, IndexEnemy, wave)
 	this.wave = wave;
 	this.setSprite();
 	this.setAnim();
+	this.setCentre();
 }
 
 Snake.prototype = Object.create(Enemies.prototype);
@@ -169,7 +172,6 @@ Snake.prototype.setAnim = function()
 	this.enemy.y = this.enemy.path[0].y * 64 + this.enemy.offsetY;
 	this.enemy.health = 70;
 	this.enemy.damageToEggs = 10;
-	this.enemy.damageToChicken = 0;
 	this.enemy.attackSpeed = 25;
 	moveEnemy.prototype.nextTile(this.enemy);
 	this.wave.add(this.enemy);
@@ -185,6 +187,7 @@ var Turtle = function (game, path, IndexEnemy, wave)
 	this.wave = wave;
 	this.setSprite();
 	this.setAnim();
+	this.setCentre();
 }
 
 Turtle.prototype = Object.create(Enemies.prototype);
@@ -205,7 +208,6 @@ Turtle.prototype.setAnim = function()
 	this.enemy.damageReduction = 10;
 	this.enemy.health = 250;
 	this.enemy.damageToEggs = 30;
-	this.enemy.damageToChicken = 0;
 	this.enemy.attackSpeed = 40;
 	moveEnemy.prototype.nextTile(this.enemy);
 	this.wave.add(this.enemy);
@@ -293,14 +295,18 @@ moveEnemy.prototype =
 
 		if (enemy.speedX < 0 && enemy.x <= enemy.nextTileX || enemy.speedX > 0 && enemy.x >= enemy.nextTileX) {
 			enemy.x = enemy.nextTileX;
+			enemy.centrex = enemy.x + enemy.offsetCentreX;
 			this.nextTile(enemy);
 		}
 		else if (enemy.speedY > 0 && enemy.y >= enemy.nextTileY || enemy.speedY < 0 && enemy.y <= enemy.nextTileY) {
 			enemy.y = enemy.nextTileY;
+			enemy.centrey = enemy.y + enemy.offsetCentreY;
 			this.nextTile(enemy);
 		}
 		enemy.y += enemy.speedY;
 		enemy.x += enemy.speedX;
+		enemy.centrex = enemy.x + enemy.offsetCentreX;
+		enemy.centrey = enemy.y + enemy.offsetCentreY;
 	},
 	nextTile: function(enemy){
 		if (enemy.nextTile < enemy.path.length - 1) {

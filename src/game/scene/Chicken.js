@@ -141,8 +141,11 @@ Longie.prototype.print = function()
 };
 Longie.prototype.attack = function(enemy)
 {
-    this.gameContext.createBullet(this.x*64+32,this.y*64,enemy.enemy,this.damage);
-    this.lastAttack = this.gameContext.game.time.now;
+	if (this.gameContext.bulletUsed < this.gameContext.level.initialCorn)
+	{
+   		this.gameContext.createBullet(this.x*64+32,this.y*64,enemy.enemy,this.damage);
+    	this.lastAttack = this.gameContext.game.time.now;
+	}
 };
 //Poopie
 //Slows enemies, doesn't deal damage
@@ -240,10 +243,9 @@ var Robot = function (Xtile,Ytile,Index,gameContext)
     this.y = Ytile;
     this.range = 640;
     this.lastAttack = 0;
-    this.attackSpeed = 50;
-    this.damage = 10;
+    this.attackSpeed = 5;
+    this.damage = 100;
 
-    this.laserPolygon = 
 
     this.sprite = gameContext.add.sprite(Xtile*64-8,(Ytile*64-14),'robotP');
     this.rangeSprite = gameContext.add.graphics(0,0);
@@ -252,24 +254,14 @@ var Robot = function (Xtile,Ytile,Index,gameContext)
     this.setRange();
     this.cleanRange();
     
-    this.initializeLaser();
+    this.initializeLaser(48,1000);
 }
 Robot.prototype = Object.create(Chicken.prototype);
-Robot.prototype.initializeLaser = function()
+Robot.prototype.initializeLaser = function(thickness,length)
 {
-    this.laserPolygon = this.gameContext.add.graphics(0,0);
-    this.laserPolygon.lineStyle(1,0xffffff,1);
-    this.laserPolygon.beginFill();
-
-    this.laserPolygon.moveTo(0, 0);
-    this.laserPolygon.lineTo(0,1000);
-    this.laserPolygon.lineTo(20,1000);
-    this.laserPolygon.lineTo(20,0);
-    this.laserPolygon.lineTo(0,0);
-    this.laserPolygon.position.x = (-1500);
-
-    this.laserPolygon.position.x = this.x*64 - 10;
-    this.laserPolygon.position.y = this.y*64 + 6;
+    this.laserSprite = this.gameContext.add.sprite(this.x*64 - 10,this.y*64+6,'laser');
+    this.laserSprite.anchor.setTo(16/700,0.5);
+    this.laserSprite.angle =0;
 };
 Robot.prototype.print = function()
 {
@@ -277,10 +269,23 @@ Robot.prototype.print = function()
 };
 Robot.prototype.attack = function(enemy)
 {
-//    this.lastAttack = this.gameContext.game.time.now;
-    this.laserPolygon.angle = (180/Math.PI)*Math.atan((- enemy.enemy.x + (this.x*64))/(+ enemy.enemy.y - (this.y*64)));
-    if(enemy.enemy.y - (this.y*64+32) < 0)
-        this.laserPolygon.angle += 180;
-    this.gameContext.world.bringToTop(this.laserPolygon);
-//    enemy.enemy.isAttacked(10);
+    this.lastAttack = this.gameContext.game.time.now;
+    this.laserSprite.angle = 90+ (180/Math.PI)*Math.atan((- enemy.enemy.centrex + (this.x*64))/(+ enemy.enemy.centrey - (this.y*64)));
+    this.laserSprite.alpha = 1;
+    if(enemy.enemy.centrey - (this.y*64+32) < 0)
+    {
+        this.laserSprite.angle += 180;
+    }
+    for(var i=0;i<this.gameContext.game.enemies.length;i++)
+    {
+        if(this.laserSprite.overlap(this.gameContext.game.enemies[i].enemy))
+        {
+            this.gameContext.game.enemies[i].enemy.isAttacked(this.damage);
+        }
+    }
+    var laser = this.laserSprite;
+    setTimeout(function()
+       {
+            laser.alpha = 0;
+       },500)
 };
