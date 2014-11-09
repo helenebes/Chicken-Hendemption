@@ -32,7 +32,7 @@ var EndGamePanel = function(game, finishingState, goldenEggsNum, parent)
     this.btnRetry = this.game.add.button(-130,250, 'retryB',function()
     {
 	    //this.game.state.start('Game');
-        this.game.state.getCurrentState().reloadLevel();
+        this.game.level.reloadLevel();
         
     },this,0, 0, 1, 0);
 	this.add(this.btnRetry);

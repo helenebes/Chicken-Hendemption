@@ -217,6 +217,7 @@ BasicGame.MainMenu.prototype =
             case "level 3":
                 BasicGame.currentLevel = 3;
                 lvl3.loadTexture('lvl3',0);
+                //this.prescope.startGame(this);
                 break;
             case "options":
                 opt.loadTexture('opt',0);

@@ -51,11 +51,11 @@ BasicGame.Game.prototype =
     //Create and Update functions
 	create: function () 
     {     
-
+		this.game.enemies = [];
+		this.game.currentEggHealth = 100;
         this.map.cleanMap();
         this.setControlVars();
-        this.loadLevel();
-
+        this.level = new Level(this, BasicGame.currentLevel);
         this.startMusic();
         this.startSounds();
         this.initializeInterface();
@@ -63,12 +63,9 @@ BasicGame.Game.prototype =
         this.initializeGuidedPositioningStructures();
         this.initializeChickenStructure();
         this.setupMap();
+		this.setScore();
         
         //Lets keep this code clean and understandable
-
-        this.game.enemies = [];
-		this.game.currentEggHealth = 100;
-        this.level = new Level(this.game);
 
 	},
 	update: function () 
@@ -81,24 +78,9 @@ BasicGame.Game.prototype =
         this.chickenUpdate();
 		this.enemiesUpdate(this.coop);
         this.updateBullets();
+		this.updateScore();
 		//console.log("dans update");
 	},
-    loadLevel: function()
-    {
-        //All of this should come from the level "class"
-
-        var bg = this.add.sprite(0,0,'grass');
-        var map = this.add.tilemap('lvl1_map');
-        map.addTilesetImage('tileset');
-        var layer = map.createLayer('layer1');
-        layer.resizeWorld();
-        this.coop = new Coop(12, 14,10,this);
-    },
-    reloadLevel: function()
-    {
-        this.state.start('Game');
-
-    },
     setControlVars: function()
     {
         this.paused = false;
@@ -435,5 +417,33 @@ BasicGame.Game.prototype =
     shutdown: function()
     {
         this.stopMusic();
-    }
+    },
+	setScore: function() 
+	{
+		var style = { font: "65px Arial", fill: "#000000", align: "center" };
+		this.lastNbEgg = this.coop.eggCounter;
+		this.lastNbbullet = this.bullets.length;    	
+		this.cornScore = this.game.add.text(BasicGame.convertWidth(0)+90, BasicGame.convertHeight(0)+10, this.level.initialCorn - this.bullets.length, style);
+		this.eggScore = this.game.add.text(BasicGame.convertWidth(0)+74, BasicGame.convertHeight(0)+95, this.coop.eggCounter, style);		
+	},
+	updateScore: function() 
+	{
+		var style = { font: "65px Arial", fill: "#000000", align: "center" };
+		if (this.coop.eggCounter != this.lastNbEgg) 
+		{
+			this.eggScore.destroy(); 	
+			this.eggScore = this.game.add.text(BasicGame.convertWidth(0)+100, BasicGame.convertHeight(0)+95, this.coop.eggCounter, style);
+			this.lastNbEgg = this.coop.eggCounter;
+			if (this.coop.eggCounter === 0)
+			{
+				this.eggScore = this.game.add.text(BasicGame.convertWidth(0)+100, BasicGame.convertHeight(0)+95, '0', style);
+			}
+		}
+		if (this.bullets.length != this.lastNbbullet) 
+		{
+			this.cornScore.destroy();
+			this.cornScore = this.game.add.text(BasicGame.convertWidth(0)+90, BasicGame.convertHeight(0)+10, this.level.initialCorn - this.bullets.length, style);
+			this.lastNbbullet = this.bullets.length;
+		}		
+	}
 };
