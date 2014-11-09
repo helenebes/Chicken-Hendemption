@@ -32,7 +32,6 @@ Enemies.prototype =
 		this.enemy.y = this.enemy.path[0].y * 64 + this.enemy.offsetY;
 		this.enemy.health = 100;
 		this.enemy.damageToEggs = 10;
-		this.enemy.damageToChicken = 0;
 		this.enemy.attackSpeed = 15;
 		moveEnemy.prototype.nextTile(this.enemy);
 		this.wave.add(this.enemy);
@@ -51,10 +50,6 @@ Enemies.prototype =
 				}
 		});
 	},
-	attackChicken: function(chicken) {
-		chicken.health -= this.enemy.damageToChicken;
-	},
-
 	damageSpeed: function(damageSpeed){
 		this.enemy.speed -= damageSpeed;
 	},
@@ -105,7 +100,6 @@ Mummy.prototype.setAnim = function()
 	this.enemy.y = this.enemy.path[0].y * 64 + this.enemy.offsetY;
 	this.enemy.health = 200;
 	this.enemy.damageToEggs = 5;
-	this.enemy.damageToChicken = 0;
 	this.enemy.attackSpeed = 15;
 	moveEnemy.prototype.nextTile(this.enemy);
 	this.wave.add(this.enemy);
@@ -141,7 +135,6 @@ Lagarto.prototype.setAnim = function()
 	this.enemy.y = this.enemy.path[0].y * 64 + this.enemy.offsetY;
 	this.enemy.health = 50;
 	this.enemy.damageToEggs = 10;
-	this.enemy.damageToChicken = 0;
 	this.enemy.attackSpeed = 60;
 	moveEnemy.prototype.nextTile(this.enemy);
 	this.wave.add(this.enemy);
@@ -177,7 +170,6 @@ Snake.prototype.setAnim = function()
 	this.enemy.y = this.enemy.path[0].y * 64 + this.enemy.offsetY;
 	this.enemy.health = 70;
 	this.enemy.damageToEggs = 10;
-	this.enemy.damageToChicken = 0;
 	this.enemy.attackSpeed = 25;
 	moveEnemy.prototype.nextTile(this.enemy);
 	this.wave.add(this.enemy);
@@ -214,7 +206,6 @@ Turtle.prototype.setAnim = function()
 	this.enemy.damageReduction = 10;
 	this.enemy.health = 250;
 	this.enemy.damageToEggs = 30;
-	this.enemy.damageToChicken = 0;
 	this.enemy.attackSpeed = 40;
 	moveEnemy.prototype.nextTile(this.enemy);
 	this.wave.add(this.enemy);
