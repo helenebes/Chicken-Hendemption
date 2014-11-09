@@ -14,8 +14,10 @@ var Enemies = function (game, path, IndexEnemy, wave)
 Enemies.prototype =
 {
 	setCentre: function(){
-		this.enemy.centrex = this.enemy.x + this.enemy.Xlength/2;
-		this.enemy.centrey = this.enemy.y + this.enemy.Ylength/2;
+		this.enemy.offsetCentreX = this.game.cache.getImage(this.enemy.key).width/2;
+		this.enemy.offsetCentreY = this.game.cache.getImage(this.enemy.key).width/2;
+		this.enemy.centrex = this.enemy.x + this.enemy.offsetCentreX;
+		this.enemy.centrey = this.enemy.y + this.enemy.offsetCentreY;
 	},
 	setAnim: function() {
 		this.enemy.scale.set(1.5);
@@ -293,18 +295,18 @@ moveEnemy.prototype =
 
 		if (enemy.speedX < 0 && enemy.x <= enemy.nextTileX || enemy.speedX > 0 && enemy.x >= enemy.nextTileX) {
 			enemy.x = enemy.nextTileX;
-			enemy.centrex = enemy.x + enemy.Xlength/2;
+			enemy.centrex = enemy.x + enemy.offsetCentreX;
 			this.nextTile(enemy);
 		}
 		else if (enemy.speedY > 0 && enemy.y >= enemy.nextTileY || enemy.speedY < 0 && enemy.y <= enemy.nextTileY) {
 			enemy.y = enemy.nextTileY;
-			enemy.centrey = enemy.y + enemy.Ylength/2;
+			enemy.centrey = enemy.y + enemy.offsetCentreY;
 			this.nextTile(enemy);
 		}
 		enemy.y += enemy.speedY;
 		enemy.x += enemy.speedX;
-		enemy.centrex = enemy.x + enemy.Xlength/2;
-		enemy.centrey = enemy.y + enemy.Ylength/2;
+		enemy.centrex = enemy.x + enemy.offsetCentreX;
+		enemy.centrey = enemy.y + enemy.offsetCentreY;
 	},
 	nextTile: function(enemy){
 		if (enemy.nextTile < enemy.path.length - 1) {
