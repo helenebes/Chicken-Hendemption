@@ -62,7 +62,7 @@ Level.prototype =
 	},
 	updateLevel: function() {
 		//console.log(this.game.time.now- this.timeBeginLastWave - this.infoWaves.timeBetweenTwo );
-		if (this.game.time.now >= this.timeBeginLastWave + this.infoWaves.timeBetweenTwo && this.waves.length < this.infoWaves.nbWaves){
+		if (this.game.time.now >= this.timeBeginLastWave + this.infoWaves.timeBetweenTwo && this.waves.length < this.infoWaves.nbWaves && this.state.coop.eggCounter > 0){
 			console.log("create new wave");
 			this.waves[this.waves.length] = new Wave(this.game, this.game.time.now, this.path, this.infoWaves);
 			this.timeBeginLastWave = this.game.time.now;
