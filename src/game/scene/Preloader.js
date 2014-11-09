@@ -89,6 +89,10 @@ BasicGame.Preloader.prototype = {
         this.load.tilemap('lvl1_map', 'assets/'+BasicGame.screen+"/level_1.json", null, Phaser.Tilemap.TILED_JSON);
         this.load.tilemap('lvl2_map', 'assets/'+BasicGame.screen+"/level_2.json", null, Phaser.Tilemap.TILED_JSON);
         this.load.tilemap('lvl3_map', 'assets/'+BasicGame.screen+"/level_3.json", null, Phaser.Tilemap.TILED_JSON);
+		this.load.image('stopButton','assets/'+BasicGame.screen+"/stop_ingame_button.png");
+		this.load.image('stopButtonPressed','assets/'+BasicGame.screen+"/stop_ingame_button_pressed.png");
+		this.load.image('playButton','assets/'+BasicGame.screen+"/play_ingame_button.png");
+		this.load.image('playButtonPressed','assets/'+BasicGame.screen+"/play_ingame_button_pressed.png");
 
         //this.load.tilemap('test_lvl', 'assets/'+BasicGame.screen+"/teste.json", null, Phaser.Tilemap.TILED_JSON);
         this.load.image('tileset',  'assets/'+BasicGame.screen+"/tileset.png");
