@@ -375,7 +375,13 @@ BasicGame.Game.prototype =
 	},
     stopSounds: function()
     {
-       // this.clickButtonSound.mute();
+       this.clickButtonSound.volume = 0;
+       this.unclickButtonSound.volume = 0;
+    },
+    stopSounds: function()
+    {
+       this.clickButtonSound.volume = 0;
+       this.unclickButtonSound.volume = 0;
     },
 	startMusic: function()
 	{
