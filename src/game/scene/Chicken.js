@@ -294,9 +294,9 @@ Robot.prototype.print = function()
 Robot.prototype.attack = function(enemy)
 {
 //    this.lastAttack = this.gameContext.game.time.now;
-    this.laserPolygon.angle = (180/Math.PI)*Math.atan((- enemy.enemy.x + (this.x*64))/(+ enemy.enemy.y - (this.y*64)));
-    this.laserSprite.angle = 90+ (180/Math.PI)*Math.atan((- enemy.enemy.x + (this.x*64))/(+ enemy.enemy.y - (this.y*64)));
-    if(enemy.enemy.y - (this.y*64+32) < 0)
+    this.laserPolygon.angle = (180/Math.PI)*Math.atan((- enemy.enemy.centrex + (this.x*64))/(+ enemy.enemy.centrey - (this.y*64)));
+    this.laserSprite.angle = 90+ (180/Math.PI)*Math.atan((- enemy.enemy.centrex + (this.x*64))/(+ enemy.enemy.centrey - (this.y*64)));
+    if(enemy.enemy.centrey - (this.y*64+32) < 0)
     {
         this.laserPolygon.angle += 180;
         this.laserSprite.angle += 180;
