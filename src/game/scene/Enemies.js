@@ -14,8 +14,10 @@ var Enemies = function (game, path, IndexEnemy, wave)
 Enemies.prototype =
 {
 	setCentre: function(){
-		this.enemy.centrex = this.enemy.x + this.enemy.Xlength/2;
-		this.enemy.centrey = this.enemy.y + this.enemy.Ylength/2;
+		this.enemy.offsetCentreX = this.game.cache.getImage(this.enemy.key).width/2;
+		this.enemy.offsetCentreY = this.game.cache.getImage(this.enemy.key).width/2;
+		this.enemy.centrex = this.enemy.x + this.enemy.offsetCentreX;
+		this.enemy.centrey = this.enemy.y + this.enemy.offsetCentreY;
 	},
 	setAnim: function() {
 		this.enemy.scale.set(1.5);
@@ -32,7 +34,6 @@ Enemies.prototype =
 		this.enemy.y = this.enemy.path[0].y * 64 + this.enemy.offsetY;
 		this.enemy.health = 100;
 		this.enemy.damageToEggs = 10;
-		this.enemy.damageToChicken = 0;
 		this.enemy.attackSpeed = 15;
 		moveEnemy.prototype.nextTile(this.enemy);
 		this.wave.add(this.enemy);
@@ -51,10 +52,6 @@ Enemies.prototype =
 				}
 		});
 	},
-	attackChicken: function(chicken) {
-		chicken.health -= this.enemy.damageToChicken;
-	},
-
 	damageSpeed: function(damageSpeed){
 		this.enemy.speed -= damageSpeed;
 	},
@@ -105,7 +102,6 @@ Mummy.prototype.setAnim = function()
 	this.enemy.y = this.enemy.path[0].y * 64 + this.enemy.offsetY;
 	this.enemy.health = 200;
 	this.enemy.damageToEggs = 5;
-	this.enemy.damageToChicken = 0;
 	this.enemy.attackSpeed = 15;
 	moveEnemy.prototype.nextTile(this.enemy);
 	this.wave.add(this.enemy);
@@ -141,7 +137,6 @@ Lagarto.prototype.setAnim = function()
 	this.enemy.y = this.enemy.path[0].y * 64 + this.enemy.offsetY;
 	this.enemy.health = 50;
 	this.enemy.damageToEggs = 10;
-	this.enemy.damageToChicken = 0;
 	this.enemy.attackSpeed = 60;
 	moveEnemy.prototype.nextTile(this.enemy);
 	this.wave.add(this.enemy);
@@ -177,7 +172,6 @@ Snake.prototype.setAnim = function()
 	this.enemy.y = this.enemy.path[0].y * 64 + this.enemy.offsetY;
 	this.enemy.health = 70;
 	this.enemy.damageToEggs = 10;
-	this.enemy.damageToChicken = 0;
 	this.enemy.attackSpeed = 25;
 	moveEnemy.prototype.nextTile(this.enemy);
 	this.wave.add(this.enemy);
@@ -214,7 +208,6 @@ Turtle.prototype.setAnim = function()
 	this.enemy.damageReduction = 10;
 	this.enemy.health = 250;
 	this.enemy.damageToEggs = 30;
-	this.enemy.damageToChicken = 0;
 	this.enemy.attackSpeed = 40;
 	moveEnemy.prototype.nextTile(this.enemy);
 	this.wave.add(this.enemy);
@@ -302,18 +295,18 @@ moveEnemy.prototype =
 
 		if (enemy.speedX < 0 && enemy.x <= enemy.nextTileX || enemy.speedX > 0 && enemy.x >= enemy.nextTileX) {
 			enemy.x = enemy.nextTileX;
-			enemy.centrex = enemy.x + enemy.Xlength/2;
+			enemy.centrex = enemy.x + enemy.offsetCentreX;
 			this.nextTile(enemy);
 		}
 		else if (enemy.speedY > 0 && enemy.y >= enemy.nextTileY || enemy.speedY < 0 && enemy.y <= enemy.nextTileY) {
 			enemy.y = enemy.nextTileY;
-			enemy.centrey = enemy.y + enemy.Ylength/2;
+			enemy.centrey = enemy.y + enemy.offsetCentreY;
 			this.nextTile(enemy);
 		}
 		enemy.y += enemy.speedY;
 		enemy.x += enemy.speedX;
-		enemy.centrex = enemy.x + enemy.Xlength/2;
-		enemy.centrey = enemy.y + enemy.Ylength/2;
+		enemy.centrex = enemy.x + enemy.offsetCentreX;
+		enemy.centrey = enemy.y + enemy.offsetCentreY;
 	},
 	nextTile: function(enemy){
 		if (enemy.nextTile < enemy.path.length - 1) {

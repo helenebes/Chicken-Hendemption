@@ -141,8 +141,11 @@ Longie.prototype.print = function()
 };
 Longie.prototype.attack = function(enemy)
 {
-    this.gameContext.createBullet(this.x*64+32,this.y*64,enemy.enemy,this.damage);
-    this.lastAttack = this.gameContext.game.time.now;
+	if (this.gameContext.bulletUsed < this.gameContext.level.initialCorn)
+	{
+   		this.gameContext.createBullet(this.x*64+32,this.y*64,enemy.enemy,this.damage);
+    	this.lastAttack = this.gameContext.game.time.now;
+	}
 };
 //Poopie
 //Slows enemies, doesn't deal damage
