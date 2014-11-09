@@ -243,8 +243,8 @@ var Robot = function (Xtile,Ytile,Index,gameContext)
     this.y = Ytile;
     this.range = 640;
     this.lastAttack = 0;
-    this.attackSpeed = 50;
-    this.damage = 10;
+    this.attackSpeed = 5;
+    this.damage = 100;
 
 
     this.sprite = gameContext.add.sprite(Xtile*64-8,(Ytile*64-14),'robotP');
@@ -269,7 +269,9 @@ Robot.prototype.print = function()
 };
 Robot.prototype.attack = function(enemy)
 {
+    this.lastAttack = this.gameContext.game.time.now;
     this.laserSprite.angle = 90+ (180/Math.PI)*Math.atan((- enemy.enemy.centrex + (this.x*64))/(+ enemy.enemy.centrey - (this.y*64)));
+    this.laserSprite.alpha = 1;
     if(enemy.enemy.centrey - (this.y*64+32) < 0)
     {
         this.laserSprite.angle += 180;
@@ -281,4 +283,9 @@ Robot.prototype.attack = function(enemy)
             this.gameContext.game.enemies[i].enemy.isAttacked(this.damage);
         }
     }
+    var laser = this.laserSprite;
+    setTimeout(function()
+       {
+            laser.alpha = 0;
+       },500)
 };
