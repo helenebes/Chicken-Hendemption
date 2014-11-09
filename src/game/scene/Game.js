@@ -192,8 +192,10 @@ BasicGame.Game.prototype =
         for(var i=0;i<15;i++)
         {
             this.chickenLayers[i] = this.add.group();
-            this.chickenLayers[i].z=i;
+            this.chickenLayers[i].z=i+2;
         }
+        this.effectsLayer = this.add.group();
+        this.effectsLayer.z = 1;
     },
     initializeInterface: function()
     {
