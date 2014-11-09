@@ -85,6 +85,7 @@ BasicGame.Preloader.prototype = {
         this.load.image('cornBullet','assets/'+BasicGame.screen+"/corn_bullet.png");
         //this.load.spritesheet('explosion','assets/'+BasicGame.screen+"/explosion.png",472, 500);
         this.load.spritesheet('explosion','assets/'+BasicGame.screen+"/explosion1.png",256, 256,12);
+        this.load.image('laser','assets/'+BasicGame.screen+"/laser.png");
         this.load.tilemap('lvl1_map', 'assets/'+BasicGame.screen+"/level_1.json", null, Phaser.Tilemap.TILED_JSON);
         this.load.tilemap('lvl2_map', 'assets/'+BasicGame.screen+"/level_2.json", null, Phaser.Tilemap.TILED_JSON);
         this.load.tilemap('lvl3_map', 'assets/'+BasicGame.screen+"/level_3.json", null, Phaser.Tilemap.TILED_JSON);

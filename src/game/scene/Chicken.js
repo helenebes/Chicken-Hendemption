@@ -269,10 +269,16 @@ Robot.prototype.initializeLaser = function()
     this.laserPolygon.lineTo(20,1000);
     this.laserPolygon.lineTo(20,0);
     this.laserPolygon.lineTo(0,0);
-    this.laserPolygon.position.x = (-1500);
 
+    this.laserPolygon.alpha = 0;
     this.laserPolygon.position.x = this.x*64 - 10;
     this.laserPolygon.position.y = this.y*64 + 6;
+
+
+    this.laserSprite = this.gameContext.add.sprite(this.x*64 - 10,this.y*64+6,'laser');
+    this.laserSprite.anchor.setTo(16/700,0.5);
+    this.laserSprite.angle =0;
+    
 };
 Robot.prototype.print = function()
 {
@@ -282,8 +288,12 @@ Robot.prototype.attack = function(enemy)
 {
 //    this.lastAttack = this.gameContext.game.time.now;
     this.laserPolygon.angle = (180/Math.PI)*Math.atan((- enemy.enemy.x + (this.x*64))/(+ enemy.enemy.y - (this.y*64)));
+    this.laserSprite.angle = 90+ (180/Math.PI)*Math.atan((- enemy.enemy.x + (this.x*64))/(+ enemy.enemy.y - (this.y*64)));
     if(enemy.enemy.y - (this.y*64+32) < 0)
+    {
         this.laserPolygon.angle += 180;
+        this.laserSprite.angle += 180;
+    }
     this.gameContext.world.bringToTop(this.laserPolygon);
 //    enemy.enemy.isAttacked(10);
 };
