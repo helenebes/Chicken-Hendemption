@@ -40,6 +40,8 @@ BasicGame.Game = function (game)
     this.chickenLayers = [];
 	
     var opt; //Options button
+	var pauseGame;
+	var startGame;
 
     //Experimental
     //this.qTree = new Phaser.QuadTree(game.physics,0,0,BasicGame.gameWidth,BasicGame.gameHeight,30*15,4,0);
@@ -65,7 +67,8 @@ BasicGame.Game.prototype =
         this.initializeChickenStructure();
         this.setupMap();
 		this.setScore();
-        
+		this.setPlayPauseButtons();
+
         //Lets keep this code clean and understandable
 
 	},
@@ -75,10 +78,10 @@ BasicGame.Game.prototype =
         {
             this.level.updateLevel();
             this.guidePositioning(this.input.mousePointer.x,this.input.mousePointer.y);
-        }
-        this.chickenUpdate();
-		this.enemiesUpdate(this.coop);
-        this.updateBullets();
+			this.chickenUpdate();
+			this.updateBullets();
+			this.enemiesUpdate(this.coop);
+        }       
 		this.updateScore();
 		//console.log("dans update");
 	},
@@ -206,6 +209,22 @@ BasicGame.Game.prototype =
 		BasicGame.optionsPanel = new OptionsPanel(this);
 		this.game.add.existing(BasicGame.optionsPanel);
     },
+	setPlayPauseButtons: function() 
+	{
+		if (BasicGame.currentLevel < 3) {
+			startGame = this.add.sprite(16*64, 11*64,'playButton');
+			pauseGame = this.add.sprite(17*64 + 50, 11*64, 'stopButton');
+		} else {
+			startGame = this.add.sprite(11*64, 6*64,'playButton');
+			pauseGame = this.add.sprite(12*64 + 50, 6*64,'stopButton');
+		}
+		startGame.inputEnabled = true;
+		startGame.events.onInputDown.add(this.onClick,{buttonName:"play",prescope: this});
+		startGame.events.onInputUp.add(this.onClickReleased,{buttonName:"play",prescope: this});
+		pauseGame.inputEnabled = true;
+		pauseGame.events.onInputDown.add(this.onClick,{buttonName:"pause",prescope: this});
+		pauseGame.events.onInputUp.add(this.onClickReleased,{buttonName:"pause",prescope: this});
+	},
     buildChickenMenu: function()
     {
 		var normal = this.add.sprite(BasicGame.convertWidth(3),BasicGame.convertHeight(60),'normal'); 
@@ -490,12 +509,55 @@ BasicGame.Game.prototype =
 			if (BasicGame.currentLevel < 3)
 			{
 				this.afficheNbWaves = this.game.add.text(16*64, 14*64, 'Waves Remaining:  ', style);
-				this.afficheNbWaves = this.game.add.text(20*64, 14*64, this.level.infoWaves.nbWaves - this.level.waves.length, style);
+				if (this.level.infoWaves.nbWaves === this.level.waves.length)
+				{
+					this.afficheNbWaves = this.game.add.text(20*64, 14*64, '0', style);
+				} else {
+					this.afficheNbWaves = this.game.add.text(20*64, 14*64, this.level.infoWaves.nbWaves - this.level.waves.length, style);
+				}
 			} else {
 				this.afficheNbWaves = this.game.add.text(10*64, BasicGame.convertHeight(0)+70, 'Waves Remaining:  '+ this.level.infoWaves.nbWaves - this.level.waves.length, style);
-				this.afficheNbWaves = this.game.add.text(14*64, BasicGame.convertHeight(0)+70, this.level.infoWaves.nbWaves - this.level.waves.length, style);
+				if (this.level.infoWaves.nbWaves === this.level.waves.length)
+				{
+					this.afficheNbWaves = this.game.add.text(20*64, 14*64, '0', style);
+				} else {
+					this.afficheNbWaves = this.game.add.text(14*64, BasicGame.convertHeight(0)+70, this.level.infoWaves.nbWaves - this.level.waves.length, style);
+				}
 			}
 			this.lastNbWaves = this.level.waves.length;
 		}		
-	}
+	},
+
+	onClick:function(buttonName, prescope)
+    {
+		this.prescope.clickButtonSound.play();
+		switch(this.buttonName)
+		{
+			case "play":				
+				startGame.loadTexture('playButtonPressed',0);
+				break;
+			case "pause":
+				pauseGame.loadTexture('stopButtonPressed',0);
+				break;
+		}
+				
+    },
+    onClickReleased:function(buttonName, prescope)
+    {
+ 		this.prescope.unclickButtonSound.play();
+		switch(this.buttonName)
+		{
+			case "play":
+				if (this.prescope.level.waves.length === 0) 
+				{				
+					this.prescope.level.setFirstWave(this.prescope.time.now);
+				} else {
+					this.prescope.paused = false;
+				}
+				break;
+			case "pause":
+				this.prescope.paused = true;
+				break;
+		}		
+	},
 };

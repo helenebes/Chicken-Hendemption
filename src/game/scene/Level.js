@@ -9,14 +9,12 @@ var Level = function(state, level)
 	this.setConfigLevel();
 	this.setCoopLocation();
 	this.loadLevel();
-	this.setFirstWave(this.game.time.now);
 }
 
 Level.prototype = 
 {
-	setFirstWave: function(time){
-		console.log("first Wave created");
-		console.log(this.infoWaves.nbEnemyByWave);
+	setFirstWave: function(time)
+	{
 		this.waves[0] = new Wave(this.game, time + 100, this.path, this.infoWaves);
 		this.timeBeginLastWave = time + 100;
 	},
