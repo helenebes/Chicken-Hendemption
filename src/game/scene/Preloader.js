@@ -13,7 +13,7 @@ BasicGame.Preloader.prototype = {
 	preload: function () {
 
 
-		//this.background = this.add.sprite(0, 0, 'preloaderBackground');
+		this.background = this.add.sprite(0, 0, 'loading');
 		//this.preloadBar = this.add.sprite(300, 400, 'preloaderBar');
 
 		
