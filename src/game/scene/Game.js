@@ -12,7 +12,8 @@ BasicGame.Game = function (game)
     this.load;		//	for preloading assets
     this.math;		//	lots of useful common math operations
     this.music;
-	this.sound;		//	the sound manager - add a sound, play one, set-up markers, etc
+	this.clickButtonSound = null;
+    this.unclickButtonSound = null;		//	the sound manager - add a sound, play one, set-up markers, etc
     this.stage;		//	the game stage
     this.time;		//	the clock
     this.tweens;	//	the tween manager
@@ -21,7 +22,7 @@ BasicGame.Game = function (game)
     this.physics;	//	the physics manager
     this.rnd;		//	the repeatable random number generator
 
-	this.paused = false;
+	this.paused;
 	this.inGameOpt;
 	
 	this.MapTileWidth = 20;
@@ -29,27 +30,19 @@ BasicGame.Game = function (game)
 	this.MapOffset = 128;
 	this.TileSize = 64;
 
-    this.positionMode = false;
+    this.positionMode;
+    this.pendingMenu;
     
     this.map = new Map();
 
+    this.chickens;
+    this.bullets = [];
     this.chickenLayers = [];
-
+	
     var opt; //Options button
 
     //Experimental
     //this.qTree = new Phaser.QuadTree(game.physics,0,0,BasicGame.gameWidth,BasicGame.gameHeight,30*15,4,0);
-
-
-    this.path_lv1 = [{x: BasicGame.convertWidth(400),y: BasicGame.convertHeight(-30)}, {x: BasicGame.convertWidth(400),y: BasicGame.convertHeight(0)}, {x: BasicGame.convertWidth(400),y: BasicGame.convertHeight(25)}, {x: BasicGame.convertWidth(400),y: BasicGame.convertHeight(50)}, 
-				{x: BasicGame.convertWidth(400),y: BasicGame.convertHeight(75)}, {x: BasicGame.convertWidth(400),y: BasicGame.convertHeight(100)}, {x: BasicGame.convertWidth(400),y: BasicGame.convertHeight(120)}, {x: BasicGame.convertWidth(400),y: BasicGame.convertHeight(145)}, 
-		{x: BasicGame.convertWidth(375),y: BasicGame.convertHeight(145)}, {x: BasicGame.convertWidth(350),y: BasicGame.convertHeight(145)}, {x: BasicGame.convertWidth(325),y: BasicGame.convertHeight(145)}, {x: BasicGame.convertWidth(300),y: BasicGame.convertHeight(145)}, 
-			{x: BasicGame.convertWidth(275),y: BasicGame.convertHeight(145)}, {x: BasicGame.convertWidth(250),y: BasicGame.convertHeight(145)}, {x: BasicGame.convertWidth(225),y: BasicGame.convertHeight(145)}, {x: BasicGame.convertWidth(200),y: BasicGame.convertHeight(145)}, 
-			{x: BasicGame.convertWidth(175),y: BasicGame.convertHeight(145)}, {x: BasicGame.convertWidth(145),y: BasicGame.convertHeight(145)}, {x: BasicGame.convertWidth(125),y: BasicGame.convertHeight(145)}, {x: BasicGame.convertWidth(95),y: BasicGame.convertHeight(145)},
-		{x: BasicGame.convertWidth(95),y: BasicGame.convertHeight(175)}, {x: BasicGame.convertWidth(95),y: BasicGame.convertHeight(200)}, {x: BasicGame.convertWidth(95),y: BasicGame.convertHeight(240)}, 
-		{x: BasicGame.convertWidth(125),y: BasicGame.convertHeight(240)}, {x: BasicGame.convertWidth(150),y: BasicGame.convertHeight(240)}, {x: BasicGame.convertWidth(175),y: BasicGame.convertHeight(240)}, {x: BasicGame.convertWidth(200),y: BasicGame.convertHeight(240)}, 
-			{x: BasicGame.convertWidth(225),y: BasicGame.convertHeight(240)}, {x: BasicGame.convertWidth(250),y: BasicGame.convertHeight(240)}, {x: BasicGame.convertWidth(270),y: BasicGame.convertHeight(240)}, 
-		{x: BasicGame.convertWidth(270),y: BasicGame.convertHeight(250)}, {x: BasicGame.convertWidth(270),y: BasicGame.convertHeight(275)}, {x: BasicGame.convertWidth(270),y: BasicGame.convertHeight(300)}];
 
 };
 
@@ -58,67 +51,42 @@ BasicGame.Game.prototype =
     //Create and Update functions
 	create: function () 
     {     
-        this.loadLevel();
-
-		this.music = this.add.audio('chicken_family');
-		this.music.loop = true;
-		this.startMusic();
+		this.game.enemies = [];
+		this.game.currentEggHealth = 100;
+		this.bulletUsed = 0;
+        this.map.cleanMap();
+        this.setControlVars();
+        this.level = new Level(this, BasicGame.currentLevel);
+        this.startMusic();
+        this.startSounds();
         this.initializeInterface();
         this.buildChickenMenu();
         this.initializeGuidedPositioningStructures();
         this.initializeChickenStructure();
         this.setupMap();
+		this.setScore();
         
         //Lets keep this code clean and understandable
-	
-	this.listEnemies = [{'nome': 'dog', 'moves': [{'type': 'walk', 'frame': '[3,4,5]'}], 'length': '5', 'scale': '1.5', 'frame': '5'}, 
-				{'nome': 'mummy', 'moves': [{'type': 'walk', 'frame': '[]'}], 'length': '10', 'scale': '1', 'frame': '5'},
-				{'nome': 'lagarto', 'moves': [{'type': 'walk down', 'frame': '[0,1,2,1]'}, {'type': 'walk left', 'frame': '[3,4,5,4]'}, {'type': 'walk right', 'frame': '[6,7,8,6]'}, {'type': 'walk up', 'frame': '[9,10,11,10]'}], 'length': '5', 'scale': '1', 'frame': '1'}];
-
-	this.enemies = this.game.add.group();
-	this.enemies.enableBody = true;
-	this.enemies.physicsBodyType = Phaser.Physics.ARCADE;
-	var level = 1;
-	//this.createNewEnemy(level);
-
-	var infoenemies = this.enemies;	
-	var infolistEnemies = this.listEnemies;
-    var infogame = this.game
-
-	//this.createEmemiesLoop(level, infoenemies, infolistEnemies, infogame);
-	
-	/*var dog_path_l1 = this.add.sprite(BasicGame.convertWidth(270), BasicGame.convertHeight(300),'dog');
-	var dog_path_l1 = this.add.sprite(BasicGame.convertWidth(400),BasicGame.convertHeight(140),'dog');
-	var dog_path_l1 = this.add.sprite(BasicGame.convertWidth(95),BasicGame.convertHeight(140),'dog');
-	var dog_path_l1 = this.add.sprite(BasicGame.convertWidth(95),BasicGame.convertHeight(225),'dog');
-	var dog_path_l1 = this.add.sprite(BasicGame.convertWidth(270),BasicGame.convertHeight(225),'dog');
-	var dog_path_l1 = this.add.sprite(BasicGame.convertWidth(270),BasicGame.convertHeight(400),'dog');	
-	*/
-
-
 
 	},
 	update: function () 
     {
-		//Enemy move
-		this.enemies.forEach(function(enemy) {
-				//console.log("enemy move "+enemy.x);
-				if (enemy.x === 810) {
-					//console.log("enemy should be supressed");
-				} else {
-                	Enemies.prototype.moveOnStep(enemy);
-				}
-            });	
+        if(this.paused == false)
+        {
+            this.level.updateLevel();
+            this.guidePositioning(this.input.mousePointer.x,this.input.mousePointer.y);
+        }
+        this.chickenUpdate();
+		this.enemiesUpdate(this.coop);
+        this.updateBullets();
+		this.updateScore();
 		//console.log("dans update");
-        this.guidePositioning(this.input.mousePointer.x,this.input.mousePointer.y);
 	},
-    loadLevel: function()
+    setControlVars: function()
     {
-        var bg = this.add.sprite(0,0,'grass');
-        var map = this.add.tilemap('test_lvl');
-        map.addTilesetImage('tileset');
-        var layer = map.createLayer('layer1');
-        layer.resizeWorld();
+        this.paused = false;
+        this.pendingMenu = false;
+        this.positionMenu = false;
     },
     //Guided Positioning functions
     initializeGuidedPositioningStructures: function()
@@ -144,6 +112,12 @@ BasicGame.Game.prototype =
 		this.rect.beginFill(0xffffff,0.3);
 		this.rect.drawRect(0,0,this.TileSize,this.TileSize);
 		this.rect.position.x = (-100);
+
+	 	this.badRect = this.add.graphics(0,0);
+		this.badRect.lineStyle(4,0xff0000,1);
+		this.badRect.beginFill(0xff0000,0.3);
+		this.badRect.drawRect(0,0,this.TileSize,this.TileSize);
+		this.badRect.position.x = (-100);
     },
     guidePositioning: function(x,y)
     {
@@ -152,16 +126,29 @@ BasicGame.Game.prototype =
             this.highlightTile(x,y);
             this.showGrid(x);
         }else{
-			this.rect.position.x = (-this.TileSize);
-			this.bitmap.position.x = (-1408);
+			this.rect.position.x = (-this.TileSize-4);
+			this.badRect.position.x = (-this.TileSize-4);
+			this.bitmap.position.x = (-1408 -4);
         }
 
 	
     },
     highlightTile: function (x,y) 
     {
-        this.rect.position.x = ((~~(x/this.TileSize))*this.TileSize);
-        this.rect.position.y = ((~~(y/this.TileSize))*this.TileSize);
+        var X = (~~(x/this.TileSize));
+        var Y = (~~(y/this.TileSize));
+        if(this.map.testTile(X,Y))
+        {
+			this.rect.position.x = (-this.TileSize-4);
+            this.badRect.position.x = (X*this.TileSize);
+            this.badRect.position.y = (Y*this.TileSize);
+        }
+        else
+        {
+			this.badRect.position.x = (-this.TileSize-4);
+            this.rect.position.x = (X*this.TileSize);
+            this.rect.position.y = (Y*this.TileSize);
+        }
 	},
 	showGrid: function (x) 
     {
@@ -178,6 +165,11 @@ BasicGame.Game.prototype =
        this.prescope.positionMode = false;
        this.prescope.positionChicken(this.type);
     },
+	reloadLevel: function()
+    {
+        this.state.start('Game');
+
+    },
     initializeChickenStructure: function()
     {
         //Declare the chicken array, and the initial amount of chickens
@@ -188,8 +180,10 @@ BasicGame.Game.prototype =
         for(var i=0;i<15;i++)
         {
             this.chickenLayers[i] = this.add.group();
-            this.chickenLayers[i].z=i;
+            this.chickenLayers[i].z=i+2;
         }
+        this.effectsLayer = this.add.group();
+        this.effectsLayer.z = 1;
     },
     initializeInterface: function()
     {
@@ -197,27 +191,25 @@ BasicGame.Game.prototype =
 		money.bringToTop();
 		
 		this.inGameOpt = new InGameOptionsPanel(this);
-        //this.world.add.existing(this.inGameOpt);
-        console.log(this.inGameOpt.z);
-        console.log(this.inGameOpt);
-        this.world.bringToTop(this.inGameOpt);
-		this.add.existing(this.inGameOpt);
+		this.game.add.existing(this.inGameOpt);
         //paused = false;
         opt = this.add.sprite(BasicGame.convertWidth(453),BasicGame.convertHeight(5),'opt');
 		opt.inputEnabled = true;
 		opt.bringToTop();
 		opt.events.onInputDown.add(function()
 		{
+            this.clickButtonSound.play();
 			opt.loadTexture('opt_pressed',0);
 		},this);
 		opt.events.onInputUp.add(this.pauseGame,this);
+        BasicGame.optionsPanel.game = this.game;
 		BasicGame.optionsPanel = new OptionsPanel(this);
-		this.add.existing(BasicGame.optionsPanel);
+		this.game.add.existing(BasicGame.optionsPanel);
     },
     buildChickenMenu: function()
     {
-		var longie = this.add.sprite(BasicGame.convertWidth(3),BasicGame.convertHeight(58),'longie'); 
-		var normal = this.add.sprite(BasicGame.convertWidth(3),BasicGame.convertHeight(115),'normal'); 
+		var normal = this.add.sprite(BasicGame.convertWidth(3),BasicGame.convertHeight(60),'normal'); 
+		var longie = this.add.sprite(BasicGame.convertWidth(3),BasicGame.convertHeight(105),'longie'); 
         var poopie = this.add.sprite(BasicGame.convertWidth(0),BasicGame.convertHeight(163),'poopie'); 
         var fartie = this.add.sprite(BasicGame.convertWidth(3),BasicGame.convertHeight(213),'fartie');
 		var robot = this.add.sprite(BasicGame.convertWidth(3),BasicGame.convertHeight(263),'robot');
@@ -260,12 +252,12 @@ BasicGame.Game.prototype =
         var Ytile = (~~(this.input.mousePointer.y/this.TileSize));
         var x = (Xtile)*this.TileSize;
         var y = (Ytile)*this.TileSize;
-        console.log("Putting: "+Xtile+","+Ytile);
         if(this.map.testTile(Xtile,Ytile))
         {
             console.log("Tile is occupied/forbidden");
         } else if((x>=128)&&(x<1408))
         {
+            console.log("Putting: "+Xtile+","+Ytile);
             this.map.setTile(Xtile,Ytile);
             switch(type)
             {
@@ -291,82 +283,219 @@ BasicGame.Game.prototype =
                     break; 
             }
             console.log("Positioning Chicken "+x+" "+y);
+            this.chickenAmount++;
         }
-        this.chickenAmount++;
     },
-	createNewEnemy : function(level)
-	{
-		var path;
-		if(level === 2) { 
-			path = this.path_lv2;
-		} else if (level === 3) { 
-			path = this.path_lv3;
-		} else {
-			path = this.path_lv1;
-		}
-		var typeEnemy = this.listEnemies[parseInt(Math.random() * this.listEnemies.length)];
-        new Enemies(typeEnemy.nome, typeEnemy.moves, typeEnemy.length, typeEnemy.scale, typeEnemy.frame, this.game, path, this.enemies);
-		console.log("Create Enemy: "+typeEnemy.nome);
-	},
-createEmemiesLoop: function(level, infoenemies, infolistEnemies, infogame)
-	{
-		var nb_max_enemies_on_map = 3;
-		var nb_enemies = 0;
-		var path;
-		if(level === 2) { 
-			path = this.path_lv2;
-		} else if (level === 3) { 
-			path = this.path_lv3;
-		} else {
-			path = this.path_lv1;
-		}
-		var enemysBcl = setInterval(function() {
-                if (nb_enemies < nb_max_enemies_on_map) {
-                    var typeEnemy = infolistEnemies[parseInt(Math.random() * infolistEnemies.length)];
-        			new Enemies(typeEnemy.nome, typeEnemy.moves, typeEnemy.length, typeEnemy.scale, typeEnemy.frame, infogame, path, infoenemies);
-					console.log("Create Enemy: "+typeEnemy.nome);
-                } else {
-                    clearTimeout(enemysBcl);
-                }
-                nb_enemies++;
-            }, 1000);
-		
-	},
+    chickenUpdate: function()
+    {
+        for(var i=0;i<this.chickens.length;i++)
+        {
+            this.chickens[i].update();
+        }
+    },
+	enemiesUpdate: function(coop)
+    {
+        for(var i=0;i<this.game.enemies.length;i++)
+        {
+            this.game.enemies[i].update(coop);
+        }
+    },
 	quitGame: function (pointer) 
     {
 
 		//	Here you should destroy anything you no longer need.
 		//	Stop music, delete sprites, purge caches, free resources, all that good stuff.
-
+        this.stopMusic();
 		//	Then let's go back to the main menu.
 		this.state.start('MainMenu');
 
 	},
-	pauseGame: function()
+	nextLevel: function()
+	{
+		BasicGame.currentLevel++;
+        this.reloadLevel();
+	},
+    gameOver: function()
     {
+        var endGameWindow = new EndGamePanel(this,"defeat",0);
+        endGameWindow.show();
+    },
+    gameVictory: function()
+    {
+		if (this.coop.eggCounter === this.level.initialEggs) 
+		{
+			var goldenEggs = 3;
+		} else {
+			var goldenEggs = 9 - this.level.initialEggs - this.coop.eggCounter;
+		}
+        var endGameWindow = new EndGamePanel(this,"victory",goldenEggs);
+        endGameWindow.show();
+    },
+	pauseGame: function()
+    {   
+        this.unclickButtonSound.play();
+        console.log("Bullets: "+this.bullets.length);
 		opt.loadTexture('opt',0);
 		this.inGameOpt.show();
+        this.world.bringToTop(this.inGameOpt);
+        this.paused = true;
     },
     playGame: function()
     {
-		console.log("LOLO");
-        // Hide panel
-        this.paused = false;
-        this.inGameOpt.hide();
-		BasicGame.optionsPanel.hide();
+        BasicGame.optionsPanel.hide();
+        if(this.pendingMenu)
+        {
+            this.pauseGame();
+            this.pendingMenu = false;
+        }
+        else
+        {
+            // Hide panel
+            this.paused = false;
+            this.inGameOpt.hide();
+        }
     },
 	changeMenu: function()
 	{
-		//this.inGameOpt.hide();
+		this.inGameOpt.hide();
 		BasicGame.optionsPanel.show();
+        this.world.bringToTop(BasicGame.optionsPanel);
+        this.pendingMenu = true;
 	},
+    updateVolume: function()
+    {
+        this.music.volume = BasicGame.musicVolume;
+        this.clickButtonSound.volume = BasicGame.soundVolume;
+        this.unclickButtonSound.volume = BasicGame.soundVolume;
+        //this.sound.volume = BasicGame.soundVolume;
+    },
 	stopMusic: function()
 	{
 		this.music.stop();
 	},
+    stopSounds: function()
+    {
+       this.clickButtonSound.volume = 0;
+       this.unclickButtonSound.volume = 0;
+    },
+    stopSounds: function()
+    {
+       this.clickButtonSound.volume = 0;
+       this.unclickButtonSound.volume = 0;
+    },
 	startMusic: function()
 	{
-		this.music.play();
+		this.music = this.add.audio('chicken_family');
+		this.music.loop = true;
+        this.music.volume = BasicGame.musicVolume;
+        if(BasicGame.music)
+        {
+            this.music.play();
+        }
+	},
+    startSounds: function()
+    {
+        this.clickButtonSound = this.add.audio('click_in');
+        this.unclickButtonSound = this.add.audio('click_out');
+    },
+    resumeMusic: function()
+    {
+        this.music.volume = BasicGame.musicVolume;
+        if(BasicGame.music)
+        {
+            this.music.play();
+        }
+    },
+    createBullet: function(x,y,enemy,damage)
+    {
+		this.bulletUsed ++;
+        var xDist = (x-enemy.x);
+        var yDist = (y-enemy.y);
+        var speed = 20;
+        var distance = Math.sqrt(xDist*xDist + yDist*yDist);
+        this.bullets.push(
+                {
+                    sprite:     this.add.sprite(x,y,'cornBullet'),
+                    xStepSize:  (xDist/distance)*speed,
+                    yStepSize:  (yDist/distance)*speed,
+                    index:      distance/speed,
+                    Enemy:      enemy,
+                    Damage:     damage
+                });
+    },
+    updateBullets: function()
+    {
+        for(var i=0;i<this.bullets.length;i++) 
+        {
+            this.bullets[i].index--; 
+            this.bullets[i].sprite.position.x -= this.bullets[i].xStepSize;
+            this.bullets[i].sprite.position.y -= this.bullets[i].yStepSize;
+            if(this.bullets[i].index < 0)
+            {
+                this.bullets[i].Enemy.isAttacked(this.bullets[i].Damage);
+                this.bullets[i].sprite.kill();
+                this.bullets.splice(i,1);
+            }
+        }
+    },
+    shutdown: function()
+    {
+        this.stopMusic();
+    },
+	setScore: function() 
+	{
+		var style = { font: "65px Arial", fill: "#000000", align: "center" };
+		this.lastNbEgg = this.coop.eggCounter;
+		this.lastNbbullet = this.bulletUsed;
+		this.lastNbWaves = this.level.waves.length;   	
+		this.cornScore = this.game.add.text(BasicGame.convertWidth(0)+90, BasicGame.convertHeight(0)+10, this.level.initialCorn - this.bulletUsed, style);
+		this.eggScore = this.game.add.text(BasicGame.convertWidth(0)+74, BasicGame.convertHeight(0)+95, this.coop.eggCounter, style);
+		style = { font: "30px Arial", fill: "#000000", align: "center" };
+		if (BasicGame.currentLevel < 3)
+		{
+			this.afficheNbWaves = this.game.add.text(16*64, 14*64, 'Waves Remaining:  ', style);
+			this.afficheNbWaves = this.game.add.text(20*64, 14*64, this.level.infoWaves.nbWaves - this.level.waves.length, style);
+		} else {
+			this.afficheNbWaves = this.game.add.text(10*64, BasicGame.convertHeight(0)+70, 'Waves Remaining:  ', style);
+			this.afficheNbWaves = this.game.add.text(14*64, BasicGame.convertHeight(0)+70, this.level.infoWaves.nbWaves - this.level.waves.length, style);
+		}	
+	},
+	updateScore: function() 
+	{
+		var style = { font: "65px Arial", fill: "#000000", align: "center" };
+		if (this.coop.eggCounter != this.lastNbEgg) 
+		{
+			this.eggScore.destroy(); 	
+			this.eggScore = this.game.add.text(BasicGame.convertWidth(0)+100, BasicGame.convertHeight(0)+95, this.coop.eggCounter, style);
+			this.lastNbEgg = this.coop.eggCounter;
+			if (this.coop.eggCounter === 0)
+			{
+				this.eggScore = this.game.add.text(BasicGame.convertWidth(0)+100, BasicGame.convertHeight(0)+95, '0', style);
+			}
+		}
+		if (this.bulletUsed != this.lastNbbullet) 
+		{
+			this.cornScore.destroy();
+			this.cornScore = this.game.add.text(BasicGame.convertWidth(0)+90, BasicGame.convertHeight(0)+10, this.level.initialCorn - this.bulletUsed, style);
+			this.lastNbbullet = this.bulletUsed;
+			if (this.level.initialCorn === this.bulletUsed)
+			{
+				this.cornScore = this.game.add.text(BasicGame.convertWidth(0)+90, BasicGame.convertHeight(0)+10, '0', style);
+			}
+		}
+		if (this.lastNbWaves != this.level.waves.length) 
+		{
+			style = { font: "30px Arial", fill: "#000000", align: "center" };
+			this.afficheNbWaves.destroy();
+			if (BasicGame.currentLevel < 3)
+			{
+				this.afficheNbWaves = this.game.add.text(16*64, 14*64, 'Waves Remaining:  ', style);
+				this.afficheNbWaves = this.game.add.text(20*64, 14*64, this.level.infoWaves.nbWaves - this.level.waves.length, style);
+			} else {
+				this.afficheNbWaves = this.game.add.text(10*64, BasicGame.convertHeight(0)+70, 'Waves Remaining:  '+ this.level.infoWaves.nbWaves - this.level.waves.length, style);
+				this.afficheNbWaves = this.game.add.text(14*64, BasicGame.convertHeight(0)+70, this.level.infoWaves.nbWaves - this.level.waves.length, style);
+			}
+			this.lastNbWaves = this.level.waves.length;
+		}		
 	}
-
 };

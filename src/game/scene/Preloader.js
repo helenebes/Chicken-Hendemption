@@ -13,7 +13,7 @@ BasicGame.Preloader.prototype = {
 	preload: function () {
 
 
-		//this.background = this.add.sprite(0, 0, 'preloaderBackground');
+		this.background = this.add.sprite(0, 0, 'loading');
 		//this.preloadBar = this.add.sprite(300, 400, 'preloaderBar');
 
 		
@@ -36,6 +36,12 @@ BasicGame.Preloader.prototype = {
         this.load.image('opt','assets/'+BasicGame.screen+"/options_button.png");
         this.load.image('opt_pressed','assets/'+BasicGame.screen+"/options_button_pressed.png");
         this.load.image('back','assets/'+BasicGame.screen+"/back_arrow.png");
+        this.load.image('chickenB','assets/'+BasicGame.screen+"/chickenB.png");
+        this.load.image('chickenB_pressed','assets/'+BasicGame.screen+"/chickenB_pressed.png");
+        this.load.image('enemiesB','assets/'+BasicGame.screen+"/enemiesB.png");
+        this.load.image('enemiesB_pressed','assets/'+BasicGame.screen+"/enemiesB_pressed.png");
+        this.load.image('howToPlayB','assets/'+BasicGame.screen+"/howToPlayB.png");
+        this.load.image('howToPlayB_pressed','assets/'+BasicGame.screen+"/howToPlayB_pressed.png");
         
         // options
         this.load.image('options_window','assets/'+BasicGame.screen+"/options_window.png");
@@ -50,15 +56,57 @@ BasicGame.Preloader.prototype = {
 		this.load.image('check_false','assets/'+BasicGame.screen+"/check_false.png");
 		this.load.image('arrow','assets/'+BasicGame.screen+"/arrow.png");
         
+        // end game window
+        this.load.image('defeat_window','assets/'+BasicGame.screen+"/defeat_window.png");
+        this.load.image('victory_window','assets/'+BasicGame.screen+"/victory_window.png");
+        this.load.spritesheet('quitB','assets/'+BasicGame.screen+"/quitB.png",150, 89);
+        this.load.spritesheet('retryB','assets/'+BasicGame.screen+"/retryB.png",158, 94);
+        this.load.spritesheet('nextLvlB','assets/'+BasicGame.screen+"/nextLvlB.png",270, 89);
+        this.load.image('nextLvlBDisabled','assets/'+BasicGame.screen+"/nextLvlBDisabled.png");
+        this.load.image('golden_egg','assets/'+BasicGame.screen+"/golden_egg.png");
+        this.load.image('no_egg','assets/'+BasicGame.screen+"/no_egg.png");
+        
+        // how to play 
+        this.load.image('how_to_play','assets/'+BasicGame.screen+"/how_to_play.png");
+        
+        // chicken info window
+        this.load.image('chicken_info_1','assets/'+BasicGame.screen+"/chicken_info_1.png");
+        this.load.image('chicken_info_2','assets/'+BasicGame.screen+"/chicken_info_2.png");
+        this.load.image('chicken_info_3','assets/'+BasicGame.screen+"/chicken_info_3.png");
+        this.load.spritesheet('right_arrow','assets/'+BasicGame.screen+"/right_arrow_sheet.png",80, 64);
+        this.load.spritesheet('left_arrow','assets/'+BasicGame.screen+"/left_arrow_sheet.png",80, 64);
+        
+        // enemie info window
+        this.load.image('enemie_info_1','assets/'+BasicGame.screen+"/enemie_info_1.png");
+        this.load.image('enemie_info_2','assets/'+BasicGame.screen+"/enemie_info_2.png");
+        
         // game
         this.load.image('counter','assets/'+BasicGame.screen+"/money_counter.png");
-        this.load.tilemap('lvl1_map', 'assets/'+BasicGame.screen+"/lvl1.json", null, Phaser.Tilemap.TILED_JSON);
-        this.load.tilemap('test_lvl', 'assets/'+BasicGame.screen+"/teste.json", null, Phaser.Tilemap.TILED_JSON);
+        this.load.image('cornBullet','assets/'+BasicGame.screen+"/corn_bullet.png");
+        this.load.spritesheet('explosion','assets/'+BasicGame.screen+"/explosion1.png",256, 256,12);
+        this.load.spritesheet('poop','assets/'+BasicGame.screen+"/poop.png",256, 256,12);
+        this.load.spritesheet('normal_attack','assets/'+BasicGame.screen+"/normal_attack.png",32, 32,12);
+        this.load.image('laser','assets/'+BasicGame.screen+"/laser.png");
+        this.load.tilemap('lvl1_map', 'assets/'+BasicGame.screen+"/level_1.json", null, Phaser.Tilemap.TILED_JSON);
+        this.load.tilemap('lvl2_map', 'assets/'+BasicGame.screen+"/level_2.json", null, Phaser.Tilemap.TILED_JSON);
+        this.load.tilemap('lvl3_map', 'assets/'+BasicGame.screen+"/level_3.json", null, Phaser.Tilemap.TILED_JSON);
+
+        //this.load.tilemap('test_lvl', 'assets/'+BasicGame.screen+"/teste.json", null, Phaser.Tilemap.TILED_JSON);
         this.load.image('tileset',  'assets/'+BasicGame.screen+"/tileset.png");
         this.load.image('grass',  'assets/'+BasicGame.screen+"/map1.png");
         
+        this.load.image('coop_10',  'assets/'+BasicGame.screen+"/coop_10.png");
+        this.load.image('coop_9',  'assets/'+BasicGame.screen+"/coop_9.png");
+        this.load.image('coop_8',  'assets/'+BasicGame.screen+"/coop_8.png");
+        this.load.image('coop_7',  'assets/'+BasicGame.screen+"/coop_7.png");
+        this.load.image('coop_6',  'assets/'+BasicGame.screen+"/coop_6.png");
+        this.load.image('coop_5',  'assets/'+BasicGame.screen+"/coop_5.png");
+        this.load.image('coop_4',  'assets/'+BasicGame.screen+"/coop_4.png");
+        this.load.image('coop_3',  'assets/'+BasicGame.screen+"/coop_3.png");
+        this.load.image('coop_2',  'assets/'+BasicGame.screen+"/coop_2.png");
+        this.load.image('coop_1',  'assets/'+BasicGame.screen+"/coop_1.png");
+        this.load.image('coop_0',  'assets/'+BasicGame.screen+"/coop_0.png");
         
-		this.load.image('playBtn','assets/'+BasicGame.screen+"/playBtn.png");
         this.load.image('longie','assets/'+BasicGame.screen+"/longieB.png");
         this.load.image('normal','assets/'+BasicGame.screen+"/normalB.png");
         this.load.image('poopie','assets/'+BasicGame.screen+"/poopieB.png");
@@ -71,11 +119,19 @@ BasicGame.Preloader.prototype = {
         this.load.image('robotP','assets/'+BasicGame.screen+"/robot.png");
 		
 		// songs
-		this.load.audio('chicken_family', ['assets/sounds/ChickenFamily.mp3', 'assets/sounds/ChickenFamily.ogg']);
+		this.load.audio('chicken_family', ['assets/sounds/happy.ogg']);
+        this.load.audio('menu_music', ['assets/sounds/MenuMusic.mp3', 'assets/sounds/MenuMusic.ogg']);
+        this.load.audio('click_in', ['assets/sounds/click3.ogg']);
+        this.load.audio('click_out', ['assets/sounds/click4.ogg']);
+        this.load.audio('laser', ['assets/sounds/laser.ogg']);
+        this.load.audio('corn_attack', ['assets/sounds/corn_attack.ogg']);
+        this.load.audio('explosion_sound', ['assets/sounds/explosion.ogg']);
 		
         this.load.spritesheet('dog','assets/'+BasicGame.screen+"/dog.png", 40, 40, 12);
         this.load.spritesheet('mummy', 'assets/'+BasicGame.screen+"/mummy.png", 37, 45, 18); // width de cada sprite, height de cada sprite, numero de sprites no arquivo
         this.load.spritesheet('lagarto','assets/'+BasicGame.screen+"/lagarto2.png", 61.3, 61.25, 12);
+        this.load.spritesheet('snake','assets/'+BasicGame.screen+"/snake.png", 100, 94.25, 12);
+        this.load.spritesheet('turtle','assets/'+BasicGame.screen+"/turtle.png", 130, 118.5, 16);
         
 	},
 

@@ -38,6 +38,14 @@ Map.prototype =
         else
             return false;
     },
+    cleanMap: function()
+    {
+        for(i=0;i<20*15;i++)
+        {
+            if(this.tiles[i].occupied == true)
+                this.tiles[i].occupied = false;
+        }
+    },
     printMap: function()
     {
         for(i=0;i<20*15;i++)

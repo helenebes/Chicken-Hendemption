@@ -5,6 +5,7 @@ var InGameOptionsPanel = function(game, parent)
 	// Super call to Phaser.Group
 	Phaser.Group.call(this, game,parent);
 
+    
 	// Add the panel
     this.panel = this.create(1,1, 'options_window');
     this.panel.anchor.setTo(0.5, 0);
@@ -26,8 +27,7 @@ var InGameOptionsPanel = function(game, parent)
 	
 	this.btnReset = this.game.add.button(-200,200, 'reset_button_sheet',function()
     {
-		// to be done when there are a way to set wich level you are in
-		
+	this.game.state.getCurrentState().reloadLevel();	
     },this,0, 0, 1, 0);
 	this.add(this.btnReset);
 	
@@ -38,10 +38,6 @@ var InGameOptionsPanel = function(game, parent)
         
     },this,0, 0, 1, 0);
 	this.add(this.btnOpt);
-	
-	
-    
-
 
 	// Place it out of bounds
 	this.x = BasicGame.convertWidth(240);

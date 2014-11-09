@@ -1,7 +1,8 @@
 BasicGame.Intro = function (game) 
 {
 
-	this.music = null;
+	this.clickButtonSound = null;
+    this.unclickButtonSound = null;
 	this.playButton = null;
     var button;
 
@@ -13,6 +14,7 @@ BasicGame.Intro.prototype =
     
 	create: function () 
     {
+        this.startSounds();
         this.add.sprite(0,0,'introBg');
         
         this.add.sprite(BasicGame.convertWidth(200),BasicGame.convertHeight(50),'title');
@@ -28,27 +30,25 @@ BasicGame.Intro.prototype =
         
         
 	},
-	
-    onMouseOver:function()
-    {
-
-    },
-    
-    onMouseOut:function()
-    {
-
-    },
     
 	onClick:function()
     {
+        this.clickButtonSound.play();
 		button.loadTexture('introPlayBtnPressed',0);     
 	},
     
     onClickReleased:function()
     {   
+        this.unclickButtonSound.play();
 		button.loadTexture('introPlayBtn',0);
         this.startGame(this);
 	},
+    
+    startSounds: function()
+    {
+        this.clickButtonSound = this.add.audio('click_in');
+        this.unclickButtonSound = this.add.audio('click_out');
+    },
 
 	update: function () 
     {
@@ -65,24 +65,5 @@ BasicGame.Intro.prototype =
             dad.start('MainMenu');
         },100);
 	},
-    
-    /*when: function(condition,then) 
-    {
-    // condition must be a callback that returns `true` when the condition is met
-    if( condition()) then();
-    else setTimeout(function() {when(condition,then);},1000);
-    }*/
-    
-    sleep: function (milliseconds) 
-    {
-        var start = new Date().getTime();
-        for (var i = 0; i < 1e7; i++) 
-        {
-            if ((new Date().getTime() - start) > milliseconds)
-            {
-                break;
-            }
-        }
-    }
 
 };

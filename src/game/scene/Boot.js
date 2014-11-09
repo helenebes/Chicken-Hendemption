@@ -4,7 +4,12 @@ BasicGame = {
     score: 0,
 
     /* If the music in your game needs to play through-out a few State swaps, then you could reference it here */
-    music: null,
+    music: true,
+    sound: true,
+    musicVolume: 1,
+    soundVolume: 1,
+
+    currentLevel: 0,
 
     /* Your game can check BasicGame.orientated in internal loops to know if it should pause or not */
     orientated: false
@@ -26,6 +31,7 @@ BasicGame.Boot.prototype =
         //  Here we load the assets required for our preloader (in this case a background and a loading bar)
         this.load.image('preloaderBackground','assets/'+BasicGame.screen+"/mainMenu.png");
         //this.load.image('preloaderBar', 'images/preloadr_bar.png');
+		this.load.image('loading','assets/'+BasicGame.screen+"/mainMenu.png");
 
     },
 
