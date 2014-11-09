@@ -70,11 +70,13 @@ var OptionsPanel = function(game, parent)
 		if(BasicGame.sound == true)
 		{
 			this.checkSound.loadTexture('check_false',0);
+            this.game.state.getCurrentState().stopSounds();
 			BasicGame.sound = false;
 		}
 		else
 		{
 			this.checkSound.loadTexture('check_true',0);
+            this.game.state.getCurrentState().resumeSounds();
 			BasicGame.sound = true;
 		}
 	},this);

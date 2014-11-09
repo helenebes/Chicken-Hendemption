@@ -12,7 +12,8 @@ BasicGame.Game = function (game)
     this.load;		//	for preloading assets
     this.math;		//	lots of useful common math operations
     this.music;
-	this.sound;		//	the sound manager - add a sound, play one, set-up markers, etc
+	this.clickButtonSound = null;
+    this.unclickButtonSound = null;		//	the sound manager - add a sound, play one, set-up markers, etc
     this.stage;		//	the game stage
     this.time;		//	the clock
     this.tweens;	//	the tween manager
@@ -56,6 +57,7 @@ BasicGame.Game.prototype =
         this.loadLevel();
 
         this.startMusic();
+        this.startSounds();
         this.initializeInterface();
         this.buildChickenMenu();
         this.initializeGuidedPositioningStructures();
@@ -199,6 +201,7 @@ BasicGame.Game.prototype =
 		opt.bringToTop();
 		opt.events.onInputDown.add(function()
 		{
+            this.clickButtonSound.play();
 			opt.loadTexture('opt_pressed',0);
 		},this);
 		opt.events.onInputUp.add(this.pauseGame,this);
@@ -314,7 +317,8 @@ BasicGame.Game.prototype =
         endGameWindow.show();
     },
 	pauseGame: function()
-    {
+    {   
+        this.unclickButtonSound.play();
         console.log("Bullets: "+this.bullets.length);
 		opt.loadTexture('opt',0);
 		this.inGameOpt.show();
@@ -346,12 +350,18 @@ BasicGame.Game.prototype =
     updateVolume: function()
     {
         this.music.volume = BasicGame.musicVolume;
+        this.clickButtonSound.volume = BasicGame.soundVolume;
+        this.unclickButtonSound.volume = BasicGame.soundVolume;
         //this.sound.volume = BasicGame.soundVolume;
     },
 	stopMusic: function()
 	{
 		this.music.stop();
 	},
+    stopSounds: function()
+    {
+       // this.clickButtonSound.mute();
+    },
 	startMusic: function()
 	{
 		this.music = this.add.audio('chicken_family');
@@ -362,6 +372,11 @@ BasicGame.Game.prototype =
             this.music.play();
         }
 	},
+    startSounds: function()
+    {
+        this.clickButtonSound = this.add.audio('click_in');
+        this.unclickButtonSound = this.add.audio('click_out');
+    },
     resumeMusic: function()
     {
         this.music.volume = BasicGame.musicVolume;

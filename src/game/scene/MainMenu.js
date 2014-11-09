@@ -84,6 +84,12 @@ BasicGame.MainMenu.prototype =
         howToPlayInfoWindow = new Window(this, "How To Play");
         chickenInfoWindow = new Window(this, "Chickens");
         enemyInfoWindow = new Window(this, "Enemies");
+        
+        var lag = this.add.sprite(BasicGame.convertWidth(300), BasicGame.convertHeight(5), 'explosion', 1);
+        //lag.scale.set(0.4);
+        var anim3 = lag.animations.add('explode');
+        lag.animations.play('explode', 10, true);
+        
 		/*
 		//Aligning HUD to view edges
 		//Align to left top edge
@@ -243,6 +249,7 @@ BasicGame.MainMenu.prototype =
                 }
                 break;
             case "back":
+                this.prescope.stopMusic();
                 this.prescope.state.start('Intro');
                 
         }
@@ -267,12 +274,24 @@ BasicGame.MainMenu.prototype =
     updateVolume: function()
     {
         this.music.volume = BasicGame.musicVolume;
+        this.clickButtonSound.volume = BasicGame.soundVolume;
+        this.unclickButtonSound.volume = BasicGame.soundVolume;
         //this.sound.volume = BasicGame.soundVolume;
     },
     stopMusic: function()
 	{
 		this.music.stop();
 	},
+    stopSounds: function()
+    {
+        this.clickButtonSound.mute = true;
+        this.unclickButtonSound.mute = true;
+    },
+    resumeSounds: function()
+    {
+        this.clickButtonSound.mute = false;
+        this.unclickButtonSound.mute = false;
+    },
 	startMusic: function()
 	{
         this.music = this.add.audio('menu_music');
@@ -285,8 +304,8 @@ BasicGame.MainMenu.prototype =
 	},
     startSounds: function()
     {
-        this.clickButtonSound = this.add.audio('click_in');
-        this.unclickButtonSound = this.add.audio('click_out');
+        this.clickButtonSound = new Phaser.Sound(this,'click_in',BasicGame.musicVolume,false);
+        this.unclickButtonSound = new Phaser.Sound(this,'click_out',BasicGame.musicVolume,false);
     },
     resumeMusic: function()
     {
