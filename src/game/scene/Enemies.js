@@ -217,6 +217,7 @@ var Wave = function(game, releaseTime, path, infoWaves)
 {
 
 		this.waveEnemy = game.add.group();
+		this.nbEnemyKilled = 0;
 		this.path = path;
 		this.game = game;
 		this.infoWaves = infoWaves;
@@ -266,6 +267,7 @@ Wave.prototype =
 				this.game.enemies[toKill.indexEnemy] = this.game.enemies[this.game.enemies.length-1];
 				this.game.enemies.pop();
 				this.waveEnemy.remove(toKill);
+				this.nbEnemyKilled++;
 			}
 			if (this.game.time.now > this.lastMove) {
 				this.lastMove = this.game.time.now;
@@ -303,8 +305,8 @@ moveEnemy.prototype =
 			enemy.centrey = enemy.y + enemy.offsetCentreY;
 			this.nextTile(enemy);
 		}
-		enemy.y += enemy.speedY;
-		enemy.x += enemy.speedX;
+		enemy.y += enemy.speedY ;
+		enemy.x += enemy.speedX ;
 		enemy.centrex = enemy.x + enemy.offsetCentreX;
 		enemy.centrey = enemy.y + enemy.offsetCentreY;
 	},
