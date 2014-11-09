@@ -164,6 +164,11 @@ BasicGame.Game.prototype =
        this.prescope.positionMode = false;
        this.prescope.positionChicken(this.type);
     },
+	reloadLevel: function()
+    {
+        this.state.start('Game');
+
+    },
     initializeChickenStructure: function()
     {
         //Declare the chicken array, and the initial amount of chickens
