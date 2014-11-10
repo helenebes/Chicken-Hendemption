@@ -7,8 +7,8 @@ var Chicken = function (Xtile,Ytile,Index,gameContext)
     this.x = Xtile;
     this.y = Ytile;
     this.lastAttack = 0;
-    this.attackSpeed = 30;
-    this.damage = 15;
+    this.attackSpeed = 25;
+    this.damage = 12;
     this.attack;
     
     this.sprite = gameContext.add.sprite((Xtile*64),((Ytile*64+5)),'normalP');
@@ -145,8 +145,8 @@ var Longie = function (Xtile,Ytile,Index,gameContext)
     this.y = Ytile;
     this.range = 3*64;
     this.lastAttack = 0;
-    this.attackSpeed = 30;
-    this.damage = 10;
+    this.attackSpeed = 25;
+    this.damage = 8;
 
     this.sprite = gameContext.add.sprite(Xtile*64,(Ytile*64-31),'longieP');
 
@@ -163,7 +163,7 @@ Longie.prototype.printUpgrade = function()
 };
 Longie.prototype.attack = function(enemy)
 {
-	if (this.gameContext.bulletUsed < this.gameContext.level.initialCorn)
+	if (this.gameContext.level.initialCorn>0)
 	{
    		this.gameContext.createBullet(this.x*64+32,this.y*64,enemy,this.damage);
     	this.lastAttack = this.gameContext.game.time.now;
@@ -231,7 +231,7 @@ var Fartie = function (Xtile,Ytile,Index,gameContext)
     this.range = 3*64;
     this.lastAttack = 0;
     this.attackSpeed = 10;
-    this.damage = 15;
+    this.damage = 20;
     this.explosionSound = this.gameContext.add.audio('explosion_sound');
     this.sprite = gameContext.add.sprite(Xtile*64,(Ytile*64-8),'fartieP');
     this.rangeSprite = gameContext.add.graphics(0,0);
@@ -259,14 +259,14 @@ Fartie.prototype.printUpgrade = function()
 Fartie.prototype.attack = function(enemy)
 {
     this.lastAttack = this.gameContext.game.time.now;
+    enemy.isAttacked(this.damage);    
     this.explosion.alpha = 0.5;
     this.explosion.animations.play('explode', 10, false);
     this.explosionSound.play();
     var explosion = this.explosion;
-    enemy.isAttacked(this.damage);    
     setTimeout(function()
        {
-            enemy.isAttacked(this.damage/5);    
+            //           enemy.isAttacked(this.damage/5);    
             explosion.alpha = 0;
        },1000)
 };

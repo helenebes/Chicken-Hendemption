@@ -56,7 +56,6 @@ BasicGame.Game.prototype =
 		this.game.currentEggHealth = 100;
         this.map.cleanMap();
         this.setControlVars();
-		this.bulletUsed = 0;
         this.level = new Level(this, BasicGame.currentLevel);
         this.cornCounter = this.level.initialCorn;
         this.startMusic();
@@ -465,7 +464,6 @@ BasicGame.Game.prototype =
     {
         if(this.cornCounter > 0)
         {
-            this.bulletUsed ++;
             this.cornCounter--;
 
             var xDist = (x-enemy.enemy.centrex);
@@ -506,7 +504,6 @@ BasicGame.Game.prototype =
 	{
 		var style = { font: "65px Arial", fill: "#000000", align: "center" };
 		this.lastNbEgg = this.coop.eggCounter;
-		this.lastNbbullet = this.bulletUsed;
 		this.lastNbWaves = this.level.waves.length;   	
 		this.cornScore = this.game.add.text(BasicGame.convertWidth(0)+90, BasicGame.convertHeight(0)+10, this.cornCounter, style);
 		this.eggScore = this.game.add.text(BasicGame.convertWidth(0)+74, BasicGame.convertHeight(0)+95, this.coop.eggCounter, style);
