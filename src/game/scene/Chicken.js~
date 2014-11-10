@@ -33,7 +33,6 @@ Chicken.prototype =
         this.attackEffect.position.y = enemy.enemy.centrey;
         
         var attack = this.attackEffect;
-	this.gameContext.world.bringToTop(this.attackEffect);
         
         setTimeout(function()
         {

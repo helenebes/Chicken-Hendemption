@@ -43,6 +43,9 @@ BasicGame.Game = function (game)
 	var pauseGame;
 	var startGame;
 
+    //Experimental
+    //this.qTree = new Phaser.QuadTree(game.physics,0,0,BasicGame.gameWidth,BasicGame.gameHeight,30*15,4,0);
+
 };
 
 BasicGame.Game.prototype = 

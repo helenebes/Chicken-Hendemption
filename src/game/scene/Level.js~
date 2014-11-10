@@ -142,8 +142,8 @@ Level.prototype =
 				}
 				for(var i =9;i<21;i++)
 				{
-					this.state.map.forbidTile(i,8);
 					this.state.map.forbidTile(i,9);
+					this.state.map.forbidTile(i,10);
 				}
 				for(var i =8;i<14;i++)
 				{
@@ -154,9 +154,9 @@ Level.prototype =
 				{
 					this.state.map.forbidTile(i,12);
 					this.state.map.forbidTile(i,13);
-				}
+				}/*
 				this.state.map.forbidTile(19,14);
-				this.state.map.forbidTile(20,14);
+				this.state.map.forbidTile(20,14);*/
 				break;
 		}
 	},
