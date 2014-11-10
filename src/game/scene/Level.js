@@ -31,7 +31,7 @@ Level.prototype =
 {x: 5,y: 8}, {x: 5,y: 9}, {x: 5,y: 10}, {x: 5,y: 11}, {x: 6,y: 11}, {x: 7,y: 11}, {x: 8,y: 11}, {x: 9,y: 11}, {x: 10,y: 11}, {x: 11,y: 11},  {x: 12,y: 11}, {x: 12,y: 12}, {x: 12,y: 13}, {x: 12,y: 14}];
 				this.initialEggs = 10;
 				this.initialCorn = 200;
-				this.infoWaves = {"timeBetweenTwo": 50000, "nbEnemyByWave": 2, "nbWaves": 3, "typeEnemy": ['snake', 'turtle', 'lagarto']};
+				this.infoWaves = {"timeBetweenTwo": 10000, "nbEnemyByWave": 5, "nbWaves": 4, "typeEnemy": ['snake', 'turtle', 'lagarto']};
 				this.initialEggs = 10;
 				this.initialCorn = 200;
 				this.map = 'lvl1';
@@ -70,7 +70,7 @@ Level.prototype =
 				this.path = [{x: 4,y: 0}, {x: 4,y: 13}, {x: 5,y: 13}, {x: 10,y: 13}, {x: 10,y: 10}, {x: 9,y: 10}, {x: 8,y: 9}, {x: 8,y: 1}, {x: 9,y: 1}, {x: 16,y: 1}, {x: 16,y: 3}, {x: 11,y: 3}, {x: 11,y: 4}, {x: 11,y: 6}, {x: 21,y: 6}];
 				this.initialEggs = 10;
 				this.initialCorn = 200;
-				this.infoWaves = {"timeBetweenTwo": 45000, "nbEnemyByWave": 3, "nbWaves": 4, "typeEnemy": ['snake', 'turtle', 'lagarto']};
+				this.infoWaves = {"timeBetweenTwo": 8000, "nbEnemyByWave": 6, "nbWaves": 5, "typeEnemy": ['snake', 'turtle', 'lagarto']};
 				this.initialEggs = 10;
 				this.initialCorn = 200;
 				this.map = 'lvl2';
@@ -121,7 +121,7 @@ Level.prototype =
 				this.path = [{x: 4,y: 14}, {x: 4,y: 4}, {x: 20,y: 4}, {x: 20,y: 8}, {x: 8,y: 8}, {x: 8,y: 12}, {x: 19,y: 12}, {x: 19,y: 14}];
 				this.initialEggs = 10;
 				this.initialCorn = 200;
-				this.infoWaves = {"timeBetweenTwo": 40000, "nbEnemyByWave": 4, "nbWaves": 5, "typeEnemy": ['snake', 'turtle', 'lagarto']};
+				this.infoWaves = {"timeBetweenTwo": 12000, "nbEnemyByWave": 6, "nbWaves": 10,"typeEnemy": ['snake', 'turtle', 'lagarto']};
 				this.initialEggs = 10;
 				this.initialCorn = 200;
 				this.map = 'lvl3';
@@ -173,9 +173,14 @@ Level.prototype =
 				this.waves[iLevel].move();
 			}
 		}
-		if (this.waves.length === this.infoWaves.nbWaves && this.state.coop.eggCounter > 0 && this.waves[this.waves.length-1].waveEnemy.countLiving() === 0 && this.waves[this.waves.length-1].nbEnemyKilled === this.infoWaves.nbEnemyByWave && this.victory === false) 
+        var AllLivingEnemies = 0; 
+        for(var i =0;i<this.waves.length;i++)
+            AllLivingEnemies+=this.waves[i].waveEnemy.countLiving;
+        //this.waves[this.waves.length-1].nbEnemyKilled === this.infoWaves.nbEnemyByWave 
+		if (this.waves.length === this.infoWaves.nbWaves && this.state.coop.eggCounter > 0 && AllLivingEnemies === 0 && this.victory === false) 
 		{
 			this.victory = true;
+            this.state.paused = true;
 			this.state.gameVictory();
 		}
 	},

@@ -54,10 +54,11 @@ BasicGame.Game.prototype =
     {     
 		this.game.enemies = [];
 		this.game.currentEggHealth = 100;
-		this.bulletUsed = 0;
         this.map.cleanMap();
         this.setControlVars();
+		this.bulletUsed = 0;
         this.level = new Level(this, BasicGame.currentLevel);
+        this.cornCounter = this.level.initialCorn;
         this.startMusic();
         this.startSounds();
         this.initializeInterface();
@@ -73,7 +74,7 @@ BasicGame.Game.prototype =
 	},
 	update: function () 
     {
-        if(this.paused == false)
+        if(this.paused === false)
         {
             this.level.updateLevel();
 			this.chickenUpdate();
@@ -285,32 +286,58 @@ BasicGame.Game.prototype =
             console.log("Tile is occupied/forbidden");
         } else if((x>=128)&&(x<1408))
         {
+            var cost;
             console.log("Putting: "+Xtile+","+Ytile);
-            this.map.setTile(Xtile,Ytile);
             switch(type)
             {
                 case "Normal":
+                    cost = 10;
+                    if(this.cornCounter >= cost)
+                        this.cornCounter -= cost;
+                    else
+                        break;
                     this.chickens[this.chickenAmount] = new Chicken(Xtile,Ytile,this.chickenAmount,this);
-                    //console.log("Positioning Normal");
                     break;
+
                 case "Longie":
+                    cost = 15;
+                    if(this.cornCounter >= cost)
+                        this.cornCounter -= cost;
+                    else
+                        break;
                     this.chickens[this.chickenAmount] = new Longie(Xtile,Ytile,this.chickenAmount,this);
-                    //console.log("Positioning Longie");
                     break;
+
                 case "Poopie":
+                    cost = 40;
+                    if(this.cornCounter >= cost)
+                        this.cornCounter -= cost;
+                    else
+                        break;
                     this.chickens[this.chickenAmount] = new Poopie(Xtile,Ytile,this.chickenAmount,this);
-                    //console.log("Positioning Poopie");
                     break; 
+
                 case "Fartie":
+                    cost = 30;
+                    if(this.cornCounter >= cost)
+                        this.cornCounter -= cost;
+                    else
+                        break;
                     this.chickens[this.chickenAmount] = new Fartie(Xtile,Ytile,this.chickenAmount,this);
-                    //console.log("Positioning Fartie");
                     break; 
+
                 case "Robot":
+                    cost = 100;
+                    if(this.cornCounter >= cost)
+                        this.cornCounter -= cost;
+                    else
+                        break;
                     this.chickens[this.chickenAmount] = new Robot(Xtile,Ytile,this.chickenAmount,this);
-                    //console.log("Positioning Robot");
                     break; 
+
             }
             console.log("Positioning Chicken "+x+" "+y);
+            this.map.setTile(Xtile,Ytile);
             this.chickenAmount++;
         }
     },
@@ -436,20 +463,25 @@ BasicGame.Game.prototype =
     },
     createBullet: function(x,y,enemy,damage)
     {
-		this.bulletUsed ++;
-        var xDist = (x-enemy.centrex);
-        var yDist = (y-enemy.centrey);
-        var speed = 20;
-        var distance = Math.sqrt(xDist*xDist + yDist*yDist);
-        this.bullets.push(
-                {
-                    sprite:     this.add.sprite(x,y,'cornBullet'),
-                    xStepSize:  (xDist/distance)*speed,
-                    yStepSize:  (yDist/distance)*speed,
-                    steps:      distance/speed,
-                    Enemy:      enemy,
-                    Damage:     damage
-                });
+        if(this.cornCounter > 0)
+        {
+            this.bulletUsed ++;
+            this.cornCounter--;
+
+            var xDist = (x-enemy.enemy.centrex);
+            var yDist = (y-enemy.enemy.centrey);
+            var speed = 20;
+            var distance = Math.sqrt(xDist*xDist + yDist*yDist);
+            this.bullets.push(
+                    {
+                        sprite:     this.add.sprite(x,y,'cornBullet'),
+                        xStepSize:  (xDist/distance)*speed,
+                        yStepSize:  (yDist/distance)*speed,
+                        steps:      distance/speed,
+                        Enemy:      enemy,
+                        Damage:     damage
+                    });
+        }
     },
     updateBullets: function()
     {
@@ -476,7 +508,7 @@ BasicGame.Game.prototype =
 		this.lastNbEgg = this.coop.eggCounter;
 		this.lastNbbullet = this.bulletUsed;
 		this.lastNbWaves = this.level.waves.length;   	
-		this.cornScore = this.game.add.text(BasicGame.convertWidth(0)+90, BasicGame.convertHeight(0)+10, this.level.initialCorn - this.bulletUsed, style);
+		this.cornScore = this.game.add.text(BasicGame.convertWidth(0)+90, BasicGame.convertHeight(0)+10, this.cornCounter, style);
 		this.eggScore = this.game.add.text(BasicGame.convertWidth(0)+74, BasicGame.convertHeight(0)+95, this.coop.eggCounter, style);
 		style = { font: "30px Arial", fill: "#000000", align: "center" };
 		if (BasicGame.currentLevel < 3)
@@ -491,50 +523,9 @@ BasicGame.Game.prototype =
 	updateScore: function() 
 	{
 		var style = { font: "65px Arial", fill: "#000000", align: "center" };
-		if (this.coop.eggCounter != this.lastNbEgg) 
-		{
-			this.eggScore.destroy(); 	
-			this.eggScore = this.game.add.text(BasicGame.convertWidth(0)+100, BasicGame.convertHeight(0)+95, this.coop.eggCounter, style);
-			this.lastNbEgg = this.coop.eggCounter;
-			if (this.coop.eggCounter === 0)
-			{
-				this.eggScore = this.game.add.text(BasicGame.convertWidth(0)+100, BasicGame.convertHeight(0)+95, '0', style);
-			}
-		}
-		if (this.bulletUsed != this.lastNbbullet) 
-		{
-			this.cornScore.destroy();
-			this.cornScore = this.game.add.text(BasicGame.convertWidth(0)+90, BasicGame.convertHeight(0)+10, this.level.initialCorn - this.bulletUsed, style);
-			this.lastNbbullet = this.bulletUsed;
-			if (this.level.initialCorn === this.bulletUsed)
-			{
-				this.cornScore = this.game.add.text(BasicGame.convertWidth(0)+90, BasicGame.convertHeight(0)+10, '0', style);
-			}
-		}
-		if (this.lastNbWaves != this.level.waves.length) 
-		{
-			style = { font: "30px Arial", fill: "#000000", align: "center" };
-			this.afficheNbWaves.destroy();
-			if (BasicGame.currentLevel < 3)
-			{
-				this.afficheNbWaves = this.game.add.text(16*64, 14*64, 'Waves Remaining:  ', style);
-				if (this.level.infoWaves.nbWaves === this.level.waves.length)
-				{
-					this.afficheNbWaves = this.game.add.text(20*64, 14*64, '0', style);
-				} else {
-					this.afficheNbWaves = this.game.add.text(20*64, 14*64, this.level.infoWaves.nbWaves - this.level.waves.length, style);
-				}
-			} else {
-				this.afficheNbWaves = this.game.add.text(10*64, BasicGame.convertHeight(0)+70, 'Waves Remaining:  '+ this.level.infoWaves.nbWaves - this.level.waves.length, style);
-				if (this.level.infoWaves.nbWaves === this.level.waves.length)
-				{
-					this.afficheNbWaves = this.game.add.text(20*64, 14*64, '0', style);
-				} else {
-					this.afficheNbWaves = this.game.add.text(14*64, BasicGame.convertHeight(0)+70, this.level.infoWaves.nbWaves - this.level.waves.length, style);
-				}
-			}
-			this.lastNbWaves = this.level.waves.length;
-		}		
+        this.eggScore.setText(this.coop.eggCounter.toString());
+        this.cornScore.setText(this.cornCounter.toString());
+        this.afficheNbWaves.setText((this.level.infoWaves.nbWaves - this.level.waves.length).toString());
 	},
 
 	onClick:function(buttonName, prescope)

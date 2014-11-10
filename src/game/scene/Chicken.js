@@ -7,8 +7,8 @@ var Chicken = function (Xtile,Ytile,Index,gameContext)
     this.x = Xtile;
     this.y = Ytile;
     this.lastAttack = 0;
-    this.attackSpeed = 50;
-    this.damage = 10;
+    this.attackSpeed = 30;
+    this.damage = 15;
     this.attack;
     
     this.sprite = gameContext.add.sprite((Xtile*64),((Ytile*64+5)),'normalP');
@@ -26,7 +26,7 @@ Chicken.prototype =
     attack: function(enemy)
     {
         this.lastAttack = this.gameContext.game.time.now;
-        enemy.enemy.isAttacked(this.damage);
+        enemy.isAttacked(this.damage);
         this.attackEffect.alpha = 1;
         this.attackEffect.animations.play('attacking', 10, false);
         this.attackEffect.position.x = enemy.enemy.centrex;
@@ -62,7 +62,7 @@ Chicken.prototype =
     setSprite: function()
     {
         this.sprite.inputEnabled = true;
-        this.sprite.events.onInputDown.add(this.print,this);
+        this.sprite.events.onInputDown.add(this.printUpgrade,this);
         this.sprite.events.onInputOver.add(this.showRange,this);
         this.sprite.events.onInputOut.add(this.cleanRange,this);
         this.gameContext.chickenLayers[this.y].add(this.sprite);
@@ -83,7 +83,7 @@ Chicken.prototype =
             this.detectEnemies();
         }
     },
-    print: function()
+    printUpgrade: function()
     {
         console.log("Chicken "+this.index);
         console.log("X: "+this.x);
@@ -145,7 +145,7 @@ var Longie = function (Xtile,Ytile,Index,gameContext)
     this.y = Ytile;
     this.range = 3*64;
     this.lastAttack = 0;
-    this.attackSpeed = 50;
+    this.attackSpeed = 30;
     this.damage = 10;
 
     this.sprite = gameContext.add.sprite(Xtile*64,(Ytile*64-31),'longieP');
@@ -157,7 +157,7 @@ var Longie = function (Xtile,Ytile,Index,gameContext)
     this.cleanRange();
 }
 Longie.prototype = Object.create(Chicken.prototype);
-Longie.prototype.print = function()
+Longie.prototype.printUpgrade = function()
 {
     console.log("Longie is special");
 };
@@ -165,7 +165,7 @@ Longie.prototype.attack = function(enemy)
 {
 	if (this.gameContext.bulletUsed < this.gameContext.level.initialCorn)
 	{
-   		this.gameContext.createBullet(this.x*64+32,this.y*64,enemy.enemy,this.damage);
+   		this.gameContext.createBullet(this.x*64+32,this.y*64,enemy,this.damage);
     	this.lastAttack = this.gameContext.game.time.now;
 	}
 };
@@ -201,7 +201,7 @@ Poopie.prototype.initializeExplosion = function()
         this.explosion.alpha = 0;
         this.gameContext.effectsLayer.add(this.explosion);
 };
-Poopie.prototype.print = function()
+Poopie.prototype.printUpgrade = function()
 {
     console.log("Poopie is special");
 };
@@ -212,10 +212,12 @@ Poopie.prototype.attack = function(enemy)
     this.explosion.alpha = 0.5;
     this.explosion.animations.play('pooping', 10, false);
     //this.explosionSound.play();
+    var effect = this.explosion;
     setTimeout(function()
        {
            enemy.enemy.speed = enemy.enemy.oldSpeed;
-       },2000)
+           effect.alpha = 0;
+       },1500)
 };
 //Fartie
 //Deals damage to all enemies in range
@@ -229,7 +231,7 @@ var Fartie = function (Xtile,Ytile,Index,gameContext)
     this.range = 3*64;
     this.lastAttack = 0;
     this.attackSpeed = 10;
-    this.damage = 10;
+    this.damage = 15;
     this.explosionSound = this.gameContext.add.audio('explosion_sound');
     this.sprite = gameContext.add.sprite(Xtile*64,(Ytile*64-8),'fartieP');
     this.rangeSprite = gameContext.add.graphics(0,0);
@@ -250,19 +252,21 @@ Fartie.prototype.initializeExplosion = function()
         this.explosion.alpha = 0;
         this.gameContext.effectsLayer.add(this.explosion);
 };
-Fartie.prototype.print = function()
+Fartie.prototype.printUpgrade = function()
 {
     console.log("Fartie is special");
 };
-Fartie.prototype.attack = function()
+Fartie.prototype.attack = function(enemy)
 {
     this.lastAttack = this.gameContext.game.time.now;
     this.explosion.alpha = 0.5;
     this.explosion.animations.play('explode', 10, false);
     this.explosionSound.play();
     var explosion = this.explosion;
+    enemy.isAttacked(this.damage);    
     setTimeout(function()
        {
+            enemy.isAttacked(this.damage/5);    
             explosion.alpha = 0;
        },1000)
 };
@@ -277,7 +281,7 @@ var Robot = function (Xtile,Ytile,Index,gameContext)
     this.y = Ytile;
     this.range = 256;
     this.lastAttack = 0;
-    this.attackSpeed = 5;
+    this.attackSpeed = 2;
     this.damage = 100;
 
 
@@ -298,24 +302,21 @@ Robot.prototype.initializeLaser = function()
     this.laserSprite.angle =0;
     this.laserSprite.alpha =0;
  };
-Robot.prototype.print = function()
+Robot.prototype.printUpgrade = function()
 {
     console.log("Robot is special");
 };
 Robot.prototype.attack = function(enemy)
 {
     this.lastAttack = this.gameContext.game.time.now;
-    this.laserSprite.angle = 90+ (180/Math.PI)*Math.atan((- enemy.enemy.centrex + (this.x*64))/(+ enemy.enemy.centrey - (this.y*64)));
+    //this.laserSprite.angle = 90+ (180/Math.PI)*Math.atan((- enemy.enemy.centrex + (this.x*64))/(+ enemy.enemy.centrey - (this.y*64)));
+    this.laserSprite.angle = (180/Math.PI)*(Math.atan2( enemy.enemy.centrey -this.y*64+6, enemy.enemy.centrex- this.x*64-10)); 
     this.laserSprite.alpha = 1;
-    if(enemy.enemy.centrey - (this.y*64+32) < 0)
-    {
-        this.laserSprite.angle += 180;
-    }
     for(var i=0;i<this.gameContext.game.enemies.length;i++)
     {
         if(this.laserSprite.overlap(this.gameContext.game.enemies[i].enemy))
         {
-            this.gameContext.game.enemies[i].enemy.isAttacked(this.damage);
+            this.gameContext.game.enemies[i].isAttacked(this.damage);
         }
     }
     var laser = this.laserSprite;

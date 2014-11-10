@@ -1,6 +1,7 @@
 var Enemies = function (game, path, IndexEnemy, wave)
 {
     this.game = game;
+    this.gameContext = this.game.state.getCurrentState();
 	this.enemy = game.add.sprite(path[0].x * 64, path[0].y * 64, 'dog');
 	this.enemy.path = path;
 	this.enemy.indexEnemy = IndexEnemy;
@@ -8,6 +9,7 @@ var Enemies = function (game, path, IndexEnemy, wave)
 	this.setSprite();
 	this.setAnim();
 	this.setCentre();
+    this.cost = 10;
 }
 
 
@@ -45,16 +47,17 @@ Enemies.prototype =
 		this.enemy.nextTile = 0;
 		this.enemy.alive;
 		this.enemy.toTheEnd = false;
-		this.enemy.isAttacked = (function(damage) {
-				this.health -= damage;
-				if (this.health <= 0) {
-					this.kill();
-				}
-		});
 	},
 	damageSpeed: function(damageSpeed){
 		this.enemy.speed -= damageSpeed;
 	},
+    isAttacked: function(damage) {
+				this.enemy.health -= damage;
+				if (this.enemy.health <= 0) {
+                    this.gameContext.cornCounter+=this.cost;
+					this.enemy.kill();
+				}
+ 	},
 	attackCoop: function(coop){
 		if (this.enemy.toTheEnd) {
 			if (this.game.time.now > this.lastAttackCoop*10/this.enemy.attackSpeed) {
@@ -78,6 +81,7 @@ Enemies.prototype =
 var Mummy = function (game, path, IndexEnemy, wave)
 {
     this.game = game;
+    this.gameContext = this.game.state.getCurrentState();
 	this.enemy = game.add.sprite(path[0].x*64, path[0].y*64, 'mummy');
 	console.log("Creation mummy");
 	this.enemy.path = path;
@@ -86,6 +90,7 @@ var Mummy = function (game, path, IndexEnemy, wave)
 	this.setSprite();
 	this.setAnim();
 	this.setCentre();
+    this.cost = 10;
 }
 
 Mummy.prototype = Object.create(Enemies.prototype);
@@ -110,14 +115,15 @@ Mummy.prototype.setAnim = function()
 var Lagarto = function (game, path, IndexEnemy, wave)
 {
     this.game = game;
+    this.gameContext = this.game.state.getCurrentState();
 	this.enemy = game.add.sprite(path[0].x*64, path[0].y*64, 'lagarto');
-	console.log("Creation lagarto");
 	this.enemy.path = path;
 	this.enemy.indexEnemy = IndexEnemy;
 	this.wave = wave;
 	this.setSprite();
 	this.setAnim();
 	this.setCentre();
+    this.cost = 10;
 }
 
 Lagarto.prototype = Object.create(Enemies.prototype);
@@ -145,14 +151,15 @@ Lagarto.prototype.setAnim = function()
 var Snake = function (game, path, IndexEnemy, wave)
 {
     this.game = game;
+    this.gameContext = this.game.state.getCurrentState();
 	this.enemy = game.add.sprite(path[0].x*64, path[0].y*64, 'snake');
-	console.log("Creation snake");
 	this.enemy.path = path;
 	this.enemy.indexEnemy = IndexEnemy;
 	this.wave = wave;
 	this.setSprite();
 	this.setAnim();
 	this.setCentre();
+    this.cost = 10;
 }
 
 Snake.prototype = Object.create(Enemies.prototype);
@@ -180,14 +187,15 @@ Snake.prototype.setAnim = function()
 var Turtle = function (game, path, IndexEnemy, wave)
 {
     this.game = game;
+    this.gameContext = this.game.state.getCurrentState();
 	this.enemy = game.add.sprite(path[0].x*64, path[0].y*64, 'turtle');
-	console.log("Creation turtle");
 	this.enemy.path = path;
 	this.enemy.indexEnemy = IndexEnemy;
 	this.wave = wave;
 	this.setSprite();
 	this.setAnim();
 	this.setCentre();
+    this.cost = 10;
 }
 
 Turtle.prototype = Object.create(Enemies.prototype);
