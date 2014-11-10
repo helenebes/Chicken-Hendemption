@@ -40,10 +40,10 @@ BasicGame.Game = function (game)
     this.chickenLayers = [];
 	
     var opt; //Options button
-	var pauseGame;
-	var startGame;
-	var pauseAndPlayGameButton;
-	var gamePaused;
+	//var pauseGame;
+	//var startGame;
+	this.pauseAndPlayGameButton;
+	this.gamePaused;
 
 };
 
@@ -209,12 +209,13 @@ BasicGame.Game.prototype =
 		this.game.add.existing(BasicGame.optionsPanel);
     },
 	setPlayPauseButtons: function() 
-	{/*
-		gamePaused = true;
-		pauseAndPlayGameButton = this.add.sprite(BasicGame.convertWidth(453),BasicGame.convertHeight(15),'playButton');
-		pauseAndPlayGameButton.events.onInputDown.add(this.onClick,{buttonName:"play_stop",prescope: this});
-		pauseAndPlayGameButton.events.onInputUp.add(this.onClickReleased,{buttonName:"play_stop",prescope: this});*/
-		
+	{
+		this.gamePaused = true;
+		this.pauseAndPlayGameButton = this.add.sprite(BasicGame.convertWidth(453),BasicGame.convertHeight(38),'playButton');
+        this.pauseAndPlayGameButton.inputEnabled = true;
+		this.pauseAndPlayGameButton.events.onInputDown.add(this.onClick,{buttonName:"play_stop",prescope: this});
+		this.pauseAndPlayGameButton.events.onInputUp.add(this.onClickReleased,{buttonName:"play_stop",prescope: this});
+		/*
 		if (BasicGame.currentLevel < 3)
 		{
 			startGame = this.add.sprite(16*64, 11*64,'playButton');
@@ -229,7 +230,7 @@ BasicGame.Game.prototype =
 		startGame.events.onInputUp.add(this.onClickReleased,{buttonName:"play",prescope: this});
 		pauseGame.inputEnabled = true;
 		pauseGame.events.onInputDown.add(this.onClick,{buttonName:"pause",prescope: this});
-		pauseGame.events.onInputUp.add(this.onClickReleased,{buttonName:"pause",prescope: this});
+		pauseGame.events.onInputUp.add(this.onClickReleased,{buttonName:"pause",prescope: this});*/
 	},
     buildChickenMenu: function()
     {
@@ -540,22 +541,22 @@ BasicGame.Game.prototype =
     {
 		this.prescope.clickButtonSound.play();
 		switch(this.buttonName)
-		{
+		{/*
 			case "play":				
 				startGame.loadTexture('playButtonPressed',0);
 				
 				break;
 			case "pause":
 				pauseGame.loadTexture('stopButtonPressed',0);					
-				break;
+				break;*/
 			case "play_stop":
-				if(gamePaused)
+				if(this.prescope.gamePaused)
 				{
-					pauseAndPlayGameButton.loadTexture('playButtonPressed',0);
+					this.prescope.pauseAndPlayGameButton.loadTexture('playButtonPressed',0);
 				}
 				else
 				{
-					pauseAndPlayGameButton.loadTexture('stopButtonPressed',0);
+					this.prescope.pauseAndPlayGameButton.loadTexture('stopButtonPressed',0);
 				}
 				break;
 		}
@@ -580,16 +581,23 @@ BasicGame.Game.prototype =
 				break;
 				
 			case "play_stop":
-				if(gamePaused)
+				if(this.prescope.gamePaused)
 				{
-					pauseAndPlayGameButton.loadTexture('stopButton',0);
-					gamePaused = false;
-					this.prescope.paused = false;
+                    this.prescope.pauseAndPlayGameButton.loadTexture('stopButton',0);
+                    this.prescope.gamePaused = false;
+                    if (this.prescope.level.waves.length === 0) 
+                    {				
+                        this.prescope.level.setFirstWave(this.prescope.time.now);
+                    } 
+                    else
+                    {                  
+                        this.prescope.paused = false;
+                    }
 				}
 				else
 				{
-					pauseAndPlayGameButton.loadTexture('playButton',0);
-					gamePaused = true;
+					this.prescope.pauseAndPlayGameButton.loadTexture('playButton',0);
+					this.prescope.gamePaused = true;
 					this.prescope.paused = true;
 				}
 				break;
