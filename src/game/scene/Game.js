@@ -42,6 +42,8 @@ BasicGame.Game = function (game)
     var opt; //Options button
 	var pauseGame;
 	var startGame;
+	var pauseAndPlayGameButton;
+	var gamePaused;
 
 };
 
@@ -207,11 +209,18 @@ BasicGame.Game.prototype =
 		this.game.add.existing(BasicGame.optionsPanel);
     },
 	setPlayPauseButtons: function() 
-	{
-		if (BasicGame.currentLevel < 3) {
+	{/*
+		gamePaused = true;
+		pauseAndPlayGameButton = this.add.sprite(BasicGame.convertWidth(453),BasicGame.convertHeight(15),'playButton');
+		pauseAndPlayGameButton.events.onInputDown.add(this.onClick,{buttonName:"play_stop",prescope: this});
+		pauseAndPlayGameButton.events.onInputUp.add(this.onClickReleased,{buttonName:"play_stop",prescope: this});*/
+		
+		if (BasicGame.currentLevel < 3)
+		{
 			startGame = this.add.sprite(16*64, 11*64,'playButton');
 			pauseGame = this.add.sprite(17*64 + 50, 11*64, 'stopButton');
-		} else {
+		} else 
+		{
 			startGame = this.add.sprite(11*64, 6*64,'playButton');
 			pauseGame = this.add.sprite(12*64 + 50, 6*64,'stopButton');
 		}
@@ -534,9 +543,20 @@ BasicGame.Game.prototype =
 		{
 			case "play":				
 				startGame.loadTexture('playButtonPressed',0);
+				
 				break;
 			case "pause":
-				pauseGame.loadTexture('stopButtonPressed',0);
+				pauseGame.loadTexture('stopButtonPressed',0);					
+				break;
+			case "play_stop":
+				if(gamePaused)
+				{
+					pauseAndPlayGameButton.loadTexture('playButtonPressed',0);
+				}
+				else
+				{
+					pauseAndPlayGameButton.loadTexture('stopButtonPressed',0);
+				}
 				break;
 		}
 				
@@ -550,12 +570,28 @@ BasicGame.Game.prototype =
 				if (this.prescope.level.waves.length === 0) 
 				{				
 					this.prescope.level.setFirstWave(this.prescope.time.now);
-				} else {
+				} else 
+				{
 					this.prescope.paused = false;
 				}
 				break;
 			case "pause":
 				this.prescope.paused = true;
+				break;
+				
+			case "play_stop":
+				if(gamePaused)
+				{
+					pauseAndPlayGameButton.loadTexture('stopButton',0);
+					gamePaused = false;
+					this.prescope.paused = false;
+				}
+				else
+				{
+					pauseAndPlayGameButton.loadTexture('playButton',0);
+					gamePaused = true;
+					this.prescope.paused = true;
+				}
 				break;
 		}		
 	},
