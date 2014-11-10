@@ -14,8 +14,8 @@ var Enemies = function (game, path, IndexEnemy, wave)
 Enemies.prototype =
 {
 	setCentre: function(){
-		this.enemy.offsetCentreX = this.game.cache.getImage(this.enemy.key).width/2;
-		this.enemy.offsetCentreY = this.game.cache.getImage(this.enemy.key).width/2;
+		this.enemy.offsetCentreX = 32;
+		this.enemy.offsetCentreY = 32;
 		this.enemy.centrex = this.enemy.x + this.enemy.offsetCentreX;
 		this.enemy.centrey = this.enemy.y + this.enemy.offsetCentreY;
 	},
@@ -305,8 +305,8 @@ moveEnemy.prototype =
 			enemy.centrey = enemy.y + enemy.offsetCentreY;
 			this.nextTile(enemy);
 		}
-		enemy.y += enemy.speedY ;
-		enemy.x += enemy.speedX ;
+		enemy.y += enemy.speedY/10;
+		enemy.x += enemy.speedX/10;
 		enemy.centrex = enemy.x + enemy.offsetCentreX;
 		enemy.centrey = enemy.y + enemy.offsetCentreY;
 	},
