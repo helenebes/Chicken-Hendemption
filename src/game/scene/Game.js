@@ -76,11 +76,11 @@ BasicGame.Game.prototype =
         if(this.paused == false)
         {
             this.level.updateLevel();
-            this.guidePositioning(this.input.mousePointer.x,this.input.mousePointer.y);
 			this.chickenUpdate();
 			this.updateBullets();
 			this.enemiesUpdate(this.coop);
         }       
+        this.guidePositioning(this.input.mousePointer.x,this.input.mousePointer.y);
 		this.updateScore();
 		//console.log("dans update");
 	},
@@ -446,7 +446,7 @@ BasicGame.Game.prototype =
                     sprite:     this.add.sprite(x,y,'cornBullet'),
                     xStepSize:  (xDist/distance)*speed,
                     yStepSize:  (yDist/distance)*speed,
-                    index:      distance/speed,
+                    steps:      distance/speed,
                     Enemy:      enemy,
                     Damage:     damage
                 });
@@ -455,10 +455,10 @@ BasicGame.Game.prototype =
     {
         for(var i=0;i<this.bullets.length;i++) 
         {
-            this.bullets[i].index--; 
+            this.bullets[i].steps--; 
             this.bullets[i].sprite.position.x -= this.bullets[i].xStepSize;
             this.bullets[i].sprite.position.y -= this.bullets[i].yStepSize;
-            if(this.bullets[i].index < 0)
+            if(this.bullets[i].steps < 0)
             {
                 this.bullets[i].Enemy.isAttacked(this.bullets[i].Damage);
                 this.bullets[i].sprite.kill();

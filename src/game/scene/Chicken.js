@@ -62,7 +62,7 @@ Chicken.prototype =
     setSprite: function()
     {
         this.sprite.inputEnabled = true;
-        this.sprite.events.onInputDown.add(this.detectEnemies,this);
+        this.sprite.events.onInputDown.add(this.print,this);
         this.sprite.events.onInputOver.add(this.showRange,this);
         this.sprite.events.onInputOut.add(this.cleanRange,this);
         this.gameContext.chickenLayers[this.y].add(this.sprite);
@@ -71,7 +71,7 @@ Chicken.prototype =
     {
         this.rangeSprite.lineStyle(2,0xffffff,1);
         this.rangeSprite.beginFill(0xffffff,0.15);
-        this.rangeSprite.drawCircle(0,0,this.range);
+        this.drawnCircle = this.rangeSprite.drawCircle(0,0,this.range);
         this.rangeSprite.position.x = (this.x*64+32);
         this.rangeSprite.position.y = (this.y*64+32);
         this.rangeCircle = new Phaser.Circle(this.x*64+32,this.y*64+32,2*this.range);
@@ -275,7 +275,7 @@ var Robot = function (Xtile,Ytile,Index,gameContext)
     this.gameContext = gameContext;
     this.x = Xtile;
     this.y = Ytile;
-    this.range = 640;
+    this.range = 256;
     this.lastAttack = 0;
     this.attackSpeed = 5;
     this.damage = 100;
@@ -288,16 +288,16 @@ var Robot = function (Xtile,Ytile,Index,gameContext)
     this.setRange();
     this.cleanRange();
     
-    this.initializeLaser(48,1000);
+    this.initializeLaser();
 }
 Robot.prototype = Object.create(Chicken.prototype);
-Robot.prototype.initializeLaser = function(thickness,length)
+Robot.prototype.initializeLaser = function()
 {
     this.laserSprite = this.gameContext.add.sprite(this.x*64 - 10,this.y*64+6,'laser');
     this.laserSprite.anchor.setTo(16/1600,0.5);
     this.laserSprite.angle =0;
     this.laserSprite.alpha =0;
-};
+ };
 Robot.prototype.print = function()
 {
     console.log("Robot is special");
@@ -324,3 +324,24 @@ Robot.prototype.attack = function(enemy)
             laser.alpha = 0;
        },500)
 };
+//Upgrades
+//Using Delegates
+function UpgradeRange()
+{
+    this.range *= 1.2;
+    this.rangeSprite.destroy();
+    this.rangeSprite = this.gameContext.add.graphics(0,0);
+    this.setRange();
+}
+function UpgradeDamage()
+{
+    this.damage *= 1.2;
+}
+function UpgradeAttackSpeed()
+{
+    this.attackSpeed *= 1.2;
+}
+/* Delegate Application
+    var upRange = UpgradeRange.bind(this);
+    upRange();
+ */
