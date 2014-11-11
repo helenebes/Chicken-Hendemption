@@ -175,12 +175,12 @@ Level.prototype =
 		}
         var AllLivingEnemies = 0; 
         for(var i =0;i<this.waves.length;i++)
-            AllLivingEnemies+=this.waves[i].waveEnemy.countLiving;
+            AllLivingEnemies+=this.waves[i].waveEnemy.countLiving();
         //this.waves[this.waves.length-1].nbEnemyKilled === this.infoWaves.nbEnemyByWave 
-		if (this.waves.length === this.infoWaves.nbWaves && this.state.coop.eggCounter > 0 && AllLivingEnemies === 0 && this.victory === false) 
+		if (this.waves.length == this.infoWaves.nbWaves && this.state.coop.eggCounter > 0 && AllLivingEnemies == 0 && this.victory === false) 
 		{
 			this.victory = true;
-            this.state.paused = true;
+            console.log("Victory");
 			this.state.gameVictory();
 		}
 	},
