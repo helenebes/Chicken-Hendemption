@@ -221,12 +221,13 @@ Turtle.prototype.setAnim = function()
     this.wave.add(this.enemy);
 };
 
-var Wave = function(game, releaseTime, path, infoWaves)  
+var Wave = function(game, releaseTime, path, infoWaves, numeroWave)  
 {
 
         this.waveEnemy = game.add.group();
         this.nbEnemyKilled = 0;
         this.path = path;
+		this.numeroWave = numeroWave;
         this.game = game;
         this.infoWaves = infoWaves;
         this.nbEnemiesCreated = 0;
@@ -264,7 +265,7 @@ Wave.prototype =
     },
     move: function() {
         var delayBeforeNewEnemy = 5000;
-        if (this.game.time.now >= this.releaseTime + delayBeforeNewEnemy && this.nbEnemiesCreated < this.infoWaves.nbEnemyByWave) {
+        if (this.game.time.now >= this.releaseTime + delayBeforeNewEnemy && this.nbEnemiesCreated < this.infoWaves.nbEnemyByWave[this.numeroWave]) {
             this.setWave();
             this.releaseTime = this.game.time.now;
         }
