@@ -2,10 +2,10 @@
 BasicGame.MainMenu = function (game) 
 {
 
-	this.music = null;
+    this.music = null;
     this.clickButtonSound = null;
     this.unclickButtonSound = null;
-	this.playButton = null;
+    this.playButton = null;
     var lvl1;
     var lvl2;
     var lvl3;
@@ -19,8 +19,8 @@ BasicGame.MainMenu = function (game)
     
     var back;
     var paused;
-	//this.optionsPanel;
-	
+    //this.optionsPanel;
+    
 
 };
 
@@ -28,12 +28,12 @@ BasicGame.MainMenu.prototype =
 {
 
     
-	create: function () 
+    create: function () 
     {
         
         this.startMusic();
         this.startSounds();
-		this.add.sprite(0,0,'menuBg');
+        this.add.sprite(0,0,'menuBg');
         
         lvl1 = this.add.sprite(BasicGame.convertWidth(100),BasicGame.convertHeight(140),'lvl1');
         lvl2 = this.add.sprite(BasicGame.convertWidth(190),BasicGame.convertHeight(140),'lvl2');
@@ -44,57 +44,57 @@ BasicGame.MainMenu.prototype =
         howToPlayInfoButton = this.add.sprite(BasicGame.convertWidth(330),BasicGame.convertHeight(270),'howToPlayB');
         back = this.add.sprite(BasicGame.convertWidth(20),BasicGame.convertHeight(270),'back');
         
-		lvl1.inputEnabled = true;
-		lvl1.events.onInputDown.add(this.onClick,{buttonName:"level 1",prescope: this});
+        lvl1.inputEnabled = true;
+        lvl1.events.onInputDown.add(this.onClick,{buttonName:"level 1",prescope: this});
         lvl1.events.onInputUp.add(this.onClickReleased,{buttonName:"level 1",prescope: this});
                
-		lvl2.inputEnabled = true;
-		lvl2.events.onInputDown.add(this.onClick,{buttonName:"level 2",prescope: this});
+        lvl2.inputEnabled = true;
+        lvl2.events.onInputDown.add(this.onClick,{buttonName:"level 2",prescope: this});
         lvl2.events.onInputUp.add(this.onClickReleased,{buttonName:"level 2",prescope: this});
             
-		lvl3.inputEnabled = true;
-		lvl3.events.onInputDown.add(this.onClick,{buttonName:"level 3",prescope: this});
+        lvl3.inputEnabled = true;
+        lvl3.events.onInputDown.add(this.onClick,{buttonName:"level 3",prescope: this});
         lvl3.events.onInputUp.add(this.onClickReleased,{buttonName:"level 3",prescope: this});
              
-		opt.inputEnabled = true;
-		opt.events.onInputDown.add(this.onClick,{buttonName:"options",prescope: this});
+        opt.inputEnabled = true;
+        opt.events.onInputDown.add(this.onClick,{buttonName:"options",prescope: this});
         opt.events.onInputUp.add(this.onClickReleased,{buttonName:"options",prescope: this});
         
-		chickenInfoButton.inputEnabled = true;
-		chickenInfoButton.events.onInputDown.add(this.onClick,{buttonName:"chicken info",prescope: this});
+        chickenInfoButton.inputEnabled = true;
+        chickenInfoButton.events.onInputDown.add(this.onClick,{buttonName:"chicken info",prescope: this});
         chickenInfoButton.events.onInputUp.add(this.onClickReleased,{buttonName:"chicken info",prescope: this});
         
-		enemyInfoButton.inputEnabled = true;
-		enemyInfoButton.events.onInputDown.add(this.onClick,{buttonName:"enemy info",prescope: this});
+        enemyInfoButton.inputEnabled = true;
+        enemyInfoButton.events.onInputDown.add(this.onClick,{buttonName:"enemy info",prescope: this});
         enemyInfoButton.events.onInputUp.add(this.onClickReleased,{buttonName:"enemy info",prescope: this});
         
-		howToPlayInfoButton.inputEnabled = true;
-		howToPlayInfoButton.events.onInputDown.add(this.onClick,{buttonName:"how to play",prescope: this});
+        howToPlayInfoButton.inputEnabled = true;
+        howToPlayInfoButton.events.onInputDown.add(this.onClick,{buttonName:"how to play",prescope: this});
         howToPlayInfoButton.events.onInputUp.add(this.onClickReleased,{buttonName:"how to play",prescope: this});
         
-		back.inputEnabled = true;
-		back.events.onInputDown.add(this.onClickReleased,{buttonName:"back",prescope: this});
+        back.inputEnabled = true;
+        back.events.onInputDown.add(this.onClickReleased,{buttonName:"back",prescope: this});
         
         
-		//this.optionsPanel = new OptionsPanel(this);
+        //this.optionsPanel = new OptionsPanel(this);
         BasicGame.optionsPanel = new OptionsPanel(this);
-		this.game.add.existing(BasicGame.optionsPanel);
+        this.game.add.existing(BasicGame.optionsPanel);
         paused = false;
         
         howToPlayInfoWindow = new Window(this, "How To Play");
         chickenInfoWindow = new Window(this, "Chickens");
         enemyInfoWindow = new Window(this, "Enemies");
         
-		/*
-		//Aligning HUD to view edges
-		//Align to left top edge
-		var q = this.add.sprite(BasicGame.viewX,BasicGame.viewY,'playBtn');
-		
-		//Align to bottom right edge
-		q.position.x = BasicGame.viewWidth - q.width;
-		q.position.y = BasicGame.viewHeight - q.height;
-		q.inputEnabled = true;
-		q.events.onInputDown.add(this.onClick,this);
+        /*
+        //Aligning HUD to view edges
+        //Align to left top edge
+        var q = this.add.sprite(BasicGame.viewX,BasicGame.viewY,'playBtn');
+        
+        //Align to bottom right edge
+        q.position.x = BasicGame.viewWidth - q.width;
+        q.position.y = BasicGame.viewHeight - q.height;
+        q.inputEnabled = true;
+        q.events.onInputDown.add(this.onClick,this);
         
         var poopie = this.add.sprite(BasicGame.convertWidth(4),BasicGame.convertHeight(125),'longie');
         poopie.scale.x = 0.7;
@@ -132,8 +132,8 @@ BasicGame.MainMenu.prototype =
         
         
         
-	},
-	
+    },
+    
     pauseGame: function()
     {
         
@@ -161,10 +161,10 @@ BasicGame.MainMenu.prototype =
                     enemyInfoWindow.hide();
                     break;
             }
-		}
+        }
     },
     
-	onClick:function(buttonName)
+    onClick:function(buttonName)
     {
         this.prescope.clickButtonSound.play();
         switch(this.buttonName)
@@ -191,9 +191,9 @@ BasicGame.MainMenu.prototype =
                 howToPlayInfoButton.loadTexture('howToPlayB_pressed',0);
                 break;
         }
-		
         
-	},
+        
+    },
     onClickReleased:function(buttonName,prescope)
     {
         this.prescope.unclickButtonSound.play();
@@ -253,15 +253,15 @@ BasicGame.MainMenu.prototype =
                 this.prescope.state.start('Intro');
                 
         }
-	},
+    },
     
-	update: function () 
+    update: function () 
     {
 
-		//	Do some nice funky main menu effect here
-	},
+        //    Do some nice funky main menu effect here
+    },
 
-	startGame: function (pointer) 
+    startGame: function (pointer) 
     {
         this.stopMusic();
         var dad = this.state;
@@ -269,8 +269,8 @@ BasicGame.MainMenu.prototype =
         {
             dad.start('Game');
         },100);
-		//	And start the actual game
-	},
+        //    And start the actual game
+    },
     updateVolume: function()
     {
         this.music.volume = BasicGame.musicVolume;
@@ -279,9 +279,9 @@ BasicGame.MainMenu.prototype =
         //this.sound.volume = BasicGame.soundVolume;
     },
     stopMusic: function()
-	{
-		this.music.stop();
-	},
+    {
+        this.music.stop();
+    },
     stopSounds: function()
     {
         this.clickButtonSound.volume = 0;
@@ -292,16 +292,16 @@ BasicGame.MainMenu.prototype =
         this.clickButtonSound.mute = false;
         this.unclickButtonSound.mute = false;
     },
-	startMusic: function()
-	{
+    startMusic: function()
+    {
         this.music = this.add.audio('menu_music');
-		this.music.loop = true;
+        this.music.loop = true;
         this.music.volume = BasicGame.musicVolume;
         if(BasicGame.music)
         {
             this.music.play();
         }
-	},
+    },
     startSounds: function()
     {
         this.clickButtonSound = new Phaser.Sound(this,'click_in',BasicGame.musicVolume,false);

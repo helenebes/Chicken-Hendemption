@@ -26,12 +26,12 @@ BasicGame.Boot.prototype =
 {
 
     preload: function () 
-	{
+    {
 
         //  Here we load the assets required for our preloader (in this case a background and a loading bar)
         this.load.image('preloaderBackground','assets/'+BasicGame.screen+"/mainMenu.png");
         //this.load.image('preloaderBar', 'images/preloadr_bar.png');
-		this.load.image('loading','assets/'+BasicGame.screen+"/mainMenu.png");
+        this.load.image('loading','assets/'+BasicGame.screen+"/mainMenu.png");
 
     },
 
@@ -39,15 +39,15 @@ BasicGame.Boot.prototype =
 
         this.input.maxPointers = 1;
         this.stage.disableVisibilityChange = true;
-		this.add.sprite(0,0,'preloaderBackground');
-		this.scaleStage();
+        this.add.sprite(0,0,'preloaderBackground');
+        this.scaleStage();
         this.state.start('Preloader');
 
     },
     
     scaleStage:function()
-	{
-    	if (this.game.device.desktop)
+    {
+        if (this.game.device.desktop)
         {
             this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL; 
         }
@@ -69,27 +69,27 @@ BasicGame.Boot.prototype =
         this.scale.pageAlignVertically = true;
         this.scale.setScreenSize(true);
         
-		if(this.scale.scaleMode==Phaser.ScaleManager.NO_BORDER)
-		{
-			BasicGame.viewX = (this.scale.width/2 - window.innerWidth/2)*this.scale.scaleFactor.x;
-			BasicGame.viewY = (this.scale.height/2 - window.innerHeight/2 - 1)*this.scale.scaleFactor.y;
-			BasicGame.viewWidth = BasicGame.gameWidth-BasicGame.viewX;
-			BasicGame.viewHeight = BasicGame.gameHeight-BasicGame.viewY;
-		}else
-		{
-			BasicGame.viewX = 0;
-			BasicGame.viewY = 0;
-			BasicGame.viewWidth = BasicGame.gameWidth;
-			BasicGame.viewHeight = BasicGame.gameHeight;
-		}
-	
-		document.getElementById("game").style.width = window.innerWidth+"px";
-		document.getElementById("game").style.height = window.innerHeight-1+"px";//The css for body includes 1px top margin, I believe this is the cause for this -1
-		document.getElementById("game").style.overflow = "hidden";
+        if(this.scale.scaleMode==Phaser.ScaleManager.NO_BORDER)
+        {
+            BasicGame.viewX = (this.scale.width/2 - window.innerWidth/2)*this.scale.scaleFactor.x;
+            BasicGame.viewY = (this.scale.height/2 - window.innerHeight/2 - 1)*this.scale.scaleFactor.y;
+            BasicGame.viewWidth = BasicGame.gameWidth-BasicGame.viewX;
+            BasicGame.viewHeight = BasicGame.gameHeight-BasicGame.viewY;
+        }else
+        {
+            BasicGame.viewX = 0;
+            BasicGame.viewY = 0;
+            BasicGame.viewWidth = BasicGame.gameWidth;
+            BasicGame.viewHeight = BasicGame.gameHeight;
+        }
+    
+        document.getElementById("game").style.width = window.innerWidth+"px";
+        document.getElementById("game").style.height = window.innerHeight-1+"px";//The css for body includes 1px top margin, I believe this is the cause for this -1
+        document.getElementById("game").style.overflow = "hidden";
     },
 
     gameResized: function (width, height) 
-	{
+    {
 
         //  This could be handy if you need to do any extra processing if the game resizes.
         //  A resize could happen if for example swapping orientation on a device.
@@ -97,7 +97,7 @@ BasicGame.Boot.prototype =
     },
 
     enterIncorrectOrientation: function () 
-	{
+    {
 
         BasicGame.orientated = false;
 
@@ -106,12 +106,12 @@ BasicGame.Boot.prototype =
     },
 
     leaveIncorrectOrientation: function () 
-	{
+    {
 
         BasicGame.orientated = true;
 
         document.getElementById('orientation').style.display = 'none';
-		this.scaleStage();
+        this.scaleStage();
     }
 
 };

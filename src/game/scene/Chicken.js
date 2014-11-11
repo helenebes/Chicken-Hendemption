@@ -35,7 +35,7 @@ Chicken.prototype =
         this.attackEffect.position.y = enemy.enemy.centrey;
         
         var attack = this.attackEffect;
-	this.gameContext.world.bringToTop(this.attackEffect);
+    this.gameContext.world.bringToTop(this.attackEffect);
         
         setTimeout(function()
         {
@@ -232,11 +232,11 @@ var Longie = function (Xtile,Ytile,Index,gameContext)
 Longie.prototype = Object.create(Chicken.prototype);
 Longie.prototype.attack = function(enemy)
 {
-	if (this.gameContext.level.initialCorn>0)
-	{
-   		this.gameContext.createBullet(this.x*64+32,this.y*64,enemy,this.damage);
-    	this.lastAttack = this.gameContext.game.time.now;
-	}
+    if (this.gameContext.level.initialCorn>0)
+    {
+           this.gameContext.createBullet(this.x*64+32,this.y*64,enemy,this.damage);
+        this.lastAttack = this.gameContext.game.time.now;
+    }
 };
 //Poopie
 //Slows enemies, doesn't deal damage

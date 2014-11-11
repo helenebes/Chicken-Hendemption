@@ -1,7 +1,7 @@
 var Window = function(game, windowType, parent)
 {
-	// Super call to Phaser.Group
-	Phaser.Group.call(this, game, parent); 
+    // Super call to Phaser.Group
+    Phaser.Group.call(this, game, parent); 
     this.game = game;
 
     switch(windowType)
@@ -69,9 +69,9 @@ var Window = function(game, windowType, parent)
     }, this);
     this.add(this.btnClose);
     
-	// Place it out of bounds
-	this.x = BasicGame.convertWidth(90);
-	this.y = BasicGame.convertHeight(-300);
+    // Place it out of bounds
+    this.x = BasicGame.convertWidth(90);
+    this.y = BasicGame.convertHeight(-300);
 };
 
 Window.prototype = Object.create(Phaser.Group.prototype);
@@ -79,9 +79,9 @@ Window.constructor = Window;
 
 Window.prototype.show = function()
 {
-	this.game.add.tween(this).to({y:BasicGame.convertHeight(50)}, 500, Phaser.Easing.Bounce.Out, true);
+    this.game.add.tween(this).to({y:BasicGame.convertHeight(50)}, 500, Phaser.Easing.Bounce.Out, true);
 };
 Window.prototype.hide = function()
 {
-	this.game.add.tween(this).to({y:BasicGame.convertHeight(-300)}, 200, Phaser.Easing.Linear.NONE, true);
+    this.game.add.tween(this).to({y:BasicGame.convertHeight(-300)}, 200, Phaser.Easing.Linear.NONE, true);
 };
