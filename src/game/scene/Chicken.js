@@ -62,7 +62,14 @@ Chicken.prototype =
     setSprite: function()
     {
         this.sprite.inputEnabled = true;
-        this.sprite.events.onInputDown.add(this.printUpgrade,this);
+        this.showingUpgradeWindow = false;
+        this.sprite.events.onInputDown.add(function()
+                {
+                    if(this.showingUpgradeWindow == false)
+                        this.showUpgradeWindow();
+                    else
+                        this.cleanUpgradeWindow();
+                },this);
         this.sprite.events.onInputOver.add(this.showRange,this);
         this.sprite.events.onInputOut.add(this.cleanRange,this);
         this.gameContext.chickenLayers[this.y].add(this.sprite);
@@ -85,31 +92,58 @@ Chicken.prototype =
     },
     setUpgradeButton: function()
     {
+        this.speedUpgraded = false;
+        this.rangeUpgraded = false;
+        this.damageUpgraded = false;
         var upRange = UpgradeRange.bind(this);
         var upSpeed = UpgradeSpeed.bind(this);
         var upDamage = UpgradeDamage.bind(this);
 
-        this.upgradeWindow = this.gameContext.add.sprite(this.x*64+64,this.y*64,'upgradeMenu');
+        this.upgradeWindow = this.gameContext.add.sprite(-200,-200,'upgradeMenu');
 
-        this.upgradeSpeedButton = this.gameContext.add.sprite(this.x*64+100,this.y*64+100,'speed');
-        this.upgradeSpeedButton.inputEnabled = true; 
-        this.upgradeSpeedButton.events.onInputDown.add(function(){upSpeed(this)},this); 
+        this.upgradeRangeButton = this.gameContext.add.sprite(-200,-200,'oculos');
+        this.upgradeRangeButton.inputEnabled = true; 
+        this.upgradeRangeButton.events.onInputDown.add(function(){upRange(this)},this); 
 
-        this.upgradeDamageButton = this.gameContext.add.sprite(this.x*64+90,this.y*64+50,'super');
+        this.upgradeDamageButton = this.gameContext.add.sprite(-200,-200,'super');
         this.upgradeDamageButton.inputEnabled = true; 
         this.upgradeDamageButton.events.onInputDown.add(function(){upDamage(this)},this); 
 
-        this.upgradeRangeButton = this.gameContext.add.sprite(this.x*64+90,this.y*64+10,'oculos');
-        this.upgradeRangeButton.inputEnabled = true; 
-        this.upgradeRangeButton.events.onInputDown.add(function(){upRange(this)},this); 
-         
-
-        
+        this.upgradeSpeedButton = this.gameContext.add.sprite(-200,-200,'speed');
+        this.upgradeSpeedButton.inputEnabled = true; 
+        this.upgradeSpeedButton.events.onInputDown.add(function(){upSpeed(this)},this); 
     },
-    printUpgrade: function()
+    showUpgradeWindow: function()
     {
+        this.upgradeWindow.position.x =this.x*64+64;
+        this.upgradeWindow.position.y =this.y*64;
+
+        this.upgradeRangeButton.position.x =this.x*64+95;
+        this.upgradeRangeButton.position.y =this.y*64+18;
+
+        this.upgradeDamageButton.position.x =this.x*64+95;
+        this.upgradeDamageButton.position.y =this.y*64+52;
+
+        this.upgradeSpeedButton.position.x =this.x*64+105;
+        this.upgradeSpeedButton.position.y =this.y*64+98;
         
-        
+        this.showingUpgradeWindow = true;
+    },
+    cleanUpgradeWindow: function()
+    {
+        this.upgradeWindow.position.x =-200;
+        this.upgradeWindow.position.y =-200;
+
+        this.upgradeRangeButton.position.x =-200;
+        this.upgradeRangeButton.position.y =-200;
+
+        this.upgradeDamageButton.position.x =-200;
+        this.upgradeDamageButton.position.y =-200;
+
+        this.upgradeSpeedButton.position.x =-200;
+        this.upgradeSpeedButton.position.y =-200;
+
+        this.showingUpgradeWindow = false;
     },
     showRange: function()
     {
@@ -143,6 +177,7 @@ var AOEChicken = function (Xtile,Ytile,Index,gameContext)
     this.setSprite();
     this.setRange();
     this.cleanRange();
+    this.setUpgradeButton();
 }
 AOEChicken.prototype = Object.create(Chicken.prototype);
 AOEChicken.prototype.detectEnemies = function()
@@ -176,6 +211,7 @@ var Longie = function (Xtile,Ytile,Index,gameContext)
     this.setSprite();
     this.setRange();
     this.cleanRange();
+    this.setUpgradeButton();
 }
 Longie.prototype = Object.create(Chicken.prototype);
 Longie.prototype.attack = function(enemy)
@@ -208,6 +244,7 @@ var Poopie = function (Xtile,Ytile,Index,gameContext)
     this.setRange();
     this.initializeExplosion();
     this.cleanRange();
+    this.setUpgradeButton();
 }
 Poopie.prototype = Object.create(AOEChicken.prototype);
 Poopie.prototype.initializeExplosion = function()
@@ -254,6 +291,7 @@ var Fartie = function (Xtile,Ytile,Index,gameContext)
     this.cleanRange();
     this.initializeExplosion();
     this.explosion;
+    this.setUpgradeButton();
 }
 Fartie.prototype = Object.create(AOEChicken.prototype);
 Fartie.prototype.initializeExplosion = function()
@@ -300,7 +338,8 @@ var Robot = function (Xtile,Ytile,Index,gameContext)
     this.setSprite();
     this.setRange();
     this.cleanRange();
-    
+    this.setUpgradeButton();
+
     this.initializeLaser();
 }
 Robot.prototype = Object.create(Chicken.prototype);
@@ -334,20 +373,31 @@ Robot.prototype.attack = function(enemy)
 //Using Delegates
 function UpgradeRange()
 {
-    this.range *= 1.2;
-    this.rangeSprite.destroy();
-    this.rangeSprite = this.gameContext.add.graphics(0,0);
-    this.setRange();
+    if(this.rangeUpgraded === false )
+    {
+        this.range *= 1.2;
+        this.rangeSprite.destroy();
+        this.rangeSprite = this.gameContext.add.graphics(0,0);
+        this.setRange();
+        this.rangeUpgraded = true;
+        this.gameContext.cornCounter-=10;
+    }
 }
 function UpgradeDamage()
 {
-    this.damage *= 1.2;
+    if(this.damageUpgraded === false)
+    {
+        this.damage *= 1.2;
+        this.damageUpgraded = true;
+        this.gameContext.cornCounter-=10;
+    }
 }
 function UpgradeSpeed()
 {
-    this.attackSpeed *= 1.2;
+    if(this.speedUpgraded == false)
+    {
+        this.attackSpeed *= 1.2;
+        this.speedUpgraded = true;
+        this.gameContext.cornCounter-=10;
+    }
 }
-/* Delegate Application
-    var upRange = UpgradeRange.bind(this);
-    upRange();
- */
