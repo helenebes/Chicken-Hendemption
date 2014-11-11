@@ -24,6 +24,7 @@ BasicGame.Preloader.prototype = {
         this.load.image('introPlayBtn','assets/'+BasicGame.screen+"/startButton.png");
         this.load.image('introPlayBtnPressed','assets/'+BasicGame.screen+"/startButtonPressed.png");
         this.load.image('title','assets/'+BasicGame.screen+"/title.png");
+        this.load.image('intro_longie','assets/'+BasicGame.screen+"/intro_longie.png");
         
         // main menu
         this.load.image('menuBg','assets/'+BasicGame.screen+"/fazenda.png");
@@ -96,6 +97,7 @@ BasicGame.Preloader.prototype = {
 		this.load.image('playButtonPressed','assets/'+BasicGame.screen+"/play_ingame_button_pressed.png");
 
         this.load.image('oculos','assets/'+BasicGame.screen+"/oculos.png");
+        this.load.image('monoculo','assets/'+BasicGame.screen+"/monoculo.png");
         this.load.image('oculosBtn','assets/'+BasicGame.screen+"/oculosButton.png");
         this.load.image('super','assets/'+BasicGame.screen+"/super.png");
         this.load.image('superBtn','assets/'+BasicGame.screen+"/superButton.png");

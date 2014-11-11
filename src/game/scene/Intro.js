@@ -17,10 +17,12 @@ BasicGame.Intro.prototype =
         this.startSounds();
         this.add.sprite(0,0,'introBg');
         
-        this.add.sprite(BasicGame.convertWidth(200),BasicGame.convertHeight(50),'title');
-        
+        var title = this.add.sprite(BasicGame.convertWidth(200),BasicGame.convertHeight(-300),'title');
+        this.game.add.tween(title).to({y:BasicGame.convertHeight(50)}, BasicGame.convertHeight(100), Phaser.Easing.Bounce.Out, true);
         button = this.add.sprite(BasicGame.viewX,BasicGame.viewY,'introPlayBtn');
 		
+        var chicken = this.add.sprite(BasicGame.convertWidth(0),BasicGame.convertHeight(1000),'intro_longie');
+        this.game.add.tween(chicken).to({y:BasicGame.convertHeight(10)}, BasicGame.convertHeight(100), Phaser.Easing.Linear.NONE, true);
 		//Align to bottom right edge
 		button.position.x = BasicGame.convertWidth(250);
 		button.position.y = BasicGame.convertHeight(250);

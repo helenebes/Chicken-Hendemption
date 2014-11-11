@@ -9,7 +9,9 @@ var Chicken = function (Xtile,Ytile,Index,gameContext)
     this.lastAttack = 0;
     this.attackSpeed = 25;
     this.damage = 12;
-    
+    this.glassesExtraHeight = -15;
+    this.glassesExtraWidth = 7;
+    this.glasses = "oculos";
     this.sprite = gameContext.add.sprite((Xtile*64),((Ytile*64+5)),'normalP');
     //console.log(this);
     this.rangeSprite = gameContext.add.graphics(0,0);
@@ -103,15 +105,25 @@ Chicken.prototype =
 
         this.upgradeRangeButton = this.gameContext.add.sprite(-200,-200,'oculos');
         this.upgradeRangeButton.inputEnabled = true; 
-        this.upgradeRangeButton.events.onInputDown.add(function(){upRange(this)},this); 
+        this.upgradeRangeButton.events.onInputDown.add(function()
+        {
+            
+            upRange(this);
+        },this); 
 
         this.upgradeDamageButton = this.gameContext.add.sprite(-200,-200,'super');
         this.upgradeDamageButton.inputEnabled = true; 
-        this.upgradeDamageButton.events.onInputDown.add(function(){upDamage(this)},this); 
+        this.upgradeDamageButton.events.onInputDown.add(function()
+        {
+            upDamage(this);
+        },this); 
 
         this.upgradeSpeedButton = this.gameContext.add.sprite(-200,-200,'speed');
         this.upgradeSpeedButton.inputEnabled = true; 
-        this.upgradeSpeedButton.events.onInputDown.add(function(){upSpeed(this)},this); 
+        this.upgradeSpeedButton.events.onInputDown.add(function()
+        {
+            upSpeed(this)
+        },this); 
     },
     showUpgradeWindow: function()
     {
@@ -168,7 +180,9 @@ var AOEChicken = function (Xtile,Ytile,Index,gameContext)
     this.lastAttack = 0;
     this.attackSpeed = 50;
     this.damage = 10;
-
+    this.glassesExtraHeight = -15;
+    this.glassesExtraWidth = 7;
+    
     this.sprite = gameContext.add.sprite((Xtile*64),((Ytile*64+5)),'normalP');
     //console.log(this);
     this.rangeSprite = gameContext.add.graphics(0,0);
@@ -203,9 +217,10 @@ var Longie = function (Xtile,Ytile,Index,gameContext)
     this.lastAttack = 0;
     this.attackSpeed = 25;
     this.damage = 8;
-
+    this.glassesExtraHeight = 10;
+    this.glassesExtraWidth = 10;
     this.sprite = gameContext.add.sprite(Xtile*64,(Ytile*64-31),'longieP');
-
+    this.glasses = "oculos";
     this.rangeSprite = gameContext.add.graphics(0,0);
 
     this.setSprite();
@@ -236,7 +251,9 @@ var Poopie = function (Xtile,Ytile,Index,gameContext)
     this.attackSpeed = 30;
     this.damage = 10;
     this.explosion;
-
+    this.glassesExtraHeight = -15;
+    this.glassesExtraWidth = 5;
+    this.glasses = "oculos";
     this.sprite = gameContext.add.sprite(Xtile*64-8,(Ytile*64+15),'poopieP');
     this.rangeSprite = gameContext.add.graphics(0,0);
 
@@ -285,7 +302,10 @@ var Fartie = function (Xtile,Ytile,Index,gameContext)
     this.explosionSound = this.gameContext.add.audio('explosion_sound');
     this.sprite = gameContext.add.sprite(Xtile*64,(Ytile*64-8),'fartieP');
     this.rangeSprite = gameContext.add.graphics(0,0);
-
+    this.glassesExtraHeight = -7;
+    this.glassesExtraWidth = 17;
+    this.glasses = "monoculo";
+    
     this.setSprite();
     this.setRange();
     this.cleanRange();
@@ -334,7 +354,10 @@ var Robot = function (Xtile,Ytile,Index,gameContext)
 
     this.sprite = gameContext.add.sprite(Xtile*64-8,(Ytile*64-14),'robotP');
     this.rangeSprite = gameContext.add.graphics(0,0);
-
+    this.glassesExtraHeight = 7;
+    this.glassesExtraWidth = 7;
+    this.glasses = "monoculo";
+    
     this.setSprite();
     this.setRange();
     this.cleanRange();
@@ -375,6 +398,7 @@ function UpgradeRange()
 {
     if(this.rangeUpgraded === false )
     {
+        this.oculus = this.gameContext.add.sprite(this.x*64+this.glassesExtraWidth,this.y*64-this.glassesExtraHeight,this.glasses.toString());
         this.range *= 1.2;
         this.rangeSprite.destroy();
         this.rangeSprite = this.gameContext.add.graphics(0,0);
