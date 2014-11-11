@@ -9,7 +9,6 @@ var Chicken = function (Xtile,Ytile,Index,gameContext)
     this.lastAttack = 0;
     this.attackSpeed = 25;
     this.damage = 12;
-    this.attack;
     
     this.sprite = gameContext.add.sprite((Xtile*64),((Ytile*64+5)),'normalP');
     //console.log(this);
@@ -20,6 +19,7 @@ var Chicken = function (Xtile,Ytile,Index,gameContext)
     this.setRange();
     this.cleanRange();
     this.initializeAttackEffect();
+    this.setUpgradeButton();
 }
 Chicken.prototype =
 {
@@ -83,11 +83,32 @@ Chicken.prototype =
             this.detectEnemies();
         }
     },
+    setUpgradeButton: function()
+    {
+        var upRange = UpgradeRange.bind(this);
+        var upSpeed = UpgradeSpeed.bind(this);
+        var upDamage = UpgradeDamage.bind(this);
+
+        this.upgradeWindow = this.gameContext.add.sprite(this.x*64+64,this.y*64,'upgradeMenu');
+
+        this.upgradeSpeedButton = this.gameContext.add.sprite(this.x*64+100,this.y*64+100,'speed');
+        this.upgradeSpeedButton.inputEnabled = true; 
+        this.upgradeSpeedButton.events.onInputDown.add(function(){upSpeed(this)},this); 
+
+        this.upgradeDamageButton = this.gameContext.add.sprite(this.x*64+90,this.y*64+50,'super');
+        this.upgradeDamageButton.inputEnabled = true; 
+        this.upgradeDamageButton.events.onInputDown.add(function(){upDamage(this)},this); 
+
+        this.upgradeRangeButton = this.gameContext.add.sprite(this.x*64+90,this.y*64+10,'oculos');
+        this.upgradeRangeButton.inputEnabled = true; 
+        this.upgradeRangeButton.events.onInputDown.add(function(){upRange(this)},this); 
+         
+
+        
+    },
     printUpgrade: function()
     {
-        console.log("Chicken "+this.index);
-        console.log("X: "+this.x);
-        console.log("Y: "+this.y);
+        
         
     },
     showRange: function()
@@ -157,10 +178,6 @@ var Longie = function (Xtile,Ytile,Index,gameContext)
     this.cleanRange();
 }
 Longie.prototype = Object.create(Chicken.prototype);
-Longie.prototype.printUpgrade = function()
-{
-    console.log("Longie is special");
-};
 Longie.prototype.attack = function(enemy)
 {
 	if (this.gameContext.level.initialCorn>0)
@@ -200,10 +217,6 @@ Poopie.prototype.initializeExplosion = function()
         var anim = this.explosion.animations.add('pooping');
         this.explosion.alpha = 0;
         this.gameContext.effectsLayer.add(this.explosion);
-};
-Poopie.prototype.printUpgrade = function()
-{
-    console.log("Poopie is special");
 };
 Poopie.prototype.attack = function(enemy)
 {
@@ -252,10 +265,6 @@ Fartie.prototype.initializeExplosion = function()
         this.explosion.alpha = 0;
         this.gameContext.effectsLayer.add(this.explosion);
 };
-Fartie.prototype.printUpgrade = function()
-{
-    console.log("Fartie is special");
-};
 Fartie.prototype.attack = function(enemy)
 {
     this.lastAttack = this.gameContext.game.time.now;
@@ -302,10 +311,6 @@ Robot.prototype.initializeLaser = function()
     this.laserSprite.angle =0;
     this.laserSprite.alpha =0;
  };
-Robot.prototype.printUpgrade = function()
-{
-    console.log("Robot is special");
-};
 Robot.prototype.attack = function(enemy)
 {
     this.lastAttack = this.gameContext.game.time.now;
@@ -338,7 +343,7 @@ function UpgradeDamage()
 {
     this.damage *= 1.2;
 }
-function UpgradeAttackSpeed()
+function UpgradeSpeed()
 {
     this.attackSpeed *= 1.2;
 }

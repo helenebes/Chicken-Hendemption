@@ -95,6 +95,15 @@ BasicGame.Preloader.prototype = {
 		this.load.image('playButton','assets/'+BasicGame.screen+"/play_ingame_button.png");
 		this.load.image('playButtonPressed','assets/'+BasicGame.screen+"/play_ingame_button_pressed.png");
 
+        this.load.image('oculos','assets/'+BasicGame.screen+"/oculos.png");
+        this.load.image('oculosBtn','assets/'+BasicGame.screen+"/oculosButton.png");
+        this.load.image('super','assets/'+BasicGame.screen+"/super.png");
+        this.load.image('superBtn','assets/'+BasicGame.screen+"/superButton.png");
+        this.load.image('speed','assets/'+BasicGame.screen+"/speed.png");
+        this.load.image('speedBtn','assets/'+BasicGame.screen+"/speedButton.png");
+
+        this.load.image('upgradeMenu','assets/'+BasicGame.screen+"/chicken_info.png");
+
         //this.load.tilemap('test_lvl', 'assets/'+BasicGame.screen+"/teste.json", null, Phaser.Tilemap.TILED_JSON);
         this.load.image('tileset',  'assets/'+BasicGame.screen+"/tileset.png");
         this.load.image('grass',  'assets/'+BasicGame.screen+"/map1.png");
