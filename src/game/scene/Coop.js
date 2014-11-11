@@ -15,6 +15,7 @@ Coop.prototype =
         if(this.eggCounter <= 0)
         {  
             this.gameContext.game.state.getCurrentState().gameOver();
+            this.gameContext.paused = true;
         }
     }
 };
