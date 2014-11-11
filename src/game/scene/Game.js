@@ -176,7 +176,6 @@ BasicGame.Game.prototype =
     {
         //Declare the chicken array, and the initial amount of chickens
         this.chickens = [];
-        this.chickenAmount = 0;
 
         //Create the layer groups for the chickens
         for(var i=0;i<15;i++)
@@ -295,7 +294,9 @@ BasicGame.Game.prototype =
                         this.cornCounter -= cost;
                     else
                         break;
-                    this.chickens[this.chickenAmount] = new Chicken(Xtile,Ytile,this.chickenAmount,this);
+                    //this.chickens[this.chickenAmount] = new Chicken(Xtile,Ytile,this.chickenAmount,this);
+                    this.chickens.push( new Chicken(Xtile,Ytile,this.chickens.length,this));
+                    this.map.setTile(Xtile,Ytile);
                     break;
 
                 case "Longie":
@@ -304,7 +305,9 @@ BasicGame.Game.prototype =
                         this.cornCounter -= cost;
                     else
                         break;
-                    this.chickens[this.chickenAmount] = new Longie(Xtile,Ytile,this.chickenAmount,this);
+                    //this.chickens[this.chickenAmount] = new Longie(Xtile,Ytile,this.chickenAmount,this);
+                    this.chickens.push( new Longie(Xtile,Ytile,this.chickens.length,this));
+                    this.map.setTile(Xtile,Ytile);
                     break;
 
                 case "Poopie":
@@ -313,7 +316,9 @@ BasicGame.Game.prototype =
                         this.cornCounter -= cost;
                     else
                         break;
-                    this.chickens[this.chickenAmount] = new Poopie(Xtile,Ytile,this.chickenAmount,this);
+                    //this.chickens[this.chickenAmount] = new Poopie(Xtile,Ytile,this.chickenAmount,this);
+                    this.chickens.push( new Poopie(Xtile,Ytile,this.chickens.length,this));
+                    this.map.setTile(Xtile,Ytile);
                     break; 
 
                 case "Fartie":
@@ -322,7 +327,9 @@ BasicGame.Game.prototype =
                         this.cornCounter -= cost;
                     else
                         break;
-                    this.chickens[this.chickenAmount] = new Fartie(Xtile,Ytile,this.chickenAmount,this);
+                    //this.chickens[this.chickenAmount] = new Fartie(Xtile,Ytile,this.chickenAmount,this);
+                    this.chickens.push( new Fartie(Xtile,Ytile,this.chickens.length,this));
+                    this.map.setTile(Xtile,Ytile);
                     break; 
 
                 case "Robot":
@@ -331,13 +338,13 @@ BasicGame.Game.prototype =
                         this.cornCounter -= cost;
                     else
                         break;
-                    this.chickens[this.chickenAmount] = new Robot(Xtile,Ytile,this.chickenAmount,this);
+                    //this.chickens[this.chickenAmount] = new Robot(Xtile,Ytile,this.chickenAmount,this);
+                    this.chickens.push( new Robot(Xtile,Ytile,this.chickens.length,this));
+                    this.map.setTile(Xtile,Ytile);
                     break; 
 
             }
             console.log("Positioning Chicken "+x+" "+y);
-            this.map.setTile(Xtile,Ytile);
-            this.chickenAmount++;
         }
     },
     chickenUpdate: function()

@@ -102,6 +102,7 @@ Chicken.prototype =
         var upDamage = UpgradeDamage.bind(this);
 
         this.upgradeWindow = this.gameContext.add.sprite(-200,-200,'upgradeMenu');
+        this.upgradeWindow.inputEnabled = true;
 
         this.upgradeRangeButton = this.gameContext.add.sprite(-200,-200,'oculos');
         this.upgradeRangeButton.inputEnabled = true; 
@@ -396,7 +397,7 @@ Robot.prototype.attack = function(enemy)
 //Using Delegates
 function UpgradeRange()
 {
-    if(this.rangeUpgraded === false )
+    if((this.rangeUpgraded === false )&&(this.gameContext.cornCounter>=10))
     {
         this.oculus = this.gameContext.add.sprite(this.x*64+this.glassesExtraWidth,this.y*64-this.glassesExtraHeight,this.glasses.toString());
         this.range *= 1.2;
@@ -409,7 +410,8 @@ function UpgradeRange()
 }
 function UpgradeDamage()
 {
-    if(this.damageUpgraded === false)
+    if((this.damageUpgraded === false)&&(this.gameContext.cornCounter>=10))
+
     {
         this.damage *= 1.2;
         this.damageUpgraded = true;
@@ -418,7 +420,8 @@ function UpgradeDamage()
 }
 function UpgradeSpeed()
 {
-    if(this.speedUpgraded == false)
+    if((this.speedUpgraded == false)&&(this.gameContext.cornCounter>=10))
+
     {
         this.attackSpeed *= 1.2;
         this.speedUpgraded = true;
