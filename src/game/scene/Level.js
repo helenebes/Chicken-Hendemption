@@ -15,7 +15,7 @@ Level.prototype =
 {
     setFirstWave: function(time)
     {
-        this.waves[0] = new Wave(this.game, time + 100, this.path, this.infoWaves);
+        this.waves[0] = new Wave(this.game, time + 100, this.path, this.infoWaves, this.waves.length);
         this.timeBeginLastWave = time + 100;
     },
     setCoopLocation: function() {
@@ -31,7 +31,9 @@ Level.prototype =
 {x: 5,y: 8}, {x: 5,y: 9}, {x: 5,y: 10}, {x: 5,y: 11}, {x: 6,y: 11}, {x: 7,y: 11}, {x: 8,y: 11}, {x: 9,y: 11}, {x: 10,y: 11}, {x: 11,y: 11},  {x: 12,y: 11}, {x: 12,y: 12}, {x: 12,y: 13}, {x: 12,y: 14}];
                 this.infoWaves = {"timeBetweenTwo": 10000, "nbEnemyByWave": 10, "nbWaves": 4, "typeEnemy": ['snake', 'turtle', 'lagarto']};
                 this.initialEggs = 10;
-                this.initialCorn = 30;
+                this.infoWaves = {"timeBetweenTwo": 10000, "nbEnemyByWave": [5, 5, 6, 4], "nbWaves": 4, "typeEnemy": ['snake', 'turtle', 'lagarto']};
+                this.initialEggs = 10;
+                this.initialCorn = 200;
                 this.map = 'lvl1';
                 for(var i =0;i<8;i++)
                 {
@@ -66,7 +68,9 @@ Level.prototype =
             case 2:
                 console.log("level 2");
                 this.path = [{x: 4,y: 0}, {x: 4,y: 13}, {x: 5,y: 13}, {x: 10,y: 13}, {x: 10,y: 10}, {x: 9,y: 10}, {x: 8,y: 9}, {x: 8,y: 1}, {x: 9,y: 1}, {x: 16,y: 1}, {x: 16,y: 3}, {x: 11,y: 3}, {x: 11,y: 4}, {x: 11,y: 6}, {x: 21,y: 6}];
-                this.infoWaves = {"timeBetweenTwo": 8000, "nbEnemyByWave": 6, "nbWaves": 5, "typeEnemy": ['snake', 'turtle', 'lagarto']};
+                this.initialEggs = 10;
+                this.initialCorn = 200;
+                this.infoWaves = {"timeBetweenTwo": 8000, "nbEnemyByWave": [6, 7, 6, 8, 7], "nbWaves": 5, "typeEnemy": ['snake', 'turtle', 'lagarto']};
                 this.initialEggs = 10;
                 this.initialCorn = 20;
                 this.map = 'lvl2';
@@ -115,7 +119,9 @@ Level.prototype =
                 break;
             case 3:
                 this.path = [{x: 4,y: 14}, {x: 4,y: 4}, {x: 20,y: 4}, {x: 20,y: 8}, {x: 8,y: 8}, {x: 8,y: 12}, {x: 19,y: 12}, {x: 19,y: 14}];
-                this.infoWaves = {"timeBetweenTwo": 12000, "nbEnemyByWave": 6, "nbWaves": 10,"typeEnemy": ['snake', 'turtle', 'lagarto']};
+                this.initialEggs = 10;
+                this.initialCorn = 200;
+                this.infoWaves = {"timeBetweenTwo": 12000, "nbEnemyByWave": [6, 7, 5, 7, 8, 10, 6, 7, 8, 9], "nbWaves": 10,"typeEnemy": ['snake', 'turtle', 'lagarto']};
                 this.initialEggs = 10;
                 this.initialCorn = 10;
                 this.map = 'lvl3';
@@ -157,8 +163,8 @@ Level.prototype =
     updateLevel: function() {
         //console.log(this.game.time.now- this.timeBeginLastWave - this.infoWaves.timeBetweenTwo );
         if (this.game.time.now >= this.timeBeginLastWave + this.infoWaves.timeBetweenTwo && this.waves.length < this.infoWaves.nbWaves && this.state.coop.eggCounter > 0){
-            console.log("create new wave");
-            this.waves[this.waves.length] = new Wave(this.game, this.game.time.now, this.path, this.infoWaves);
+            console.log("create new wave ");
+            this.waves[this.waves.length] = new Wave(this.game, this.game.time.now, this.path, this.infoWaves, this.waves.length);
             this.timeBeginLastWave = this.game.time.now;
         }
         if (this.state.coop.eggCounter > 0) 
