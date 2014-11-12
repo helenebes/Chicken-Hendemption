@@ -7,15 +7,15 @@ var Chicken = function (Xtile,Ytile,Index,gameContext)
     this.x = Xtile;
     this.y = Ytile;
     this.lastAttack = 0;
-    this.attackSpeed = 25;
-    this.damage = 12;
+    this.attackSpeed = 10;
+    this.damage = 10;
     this.glassesExtraHeight = -15;
     this.glassesExtraWidth = 7;
     this.glasses = "oculos";
     this.sprite = gameContext.add.sprite((Xtile*64),((Ytile*64+5)),'normalP');
     //console.log(this);
     this.rangeSprite = gameContext.add.graphics(0,0);
-    this.range = 96;
+    this.range = 2*64;
 
     this.setSprite();
     this.setRange();
@@ -247,9 +247,9 @@ var Poopie = function (Xtile,Ytile,Index,gameContext)
     this.gameContext = gameContext;
     this.x = Xtile;
     this.y = Ytile;
-    this.range = 256;
+    this.range = 100;
     this.lastAttack = 0;
-    this.attackSpeed = 30;
+    this.attackSpeed = 3;
     this.damage = 10;
     this.explosion;
     this.glassesExtraHeight = -15;
@@ -296,10 +296,10 @@ var Fartie = function (Xtile,Ytile,Index,gameContext)
     this.gameContext = gameContext;
     this.x = Xtile;
     this.y = Ytile;
-    this.range = 3*64;
+    this.range = 2*64;
     this.lastAttack = 0;
-    this.attackSpeed = 10;
-    this.damage = 20;
+    this.attackSpeed = 3;
+    this.damage = 15;
     this.explosionSound = this.gameContext.add.audio('explosion_sound');
     this.sprite = gameContext.add.sprite(Xtile*64,(Ytile*64-8),'fartieP');
     this.rangeSprite = gameContext.add.graphics(0,0);

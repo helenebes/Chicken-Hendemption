@@ -9,7 +9,7 @@ var Enemies = function (game, path, IndexEnemy, wave)
     this.setSprite();
     this.setAnim();
     this.setCentre();
-    this.cost = 10;
+    this.cost = 5;
 }
 
 
@@ -123,7 +123,7 @@ var Lagarto = function (game, path, IndexEnemy, wave)
     this.setSprite();
     this.setAnim();
     this.setCentre();
-    this.cost = 10;
+    this.cost = 1;
 }
 
 Lagarto.prototype = Object.create(Enemies.prototype);
@@ -135,15 +135,15 @@ Lagarto.prototype.setAnim = function()
     this.enemy.animations.add('walk right', [6,7,8]);
     this.enemy.animations.add('walk up', [9,10,11]);
     this.enemy.play('walk down', 1, true);
-    this.enemy.speed = 40;
+    this.enemy.speed = 65;
     this.enemy.oldSpeed = this.enemy.speed;
     this.enemy.offsetX = -30;
     this.enemy.offsetY = -40;
     this.enemy.x = this.enemy.path[0].x * 64 + this.enemy.offsetX;
     this.enemy.y = this.enemy.path[0].y * 64 + this.enemy.offsetY;
-    this.enemy.health = 50;
+    this.enemy.health = 30;
     this.enemy.damageToEggs = 10;
-    this.enemy.attackSpeed = 60;
+    this.enemy.attackSpeed = 8;
     moveEnemy.prototype.nextTile(this.enemy);
     this.wave.add(this.enemy);
 };
@@ -159,7 +159,7 @@ var Snake = function (game, path, IndexEnemy, wave)
     this.setSprite();
     this.setAnim();
     this.setCentre();
-    this.cost = 10;
+    this.cost = 4;
 }
 
 Snake.prototype = Object.create(Enemies.prototype);
@@ -177,8 +177,8 @@ Snake.prototype.setAnim = function()
     this.enemy.offsetY = -30;
     this.enemy.x = this.enemy.path[0].x * 64 + this.enemy.offsetX;
     this.enemy.y = this.enemy.path[0].y * 64 + this.enemy.offsetY;
-    this.enemy.health = 70;
-    this.enemy.damageToEggs = 10;
+    this.enemy.health = 50;
+    this.enemy.damageToEggs = 2;
     this.enemy.attackSpeed = 25;
     moveEnemy.prototype.nextTile(this.enemy);
     this.wave.add(this.enemy);
@@ -195,7 +195,7 @@ var Turtle = function (game, path, IndexEnemy, wave)
     this.setSprite();
     this.setAnim();
     this.setCentre();
-    this.cost = 10;
+    this.cost = 6;
 }
 
 Turtle.prototype = Object.create(Enemies.prototype);
@@ -207,16 +207,16 @@ Turtle.prototype.setAnim = function()
     this.enemy.animations.add('walk right', [8,9,10,11]);
     this.enemy.animations.add('walk up', [12,13,14,15]);
     this.enemy.play('walk down',3, true);
-    this.enemy.speed = 5;
+    this.enemy.speed = 7;
     this.enemy.oldSpeed = this.enemy.speed;
     this.enemy.offsetX = -30;
     this.enemy.offsetY = -30;
     this.enemy.x = this.enemy.path[0].x * 64 + this.enemy.offsetX;
     this.enemy.y = this.enemy.path[0].y * 64 + this.enemy.offsetY;
     this.enemy.damageReduction = 10;
-    this.enemy.health = 250;
+    this.enemy.health = 700;
     this.enemy.damageToEggs = 30;
-    this.enemy.attackSpeed = 40;
+    this.enemy.attackSpeed = 1;
     moveEnemy.prototype.nextTile(this.enemy);
     this.wave.add(this.enemy);
 };
