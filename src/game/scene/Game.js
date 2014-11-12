@@ -518,10 +518,10 @@ BasicGame.Game.prototype =
         if (BasicGame.currentLevel < 3)
         {
             this.afficheNbWaves = this.game.add.text(16*64, 14*64, 'Waves Remaining:  ', style);
-            this.afficheNbWaves = this.game.add.text(20*64, 14*64, this.level.infoWaves.nbWaves - this.level.waves.length, style);
+            this.afficheNbWaves = this.game.add.text(20*64, 14*64, this.level.infoWaves.Wave.length - this.level.waves.length, style);
         } else {
             this.afficheNbWaves = this.game.add.text(10*64, BasicGame.convertHeight(0)+70, 'Waves Remaining:  ', style);
-            this.afficheNbWaves = this.game.add.text(14*64, BasicGame.convertHeight(0)+70, this.level.infoWaves.nbWaves - this.level.waves.length, style);
+            this.afficheNbWaves = this.game.add.text(14*64, BasicGame.convertHeight(0)+70, this.level.infoWaves.Wave.length - this.level.waves.length, style);
         }    
     },
     updateScore: function() 
@@ -529,7 +529,7 @@ BasicGame.Game.prototype =
         var style = { font: "65px Arial", fill: "#000000", align: "center" };
         this.eggScore.setText(this.coop.eggCounter.toString());
         this.cornScore.setText(this.cornCounter.toString());
-        this.afficheNbWaves.setText((this.level.infoWaves.nbWaves - this.level.waves.length).toString());
+        this.afficheNbWaves.setText((this.level.infoWaves.Wave.length - this.level.waves.length).toString());
     },
 
     onClick:function(buttonName, prescope)
