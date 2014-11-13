@@ -51,9 +51,6 @@ Level.prototype =
 																	{'type':'lagarto', 'timeToNextEn':21000},  {'type':'lagarto', 'timeToNextEn':21500}, {'type':'lagarto', 'timeToNextEn':21700}, 																	
                                                                     {'type':'lagarto', 'timeToNextEn':21800}, {'type':'lagarto', 'timeToNextEn':22000}]}
 															]};
-                //this.initialEggs = 10;
-
-                //this.infoWaves = {"timeBetweenTwo": 10000, "nbEnemyByWave": [2, 5, 10, 30], "nbWaves": 4, "typeEnemy": ['snake', 'turtle', 'lagarto']};
 
                 this.initialEggs = 10;
                 this.initialCorn = 50;
@@ -91,32 +88,30 @@ Level.prototype =
             case 2:
                 console.log("level 2");
                 this.path = [{x: 4,y: 0}, {x: 4,y: 13}, {x: 5,y: 13}, {x: 10,y: 13}, {x: 10,y: 10}, {x: 9,y: 10}, {x: 8,y: 9}, {x: 8,y: 1}, {x: 9,y: 1}, {x: 16,y: 1}, {x: 16,y: 3}, {x: 11,y: 3}, {x: 11,y: 4}, {x: 11,y: 6}, {x: 21,y: 6}];
-                this.initialEggs = 10;
-                this.initialCorn = 200;
                 this.infoWaves = {"timeBetweenTwo": 8000, "Wave":[
-																{'enemy':[{'type':'turtle', 'timeToNextEn':0}, {'type':'turtle', 'timeToNextEn':1}, {'type':'turtle', 'timeToNextEn':2}, 
-																	{'type':'turtle', 'timeToNextEn':3}, {'type':'turtle', 'timeToNextEn':4}, {'type':'turtle', 'timeToNextEn':5}, 
-																	{'type':'snake', 'timeToNextEn':3000}, {'type':'snake', 'timeToNextEn':3001},  {'type':'snake', 'timeToNextEn':3002}, 
-																	{'type':'lagarto', 'timeToNextEn':5000},  {'type':'lagarto', 'timeToNextEn':5001}, {'type':'lagarto', 'timeToNextEn':5002}, {'type':'lagarto', 'timeToNextEn':5003}, {'type':'lagarto', 'timeToNextEn':5004}]},
-																{'enemy':[{'type':'turtle', 'timeToNextEn':0}, {'type':'turtle', 'timeToNextEn':1}, {'type':'turtle', 'timeToNextEn':2},
-																	 {'type':'turtle', 'timeToNextEn':3}, {'type':'turtle', 'timeToNextEn':4}, {'type':'turtle', 'timeToNextEn':5}, 
-																	{'type':'snake', 'timeToNextEn':3000}, {'type':'snake', 'timeToNextEn':3001}, {'type':'snake', 'timeToNextEn':3002}, 
-																	{'type':'lagarto', 'timeToNextEn':5000},  {'type':'lagarto', 'timeToNextEn':5001}, {'type':'lagarto', 'timeToNextEn':5002}, 																	{'type':'lagarto', 'timeToNextEn':5003}, {'type':'lagarto', 'timeToNextEn':5004}]},
-																{'enemy':[{'type':'turtle', 'timeToNextEn':0}, {'type':'turtle', 'timeToNextEn':1}, {'type':'turtle', 'timeToNextEn':2},
-																	 {'type':'turtle', 'timeToNextEn':3}, {'type':'turtle', 'timeToNextEn':4}, {'type':'turtle', 'timeToNextEn':5}, 
-																	{'type':'snake', 'timeToNextEn':3000}, {'type':'snake', 'timeToNextEn':3001}, {'type':'snake', 'timeToNextEn':3002}, 
-																	{'type':'lagarto', 'timeToNextEn':5000},  {'type':'lagarto', 'timeToNextEn':5001}, {'type':'lagarto', 'timeToNextEn':5002}, 																	{'type':'lagarto', 'timeToNextEn':5003}, {'type':'lagarto', 'timeToNextEn':5004}]},
-																{'enemy':[{'type':'turtle', 'timeToNextEn':0}, {'type':'turtle', 'timeToNextEn':1}, {'type':'turtle', 'timeToNextEn':2},
-																	 {'type':'turtle', 'timeToNextEn':3}, {'type':'turtle', 'timeToNextEn':4}, {'type':'turtle', 'timeToNextEn':5}, 
-																	{'type':'snake', 'timeToNextEn':3000}, {'type':'snake', 'timeToNextEn':3001}, {'type':'snake', 'timeToNextEn':3002}, 
-																	{'type':'lagarto', 'timeToNextEn':5000},  {'type':'lagarto', 'timeToNextEn':5001}, {'type':'lagarto', 'timeToNextEn':5002}, 																	{'type':'lagarto', 'timeToNextEn':5003}, {'type':'lagarto', 'timeToNextEn':5004}]},
-																{'enemy':[{'type':'lagarto', 'timeToNextEn':0}, {'type':'lagarto', 'timeToNextEn':1}, {'type':'lagarto', 'timeToNextEn':2},
-																	 {'type':'lagarto', 'timeToNextEn':3}, {'type':'lagarto', 'timeToNextEn':4}, {'type':'lagarto', 'timeToNextEn':5}, 
-																	{'type':'snake', 'timeToNextEn':3000}, {'type':'snake', 'timeToNextEn':3001}, {'type':'snake', 'timeToNextEn':3002}, 
-																	{'type':'lagarto', 'timeToNextEn':5000},  {'type':'lagarto', 'timeToNextEn':5001}, {'type':'lagarto', 'timeToNextEn':5002}, 																	{'type':'lagarto', 'timeToNextEn':5003}, {'type':'lagarto', 'timeToNextEn':5004}]}
-															]};
+                                                                {'enemy':[{'type':'turtle', 'timeToNextEn':0}, {'type':'turtle', 'timeToNextEn':1}, {'type':'turtle', 'timeToNextEn':2}, 
+                                                                    {'type':'turtle', 'timeToNextEn':3}, {'type':'turtle', 'timeToNextEn':4}, {'type':'turtle', 'timeToNextEn':5}, 
+                                                                    {'type':'snake', 'timeToNextEn':3000}, {'type':'snake', 'timeToNextEn':3001},  {'type':'snake', 'timeToNextEn':3002}, 
+                                                                    {'type':'lagarto', 'timeToNextEn':5000},  {'type':'lagarto', 'timeToNextEn':5001}, {'type':'lagarto', 'timeToNextEn':5002}, {'type':'lagarto', 'timeToNextEn':5003}, {'type':'lagarto', 'timeToNextEn':5004}]},
+                                                                {'enemy':[{'type':'turtle', 'timeToNextEn':0}, {'type':'turtle', 'timeToNextEn':1}, {'type':'turtle', 'timeToNextEn':2},
+                                                                     {'type':'turtle', 'timeToNextEn':3}, {'type':'turtle', 'timeToNextEn':4}, {'type':'turtle', 'timeToNextEn':5}, 
+                                                                    {'type':'snake', 'timeToNextEn':3000}, {'type':'snake', 'timeToNextEn':3001}, {'type':'snake', 'timeToNextEn':3002}, 
+                                                                    {'type':'lagarto', 'timeToNextEn':5000},  {'type':'lagarto', 'timeToNextEn':5001}, {'type':'lagarto', 'timeToNextEn':5002},                                                                     {'type':'lagarto', 'timeToNextEn':5003}, {'type':'lagarto', 'timeToNextEn':5004}]},
+                                                                {'enemy':[{'type':'turtle', 'timeToNextEn':0}, {'type':'turtle', 'timeToNextEn':1}, {'type':'turtle', 'timeToNextEn':2},
+                                                                     {'type':'turtle', 'timeToNextEn':3}, {'type':'turtle', 'timeToNextEn':4}, {'type':'turtle', 'timeToNextEn':5}, 
+                                                                    {'type':'snake', 'timeToNextEn':3000}, {'type':'snake', 'timeToNextEn':3001}, {'type':'snake', 'timeToNextEn':3002}, 
+                                                                    {'type':'lagarto', 'timeToNextEn':5000},  {'type':'lagarto', 'timeToNextEn':5001}, {'type':'lagarto', 'timeToNextEn':5002},                                                                     {'type':'lagarto', 'timeToNextEn':5003}, {'type':'lagarto', 'timeToNextEn':5004}]},
+                                                                {'enemy':[{'type':'turtle', 'timeToNextEn':0}, {'type':'turtle', 'timeToNextEn':1}, {'type':'turtle', 'timeToNextEn':2},
+                                                                     {'type':'turtle', 'timeToNextEn':3}, {'type':'turtle', 'timeToNextEn':4}, {'type':'turtle', 'timeToNextEn':5}, 
+                                                                    {'type':'snake', 'timeToNextEn':3000}, {'type':'snake', 'timeToNextEn':3001}, {'type':'snake', 'timeToNextEn':3002}, 
+                                                                    {'type':'lagarto', 'timeToNextEn':5000},  {'type':'lagarto', 'timeToNextEn':5001}, {'type':'lagarto', 'timeToNextEn':5002},                                                                     {'type':'lagarto', 'timeToNextEn':5003}, {'type':'lagarto', 'timeToNextEn':5004}]},
+                                                                {'enemy':[{'type':'lagarto', 'timeToNextEn':0}, {'type':'lagarto', 'timeToNextEn':1}, {'type':'lagarto', 'timeToNextEn':2},
+                                                                     {'type':'lagarto', 'timeToNextEn':3}, {'type':'lagarto', 'timeToNextEn':4}, {'type':'lagarto', 'timeToNextEn':5}, 
+                                                                    {'type':'snake', 'timeToNextEn':3000}, {'type':'snake', 'timeToNextEn':3001}, {'type':'snake', 'timeToNextEn':3002}, 
+                                                                    {'type':'lagarto', 'timeToNextEn':5000},  {'type':'lagarto', 'timeToNextEn':5001}, {'type':'lagarto', 'timeToNextEn':5002},                                                                     {'type':'lagarto', 'timeToNextEn':5003}, {'type':'lagarto', 'timeToNextEn':5004}]}
+                                                            ]};
                 this.initialEggs = 10;
-                this.initialCorn = 20;
+                this.initialCorn = 50;
                 this.map = 'lvl2';
                 for(var i =0;i<15;i++)
                 {
@@ -163,32 +158,30 @@ Level.prototype =
                 break;
             case 3:
                 this.path = [{x: 4,y: 14}, {x: 4,y: 4}, {x: 20,y: 4}, {x: 20,y: 8}, {x: 8,y: 8}, {x: 8,y: 12}, {x: 19,y: 12}, {x: 19,y: 14}];
-                this.initialEggs = 10;
-                this.initialCorn = 200;
                 this.infoWaves = {"timeBetweenTwo": 7000, "Wave":[
-																{'enemy':[{'type':'turtle', 'timeToNextEn':0}, {'type':'turtle', 'timeToNextEn':1}, {'type':'turtle', 'timeToNextEn':2}, 
-																	{'type':'turtle', 'timeToNextEn':3}, {'type':'turtle', 'timeToNextEn':4}, {'type':'turtle', 'timeToNextEn':5}, 
-																	{'type':'snake', 'timeToNextEn':3000}, {'type':'snake', 'timeToNextEn':3001},  {'type':'snake', 'timeToNextEn':3002}, 
-																	{'type':'lagarto', 'timeToNextEn':5000},  {'type':'lagarto', 'timeToNextEn':5001}, {'type':'lagarto', 'timeToNextEn':5002}, {'type':'lagarto', 'timeToNextEn':5003}, {'type':'lagarto', 'timeToNextEn':5004}]},
-																{'enemy':[{'type':'turtle', 'timeToNextEn':0}, {'type':'turtle', 'timeToNextEn':1}, {'type':'turtle', 'timeToNextEn':2},
-																	 {'type':'turtle', 'timeToNextEn':3}, {'type':'snake', 'timeToNextEn':4}, {'type':'snake', 'timeToNextEn':5}, 
-																	{'type':'snake', 'timeToNextEn':3000}, {'type':'snake', 'timeToNextEn':3001}, {'type':'snake', 'timeToNextEn':3002}, 
-																	{'type':'lagarto', 'timeToNextEn':5000},  {'type':'lagarto', 'timeToNextEn':5001}, {'type':'lagarto', 'timeToNextEn':5002}, 																	{'type':'lagarto', 'timeToNextEn':5003}, {'type':'lagarto', 'timeToNextEn':5004}]},
-																{'enemy':[{'type':'turtle', 'timeToNextEn':0}, {'type':'turtle', 'timeToNextEn':1}, {'type':'turtle', 'timeToNextEn':2},
-																	 {'type':'turtle', 'timeToNextEn':3}, {'type':'turtle', 'timeToNextEn':4}, {'type':'turtle', 'timeToNextEn':5}, 
-																	{'type':'snake', 'timeToNextEn':3000}, {'type':'snake', 'timeToNextEn':3001}, {'type':'snake', 'timeToNextEn':3002}, 
-																	{'type':'lagarto', 'timeToNextEn':5000},  {'type':'lagarto', 'timeToNextEn':5001}, {'type':'lagarto', 'timeToNextEn':5002}, 																	{'type':'lagarto', 'timeToNextEn':5003}, {'type':'lagarto', 'timeToNextEn':5004}]},
-																{'enemy':[{'type':'turtle', 'timeToNextEn':0}, {'type':'turtle', 'timeToNextEn':1}, {'type':'turtle', 'timeToNextEn':2},
-																	 {'type':'turtle', 'timeToNextEn':3}, {'type':'turtle', 'timeToNextEn':4}, {'type':'turtle', 'timeToNextEn':5}, 
-																	{'type':'snake', 'timeToNextEn':3000}, {'type':'snake', 'timeToNextEn':3001}, {'type':'snake', 'timeToNextEn':3002}, 
-																	{'type':'lagarto', 'timeToNextEn':5000},  {'type':'lagarto', 'timeToNextEn':5001}, {'type':'lagarto', 'timeToNextEn':5002}, 																	{'type':'lagarto', 'timeToNextEn':5003}, {'type':'lagarto', 'timeToNextEn':5004}]},
-																{'enemy':[{'type':'lagarto', 'timeToNextEn':0}, {'type':'lagarto', 'timeToNextEn':1}, {'type':'lagarto', 'timeToNextEn':2},
-																	 {'type':'lagarto', 'timeToNextEn':3}, {'type':'lagarto', 'timeToNextEn':4}, {'type':'turtle', 'timeToNextEn':5}, 
-																	{'type':'snake', 'timeToNextEn':3000}, {'type':'snake', 'timeToNextEn':3001}, {'type':'snake', 'timeToNextEn':3002}, 
-																	{'type':'lagarto', 'timeToNextEn':5000},  {'type':'lagarto', 'timeToNextEn':5001}, {'type':'lagarto', 'timeToNextEn':5002}, 																	{'type':'lagarto', 'timeToNextEn':5003}, {'type':'lagarto', 'timeToNextEn':5004}]}
-															]};
+                                                                {'enemy':[{'type':'turtle', 'timeToNextEn':0}, {'type':'turtle', 'timeToNextEn':1}, {'type':'turtle', 'timeToNextEn':2}, 
+                                                                    {'type':'turtle', 'timeToNextEn':3}, {'type':'turtle', 'timeToNextEn':4}, {'type':'turtle', 'timeToNextEn':5}, 
+                                                                    {'type':'snake', 'timeToNextEn':3000}, {'type':'snake', 'timeToNextEn':3001},  {'type':'snake', 'timeToNextEn':3002}, 
+                                                                    {'type':'lagarto', 'timeToNextEn':5000},  {'type':'lagarto', 'timeToNextEn':5001}, {'type':'lagarto', 'timeToNextEn':5002}, {'type':'lagarto', 'timeToNextEn':5003}, {'type':'lagarto', 'timeToNextEn':5004}]},
+                                                                {'enemy':[{'type':'turtle', 'timeToNextEn':0}, {'type':'turtle', 'timeToNextEn':1}, {'type':'turtle', 'timeToNextEn':2},
+                                                                     {'type':'turtle', 'timeToNextEn':3}, {'type':'snake', 'timeToNextEn':4}, {'type':'snake', 'timeToNextEn':5}, 
+                                                                    {'type':'snake', 'timeToNextEn':3000}, {'type':'snake', 'timeToNextEn':3001}, {'type':'snake', 'timeToNextEn':3002}, 
+                                                                    {'type':'lagarto', 'timeToNextEn':5000},  {'type':'lagarto', 'timeToNextEn':5001}, {'type':'lagarto', 'timeToNextEn':5002},                                                                     {'type':'lagarto', 'timeToNextEn':5003}, {'type':'lagarto', 'timeToNextEn':5004}]},
+                                                                {'enemy':[{'type':'turtle', 'timeToNextEn':0}, {'type':'turtle', 'timeToNextEn':1}, {'type':'turtle', 'timeToNextEn':2},
+                                                                     {'type':'turtle', 'timeToNextEn':3}, {'type':'turtle', 'timeToNextEn':4}, {'type':'turtle', 'timeToNextEn':5}, 
+                                                                    {'type':'snake', 'timeToNextEn':3000}, {'type':'snake', 'timeToNextEn':3001}, {'type':'snake', 'timeToNextEn':3002}, 
+                                                                    {'type':'lagarto', 'timeToNextEn':5000},  {'type':'lagarto', 'timeToNextEn':5001}, {'type':'lagarto', 'timeToNextEn':5002},                                                                     {'type':'lagarto', 'timeToNextEn':5003}, {'type':'lagarto', 'timeToNextEn':5004}]},
+                                                                {'enemy':[{'type':'turtle', 'timeToNextEn':0}, {'type':'turtle', 'timeToNextEn':1}, {'type':'turtle', 'timeToNextEn':2},
+                                                                     {'type':'turtle', 'timeToNextEn':3}, {'type':'turtle', 'timeToNextEn':4}, {'type':'turtle', 'timeToNextEn':5}, 
+                                                                    {'type':'snake', 'timeToNextEn':3000}, {'type':'snake', 'timeToNextEn':3001}, {'type':'snake', 'timeToNextEn':3002}, 
+                                                                    {'type':'lagarto', 'timeToNextEn':5000},  {'type':'lagarto', 'timeToNextEn':5001}, {'type':'lagarto', 'timeToNextEn':5002},                                                                     {'type':'lagarto', 'timeToNextEn':5003}, {'type':'lagarto', 'timeToNextEn':5004}]},
+                                                                {'enemy':[{'type':'lagarto', 'timeToNextEn':0}, {'type':'lagarto', 'timeToNextEn':1}, {'type':'lagarto', 'timeToNextEn':2},
+                                                                     {'type':'lagarto', 'timeToNextEn':3}, {'type':'lagarto', 'timeToNextEn':4}, {'type':'turtle', 'timeToNextEn':5}, 
+                                                                    {'type':'snake', 'timeToNextEn':3000}, {'type':'snake', 'timeToNextEn':3001}, {'type':'snake', 'timeToNextEn':3002}, 
+                                                                    {'type':'lagarto', 'timeToNextEn':5000},  {'type':'lagarto', 'timeToNextEn':5001}, {'type':'lagarto', 'timeToNextEn':5002},                                                                     {'type':'lagarto', 'timeToNextEn':5003}, {'type':'lagarto', 'timeToNextEn':5004}]}
+                                                            ]};
                 this.initialEggs = 10;
-                this.initialCorn = 10;
+                this.initialCorn = 50;
                 this.map = 'lvl3';
                 for(var i =3;i<15;i++)
                 {

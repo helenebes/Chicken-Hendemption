@@ -49,7 +49,7 @@ Map.prototype =
     },
     printMap: function()
     {
-        for(i=0;i<20*15;i++)
+        for(i=0;i<22*15;i++)
         {
             if(this.tiles[i].occupied == true)
                 this.tiles[i].print();
