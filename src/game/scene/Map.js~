@@ -26,6 +26,7 @@ Map.prototype =
     forbidTile: function(x,y)
     {
         this.tiles[y*22+x].forbidden = true;
+    }
     ,
     setTile: function(x,y)
     {
