@@ -242,7 +242,9 @@ Wave.prototype =
     setWave: function() {
         this.firstEnemyCreate = true;
         //var typeEnemy = 'lagarto';
-        var typeEnemy = this.infoWaves.typeEnemy[parseInt(Math.random() * this.infoWaves.typeEnemy.length)];
+        var typeEnemy = this.infoWaves.enemy[this.nbEnemiesCreated].type;
+		console.log(this.infoWaves.enemy[this.nbEnemiesCreated].type);
+		console.log(this.infoWaves.enemy[this.nbEnemiesCreated].timeToNextEn);
         switch (typeEnemy)
         {
             case 'dog':
@@ -264,10 +266,10 @@ Wave.prototype =
         this.nbEnemiesCreated++;           
     },
     move: function() {
-        var delayBeforeNewEnemy = 5000;
-        if (this.game.time.now >= this.releaseTime + delayBeforeNewEnemy && this.nbEnemiesCreated < this.infoWaves.nbEnemyByWave[this.numeroWave]) {
-            this.setWave();
-            this.releaseTime = this.game.time.now;
+        if (this.nbEnemiesCreated < this.infoWaves.enemy.length) {
+		    if (this.game.time.now >= this.releaseTime + this.infoWaves.enemy[this.nbEnemiesCreated].timeToNextEn) {
+		        this.setWave();
+			}
         }
         if (this.firstEnemyCreate) {
             while (this.waveEnemy.countDead() > 0) {
@@ -369,6 +371,7 @@ moveEnemy.prototype =
     }
 
 };
+
 
 
 
