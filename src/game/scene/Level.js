@@ -31,9 +31,9 @@ Level.prototype =
 {x: 5,y: 8}, {x: 5,y: 9}, {x: 5,y: 10}, {x: 5,y: 11}, {x: 6,y: 11}, {x: 7,y: 11}, {x: 8,y: 11}, {x: 9,y: 11}, {x: 10,y: 11}, {x: 11,y: 11},  {x: 12,y: 11}, {x: 12,y: 12}, {x: 12,y: 13}, {x: 12,y: 14}];
                 this.infoWaves = {"timeBetweenTwo": 10000, "nbEnemyByWave": 10, "nbWaves": 4, "typeEnemy": ['snake', 'turtle', 'lagarto']};
                 this.initialEggs = 10;
-                this.infoWaves = {"timeBetweenTwo": 10000, "nbEnemyByWave": [5, 5, 6, 4], "nbWaves": 4, "typeEnemy": ['snake', 'turtle', 'lagarto']};
+                this.infoWaves = {"timeBetweenTwo": 10000, "nbEnemyByWave": [2, 5, 10, 30], "nbWaves": 4, "typeEnemy": ['snake', 'turtle', 'lagarto']};
                 this.initialEggs = 10;
-                this.initialCorn = 200;
+                this.initialCorn = 50;
                 this.map = 'lvl1';
                 for(var i =0;i<8;i++)
                 {
