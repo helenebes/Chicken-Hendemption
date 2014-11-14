@@ -170,13 +170,13 @@ Level.prototype =
             case 3:
                 this.path = [{x: 4,y: 14}, {x: 4,y: 4}, {x: 20,y: 4}, {x: 20,y: 8}, {x: 8,y: 8}, {x: 8,y: 12}, {x: 19,y: 12}, {x: 19,y: 14}];
                 this.infoWaves = {"timeBetweenTwo": 10000, "Wave":[
-																{'enemy':[{'type':'turtle', 'timeToNextEn':0}, {'type':'snake', 'timeToNextEn':100}, {'type':'lagarto', 'timeToNextEn':200}, 
-																	{'type':'turtle', 'timeToNextEn':300}, {'type':'turtle', 'timeToNextEn':400}, {'type':'turtle', 'timeToNextEn':1000}, 
-																	{'type':'lagarto', 'timeToNextEn':1200}, {'type':'snake', 'timeToNextEn':1500},  {'type':'turtle', 'timeToNextEn':5000}, 
+																{'enemy':[{'type':'snake', 'timeToNextEn':0}, {'type':'snake', 'timeToNextEn':100}, {'type':'lagarto', 'timeToNextEn':200}, 
+																	{'type':'snake', 'timeToNextEn':300}, {'type':'snake', 'timeToNextEn':400}, {'type':'snake', 'timeToNextEn':1000}, 
+																	{'type':'lagarto', 'timeToNextEn':1200}, {'type':'snake', 'timeToNextEn':1500},  {'type':'snake', 'timeToNextEn':5000}, 
 																	{'type':'snake', 'timeToNextEn':5300},  {'type':'lagarto', 'timeToNextEn':5601}, {'type':'lagarto', 'timeToNextEn':5902}, 
-                                                                    {'type':'turtle', 'timeToNextEn':6000}, {'type':'turtle', 'timeToNextEn':6500}]},
-																{'enemy':[{'type':'turtle', 'timeToNextEn':8000}, {'type':'snake', 'timeToNextEn':8600}, {'type':'snake', 'timeToNextEn':9000},
-																	 {'type':'turtle', 'timeToNextEn':9300}, {'type':'turtle', 'timeToNextEn':9700}, {'type':'turtle', 'timeToNextEn':10300}, 
+                                                                    {'type':'snake', 'timeToNextEn':6000}, {'type':'snake', 'timeToNextEn':6500}]},
+																{'enemy':[{'type':'snake', 'timeToNextEn':8000}, {'type':'snake', 'timeToNextEn':8600}, {'type':'snake', 'timeToNextEn':9000},
+																	 {'type':'snake', 'timeToNextEn':9300}, {'type':'snake', 'timeToNextEn':9700}, {'type':'snake', 'timeToNextEn':10300}, 
 																	{'type':'snake', 'timeToNextEn':10600}, {'type':'turtle', 'timeToNextEn':10700}, {'type':'snake', 'timeToNextEn':10900}, 
 																	{'type':'lagarto', 'timeToNextEn':11100},  {'type':'lagarto', 'timeToNextEn':11700}, {'type':'lagarto', 'timeToNextEn':11900}, 																	
                                                                     {'type':'turtle', 'timeToNextEn':12000}, {'type':'lagarto', 'timeToNextEn':13000}]},
