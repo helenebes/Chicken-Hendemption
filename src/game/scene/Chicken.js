@@ -21,7 +21,7 @@ var Chicken = function (Xtile,Ytile,Index,gameContext)
     this.setRange();
     this.cleanRange();
     this.initializeAttackEffect();
-    //this.setUpgradeButton();
+	this.setUpgradeButton();
 }
 Chicken.prototype =
 {
