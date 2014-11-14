@@ -123,7 +123,7 @@ var Lagarto = function (game, path, IndexEnemy, wave)
     this.setSprite();
     this.setAnim();
     this.setCentre();
-    this.cost = 1;
+    this.cost = 2;
 }
 
 Lagarto.prototype = Object.create(Enemies.prototype);
@@ -142,8 +142,8 @@ Lagarto.prototype.setAnim = function()
     this.enemy.x = this.enemy.path[0].x * 64 + this.enemy.offsetX;
     this.enemy.y = this.enemy.path[0].y * 64 + this.enemy.offsetY;
     this.enemy.health = 30;
-    this.enemy.damageToEggs = 10;
-    this.enemy.attackSpeed = 8;
+    this.enemy.damageToEggs = 2;
+    this.enemy.attackSpeed = 25;
     moveEnemy.prototype.nextTile(this.enemy);
     this.wave.add(this.enemy);
 };
