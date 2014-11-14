@@ -243,8 +243,8 @@ Wave.prototype =
         this.firstEnemyCreate = true;
         //var typeEnemy = 'lagarto';
         var typeEnemy = this.infoWaves.enemy[this.nbEnemiesCreated].type;
-		console.log(this.infoWaves.enemy[this.nbEnemiesCreated].type);
-		console.log(this.infoWaves.enemy[this.nbEnemiesCreated].timeToNextEn);
+		//console.log(this.infoWaves.enemy[this.nbEnemiesCreated].type);
+		//console.log(this.infoWaves.enemy[this.nbEnemiesCreated].timeToNextEn);
         switch (typeEnemy)
         {
             case 'dog':

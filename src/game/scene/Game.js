@@ -472,7 +472,7 @@ BasicGame.Game.prototype =
         if(this.cornCounter > 0)
         {
             this.cornCounter--;
-
+			enemy.cost++;
             var xDist = (x-enemy.enemy.centrex);
             var yDist = (y-enemy.enemy.centrey);
             var speed = 20;
@@ -497,7 +497,7 @@ BasicGame.Game.prototype =
             this.bullets[i].sprite.position.y -= this.bullets[i].yStepSize;
             if(this.bullets[i].steps < 0)
             {
-                this.bullets[i].Enemy.cost++;
+                
                 this.bullets[i].Enemy.isAttacked(this.bullets[i].Damage);
                 this.bullets[i].sprite.kill();
                 this.bullets.splice(i,1);
