@@ -386,8 +386,16 @@ BasicGame.Game.prototype =
         if (this.coop.eggCounter === this.level.initialEggs) 
         {
             var goldenEggs = 3;
-        } else {
-            var goldenEggs = 9 - this.level.initialEggs - this.coop.eggCounter;
+        } else 
+		{
+			if(this.coop.eggCounter > 7)
+			{
+				var goldenEggs = 2;
+			}
+			else
+			{
+				var goldenEggs = 1;
+			}
         }
         var endGameWindow = new EndGamePanel(this,"victory",goldenEggs);
         endGameWindow.show();
